@@ -3,6 +3,8 @@
 #include <frc/commands/Scheduler.h>
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <frc/RobotController.h>
+#include <rev/ColorSensorV3.h>
+#include <rev/ColorMatch.h>
 #include <iostream>
 
 #include "controllers/TalonController.h"
@@ -51,6 +53,7 @@ VisionBridgeSub* Robot::visionBridge = nullptr;
 PowerDistributionPanel* Robot::pdp = nullptr;
 Compressor* Robot::comp = nullptr;
 
+static constexpr auto i2cPort = frc::I2C::Port::kOnboard;
 
 //======= Motor Definition =======//
 #if DIFFSWERVE
@@ -95,13 +98,7 @@ SwerveModuleInterface* Robot::rearLeftModule = nullptr;
 SwerveModuleInterface* Robot::rearRightModule  = nullptr;
 #endif
 
-PositionMultiController* Robot::armMotor = nullptr;
 MultiController* Robot::clampMotor = nullptr;
-MultiController* Robot::frontClimberMotor = nullptr;
-MultiController* Robot::rearClimberMotor = nullptr;
-PositionMultiController* Robot::elevatorMotor = nullptr;
-MultiController* Robot::rollerMotor = nullptr;
-MultiController* Robot::testElevator = nullptr;
 
 Servo* Robot::frontServo = nullptr;
 Servo* Robot::rearServo = nullptr;
@@ -110,6 +107,15 @@ AHRS* Robot::navx = nullptr;
 
 Solenoid* Robot::outsol = nullptr;
 Solenoid* Robot::insol = nullptr;
+
+rev::ColorSensorV3 m_colorSensor{i2cPort};
+rev::ColorMatch m_colorMatcher;
+
+static constexpr frc::Color kBlueTarget = frc::Color(0.121, 0.406, 0.472);
+static constexpr frc::Color kGreenTarget = frc::Color(0.163, 0.572, 0.264);
+static constexpr frc::Color kRedTarget = frc::Color(0.524, 0.339, 0.139);
+static constexpr frc::Color kYellowTarget = frc::Color(0.317, 0.558, 0.124);
+
 
 double Robot::xCenterOffset = 0;
 double Robot::yCenterOffset = 0;
@@ -198,7 +204,7 @@ void Robot::DeviceInitialization(){
 #if ONROBORIONAVX
    //navx = new AHRS(I2C::Port::kMXP);
 #else
-   navx = new AHRS(I2C::Port::kOnboard); //kOnboard ?
+   //navx = new AHRS(I2C::Port::kOnboard); //kOnboard ?
 #endif
 
 //======= System Initialization =======//
@@ -236,6 +242,12 @@ void Robot::RobotInit() {
    DeviceInitialization();
    SmartDashboard::PutNumber("Yaw Offset", 0);
    driveTrain->LoadWheelOffsets();
+
+   m_colorMatcher.AddColorMatch(kBlueTarget);
+   m_colorMatcher.AddColorMatch(kGreenTarget);
+   m_colorMatcher.AddColorMatch(kRedTarget);
+   m_colorMatcher.AddColorMatch(kYellowTarget);
+
    LOG("RobotInit end");
 }
    
@@ -245,6 +257,30 @@ void Robot::RobotPeriodic() {
       auto yawOff = SmartDashboard::GetNumber("Yaw Offset", 0);
       SmartDashboard::PutNumber("Yaw", Robot::navx->GetYaw() + yawOff);
    }
+
+   frc::Color detectedColor = m_colorSensor.GetColor();
+
+   std::string colorString;
+   double confidence = 0.0;
+   frc::Color matchedColor = m_colorMatcher.MatchClosestColor(detectedColor, confidence);
+
+   if (matchedColor == kBlueTarget) {
+      colorString = "Blue";
+   } else if (matchedColor == kRedTarget) {
+      colorString = "Red";
+   } else if (matchedColor == kGreenTarget) {
+      colorString = "Green";
+   } else if (matchedColor == kYellowTarget) {
+      colorString = "Yellow";
+   } else {
+      colorString = "Unknown";
+   }
+
+   frc::SmartDashboard::PutNumber("Red", detectedColor.red);
+   frc::SmartDashboard::PutNumber("Green", detectedColor.green);
+   frc::SmartDashboard::PutNumber("Blue", detectedColor.blue);
+   frc::SmartDashboard::PutNumber("Confidence", confidence);
+   frc::SmartDashboard::PutString("ColorDetected", colorString);
 
    if(oi->GetButtonY()){
       LOG("sol out");
