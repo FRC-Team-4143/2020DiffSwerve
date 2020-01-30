@@ -65,6 +65,8 @@ void DiffSwerveModule::SetDriveSpeed(float speed) {
 	_lastPow = speed;
 
     double turn = GetSteerPosition() - _setpoint;
+	//double target_RPM = joyForward * 1000; /* +- 500 RPM */
+	//double target_unitsPer100ms = target_RPM * kSensorUnitsPerRotation / 600.0;
 	//if(turn > EncoderConstants::HALF_TURN) turn -= EncoderConstants::FULL_TURN; 
     //if(turn < -EncoderConstants::HALF_TURN) turn += EncoderConstants::FULL_TURN;
 
@@ -75,6 +77,75 @@ void DiffSwerveModule::SetDriveSpeed(float speed) {
 
 	_master->SetVelocity((speed * _inverse * 5000) - turn);
 	_slave->SetVelocity(-(speed * _inverse * 5000) - turn);
+	//_target0 = target_unitsPer100ms;
+	//_target1 = heading_units;
+	//_master->Set(ControlMode::Velocity, _target0, DemandType_AuxPID, _target1);
+	//_slave->Follow(*_talonRght, FollowerType::FollowerType_AuxOutput1);
+	
+	//ADDED FROM PHOENIX EXAMPLE
+	/*
+			double MaxCurrent = 10.0;
+
+		SupplyCurrentLimitConfiguration supply (true,MaxCurrent,MaxCurrent,2);
+    	StatorCurrentLimitConfiguration stator (true,MaxCurrent,MaxCurrent,2);
+    	_talonRght->ConfigStatorCurrentLimit(stator);
+    	_talonRght->ConfigSupplyCurrentLimit(supply);
+		_talonLeft->ConfigStatorCurrentLimit(stator);
+    	_talonLeft->ConfigSupplyCurrentLimit(supply);
+		
+	_talonRght->Set(ControlMode::Velocity, _target0, DemandType_AuxPID, _target1);
+	_talonLeft->Follow(*_talonRght, FollowerType::FollowerType_AuxOutput1);
+	_talonRght->SelectProfileSlot(kSlot_Velocit, PID_PRIMARY);
+	_talonRght->SelectProfileSlot(kSlot_Turning, PID_TURN); 
+	_talonRght->Config_kP(kSlot_Velocit, kGains_Velocit.kP, kTimeoutMs);
+		_talonRght->Config_kI(kSlot_Velocit, kGains_Velocit.kI, kTimeoutMs);
+		_talonRght->Config_kD(kSlot_Velocit, kGains_Velocit.kD, kTimeoutMs);
+		_talonRght->Config_kF(kSlot_Velocit, kGains_Velocit.kF, kTimeoutMs);
+		_talonRght->Config_IntegralZone(kSlot_Velocit, kGains_Velocit.kIzone, kTimeoutMs);
+		_talonRght->ConfigClosedLoopPeakOutput(	kSlot_Velocit,
+			kGains_Velocit.kPeakOutput,
+	kTimeoutMs);
+
+		_talonLeft->SetInverted(true);
+		_talonLeft->SetSensorPhase(true);
+		_talonRght->SetInverted(false); //Was True
+		_talonRght->SetSensorPhase(true);
+		_talonLeft->ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder,
+												PID_PRIMARY,
+												kTimeoutMs);
+		_talonRght->ConfigRemoteFeedbackFilter(	_talonLeft->GetDeviceID(),
+												RemoteSensorSource::RemoteSensorSource_TalonSRX_SelectedSensor,
+												REMOTE_0,
+												kTimeoutMs);
+		_talonRght->ConfigRemoteFeedbackFilter(	_talonPigeon->GetDeviceNumber(),
+												RemoteSensorSource::RemoteSensorSource_CANCoder,
+												REMOTE_1,
+												kTimeoutMs);
+	constexpr static Gains kGains_Distanc = { 0.1, 0.0,  0.0, 0.0,            100,  0.50 };
+		constexpr static Gains kGains_Turning = { 0.1, 0.0,  0.0, 0.0,            200,  .25 };
+		constexpr static Gains kGains_Velocit = { 0.2, 0.0, 0.0, 0.05,  300,  0.50 }; measured 6800 velocity units at full motor output
+		constexpr static Gains kGains_MotProf = { 1.0, 0.0,  0.0, 1023.0/6800.0,  400,  1.00 };
+			const static int kSensorUnitsPerRotation = 2048;
+		constexpr static double kRotationsToTravel = 6;
+		const int kHeadingSensorChoice = 1;
+		const static int kEncoderUnitsPerRotation = 51711.0;
+		const static int kPigeonUnitsPerRotation = 360.0;
+			struct Gains {
+		double kP;
+		double kI;
+		double kD;
+		double kF;
+		double kIzone;
+		double kPeakOutput;
+		const static int REMOTE_0 = 0;
+		const static int REMOTE_1 = 1;
+		const static int PID_PRIMARY = 0;
+		const static int PID_TURN = 1;
+		const static int SLOT_0 = 0;
+		const static int SLOT_1 = 1;
+		const static int SLOT_2 = 2;
+		const static int SLOT_3 = 3;
+	*/
 
 }
 
