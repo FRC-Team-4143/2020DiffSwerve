@@ -1,22 +1,17 @@
 #pragma once
 #include "controllers/VelocityMultiController.h"
-#include <rev/CANSparkMax.h>
+#include <ctre/Phoenix.h>
 
-class VelocitySparkController : public VelocityMultiController  {
+class VelocityTalonFxController : public VelocityMultiController  {
 public:
-    //VelocitySparkController(rev::CANSparkMax* motor);
-    VelocitySparkController(int canId);
+    //VelocityTalonFxController(rev::CANSparkMax* motor);
+    VelocityTalonFxController(int canId);
     virtual void SetPercentPower(double value) override;
     virtual double GetEncoderPosition() override;
     virtual void SetVelocity(double value) override;
     virtual void ConfigPID() override;
 
 private:
-    double kMaxVel;
-    double kMinVel;
-    double kMaxAcc;
-    double kAllErr;
-    rev::CANSparkMax _motor;
-    rev::CANPIDController _pidController;
-    rev::CANEncoder _encoder;
+    TalonFX _motor;
+    CANEncoder _encoder;
 };

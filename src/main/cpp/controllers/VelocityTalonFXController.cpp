@@ -3,61 +3,46 @@
 
 //#define BOTTOMLIMIT 1
 
-#define kP 0.00005
-#define kI 0.000001
-#define kD 0
-#define kIZONE 0
-#define kFF 0 
+struct Gains {
+		double kP;
+		double kI;
+		double kD;
+		double kF;
+		double kIzone;
+		double kPeakOutput;
+};
+constexpr static Gains kGains_Velocit = { 0.2, 0.0, 0.0, 0.05,  300,  0.50 };
+const static int kSlot_Velocit = 2;
+const static int kTimeoutMs = 30;
 //kFF 0.000156
 #define kMINOUTPUT -1
 #define kMAXOUTPUT 1
-
-#define ENCODER_COUNTS_PER_TURN 42
-
+#define ENCODER_COUNTS_PER_TURN 2048
 //VelocitySparkController::VelocitySparkController(rev::CANSparkMax* motor) : _pidController(motor->GetPIDController()), _encoder(motor->GetEncoder()){
 //    _motor = motor;
 //	ConfigPID();
 //}
-
-VelocitySparkController::VelocitySparkController(int canId)
-    : _motor{canId, rev::CANSparkMax::MotorType::kBrushless}
-	, _pidController(_motor.GetPIDController())
-	, _encoder(_motor.GetEncoder())
+VelocityTalonFxController::VelocityTalonFxController(int canId)
+    : _motor{canId}
+	, _encoder(_motor.GetIntegratedSensor())
 {
 	ConfigPID();
 }
-
-void VelocitySparkController::SetPercentPower(double value){
-    LOG("The motor controller is not configured for PercentOutput");
+void VelocityTalonFxController::SetPercentPower(double value){
 }
-
-double VelocitySparkController::GetEncoderPosition(){
+double VelocityTalonFxController::GetEncoderPosition(){
     return _encoder.GetVelocity();
 }
-
-void VelocitySparkController::SetVelocity(double value){
-	//if(fabs(value) > .001) {
-	//	LOG("SetVelocity");
-	//	std::cout << value << std::endl;
-	//}
-	_pidController.SetReference(value, rev::ControlType::kVelocity);
-	//_motor->Set(value/5000.);
+void VelocityTalonFxController::SetVelocity(double value){
+	_motor.Set(ControlMode:: Velocity, value);
+	// GetY()*2048*10 (maybe)
 }
-
-void VelocitySparkController::ConfigPID(){
-	kMaxVel = 5500, kMinVel = -kMaxVel, kMaxAcc = 1000, kAllErr = 0;
-
+void VelocityTalonFxController::ConfigPID(){
 	_motor.RestoreFactoryDefaults();
-	//_motor->SetSecondaryCurrentLimit(20);
-	_motor.SetSmartCurrentLimit(20);
-	_pidController.SetP(kP);
-	_pidController.SetI(kI);
-	_pidController.SetD(kD);
-	_pidController.SetIZone(kIZONE);
-	_pidController.SetFF(kFF);
-	_pidController.SetOutputRange(kMINOUTPUT, kMAXOUTPUT);	
-    _pidController.SetSmartMotionMaxVelocity(kMaxVel);
-    _pidController.SetSmartMotionMinOutputVelocity(kMinVel);
-    _pidController.SetSmartMotionMaxAccel(kMaxAcc);
-    _pidController.SetSmartMotionAllowedClosedLoopError(kAllErr);
+	_motor.Config_kP(kSlot_Velocit, kGains_Velocit.kP, kTimeoutMs);
+	_motor.Config_kI(kSlot_Velocit, kGains_Velocit.kI, kTimeoutMs);
+	_motor.Config_kD(kSlot_Velocit, kGains_Velocit.kD, kTimeoutMs);
+	_motor.Config_kF(kSlot_Velocit, kGains_Velocit.kF, kTimeoutMs);
+	_motor.Config_IntegralZone(kSlot_Velocit, kGains_Velocit.kIzone, kTimeoutMs);
+	_motor.ConfigClosedLoopPeakOutput(kSlot_Velocit,kGains_Velocit.kPeakOutput,kTimeoutMs);
 }
