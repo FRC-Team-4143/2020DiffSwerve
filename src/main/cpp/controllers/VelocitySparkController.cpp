@@ -16,14 +16,14 @@
 #define ENCODER_COUNTS_PER_TURN 42
 
 //VelocitySparkController::VelocitySparkController(rev::CANSparkMax* motor)
-	//: _pidController(motor->GetPIDController()),
-	//_encoder(motor->GetEncoder()) {
-	//_motor = motor;
-	//ConfigPID();
+//	: _pidController(motor->GetPIDController()),
+//	_encoder(motor->GetEncoder()) {
+//	_motor = motor;
+//	ConfigPID();
 //}
 
 VelocitySparkController::VelocitySparkController(int canId)
-: _motor{canId, rev::CANSparkMax::MotorType::kBrushless},
+	: _motor{canId, rev::CANSparkMax::MotorType::kBrushless},
 	_pidController(_motor.GetPIDController()),
 	_encoder(_motor.GetEncoder()) {
 	ConfigPID();
@@ -38,7 +38,7 @@ double VelocitySparkController::GetEncoderPosition() {
 }
 
 void VelocitySparkController::SetVelocity(double value) {
-	//if(fabs(value) > .001) {
+	//if (fabs(value) > .001) {
 	//	LOG("SetVelocity");
 	//	std::cout << value << std::endl;
 	//}

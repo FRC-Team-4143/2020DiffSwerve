@@ -35,7 +35,7 @@ void PositionSparkController::SetPosition(double value) {
 	//std::cout << "Set Position" << value << std::endl;
 	//std::cout.flush();
 	auto pidController = _motor->GetPIDController();
-	if (value == 0 && fabs(GetEncoderPosition()) < BOTTOMLIMIT ) {
+	if (value == 0 && fabs(GetEncoderPosition()) < BOTTOMLIMIT) {
 		//pidController.SetReference(0, rev::ControlType::kVelocity);
 		SetPercentPower(0);
 	}

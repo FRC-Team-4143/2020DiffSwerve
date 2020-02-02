@@ -3,7 +3,7 @@
 #include "Modules/Logger.h"
 #include "subsystems/EncoderConstants.h"
 #include <frc/Preferences.h>
-#include <iostream>
+//#include <iostream>
 
 // ================================================================
 
@@ -11,11 +11,12 @@ SwerveModule::SwerveModule(MultiController* drive, PositionMultiController* stee
 	_drive = drive;
 	_steer = steer;
 	_configName = configName;
+
 	_x = 3;
 	_y = 4;
 	_radius = 5;
-	_setpoint = 0;
 	_offset = 0;
+	_setpoint = 0;
 	_lastPow = 0;
 	_inverse = 1;
 }
@@ -156,7 +157,7 @@ void SwerveModule::SetSteerSetpoint(float setpoint) {
 
 	float minMove = 360 * 5; // impossibly big angle
 	int minI = 0;
-	for (int i = firstoption; i < 6; i += optionincr){
+	for (int i = firstoption; i < 6; i += optionincr) {
 		if (fabs(currentPosition - angleOptions[i]) < minMove) {
 			minMove = fabs(currentPosition - angleOptions[i]);
 			minI = i;

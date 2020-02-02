@@ -1,6 +1,6 @@
 #pragma once
 #include <frc/commands/Subsystem.h>
-#include "modules/SwerveModuleInterface.h"
+#include "Modules/SwerveModuleInterface.h"
 
 class DriveTrain : public frc::Subsystem {
 public:
@@ -23,12 +23,9 @@ private:
 
 	double X;
 	double Y; 
-
 	double yaw;
 	double joystickAngle;
-
 	bool fieldCentricMode;
-  
 	float lastx;
 	float lasty;
 	float lasttwist;
