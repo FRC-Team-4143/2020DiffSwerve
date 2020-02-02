@@ -1,8 +1,11 @@
-#include "modules/DiffSwerveModule.h"
+#include "Modules/DiffSwerveModule.h"
+#include "Modules/Constants.h"
+#include "Modules/Logger.h"
 #include "subsystems/EncoderConstants.h"
-#include "modules/Constants.h"
 #include <frc/Preferences.h>
 #include <iostream>
+
+// ================================================================
 
 DiffSwerveModule::DiffSwerveModule(VelocityMultiController* master, VelocityMultiController* slave, std::string configName, frc::AnalogInput* headingSensor) {
 	_master = master;
@@ -23,28 +26,11 @@ void DiffSwerveModule::SetGeometry(double x, double y, double maxradius) {
 
 // ================================================================
 
-double DiffSwerveModule::GetSteerPosition() {
-	float voltage = _headingSensor->GetVoltage();
-	if(voltage > .1 && voltage < _voltageMin) _voltageMin = voltage;
-    if(voltage < 4.9 && voltage > _voltageMax) _voltageMax = voltage;
-    double voltageWidth = _voltageMax - _voltageMin;
-	voltage = (voltage - _voltageMin) / voltageWidth;  // scale to full 0-5v range
-    return voltage * EncoderConstants::FULL_TURN;
-}
-
-// ================================================================
-
 void DiffSwerveModule::SetWheelOffset() {
-	_steerPosition = GetSteerPosition();
+	auto steerPosition = GetSteerPosition();
 	auto prefs = frc::Preferences::GetInstance();
-	prefs->PutDouble(_configName, _steerPosition);
-	SetOffset(_steerPosition);
-}
-
-// ================================================================
-
-void DiffSwerveModule::SetOffset(float off) {
-	_offset = off;
+	prefs->PutDouble(_configName, steerPosition);
+	SetOffset(steerPosition);
 }
 
 // ================================================================
@@ -52,12 +38,9 @@ void DiffSwerveModule::SetOffset(float off) {
 void DiffSwerveModule::LoadWheelOffset() {
 	LOG("DiffSwerveModule: LoadWheelOffsets");
 	auto prefs = frc::Preferences::GetInstance();
-	_steerPosition = prefs->GetDouble(_configName);
-	SetOffset(_steerPosition);
+	auto steerPosition = prefs->GetDouble(_configName);
+	SetOffset(steerPosition);
 }
-
-double DiffSwerveModule::GetSetpoint() { return _setpoint; }
-double DiffSwerveModule::GetPower() { return _lastPow; }
 
 // ================================================================
 
@@ -67,16 +50,33 @@ void DiffSwerveModule::SetDriveSpeed(float speed) {
     double turn = GetSteerPosition() - _setpoint;
 	//double target_RPM = joyForward * 1000; /* +- 500 RPM */
 	//double target_unitsPer100ms = target_RPM * kSensorUnitsPerRotation / 600.0;
-	//if(turn > EncoderConstants::HALF_TURN) turn -= EncoderConstants::FULL_TURN; 
-    //if(turn < -EncoderConstants::HALF_TURN) turn += EncoderConstants::FULL_TURN;
+	//if (turn > EncoderConstants::HALF_TURN) turn -= EncoderConstants::FULL_TURN; 
+    //if (turn < -EncoderConstants::HALF_TURN) turn += EncoderConstants::FULL_TURN;
 
-	if(fabs(turn) < .02) 
+	if (fabs(turn) < .02) {
 		turn = 0;
-	else
+	}
+	else {
 	    turn *= 1.0/2.5*1000;  // simple gain on steering error  - TODO: improve
+	}
 
 	_master->SetVelocity((speed * _inverse * 5000) - turn);
 	_slave->SetVelocity(-(speed * _inverse * 5000) - turn);
+}
+
+// ================================================================
+
+double DiffSwerveModule::GetSteerPosition() {
+	float voltage = _headingSensor->GetVoltage();
+	if (voltage > .1 && voltage < _voltageMin) {
+		_voltageMin = voltage;
+	}
+    if (voltage < 4.9 && voltage > _voltageMax) {
+		_voltageMax = voltage;
+	}
+    double voltageWidth = _voltageMax - _voltageMin;
+	voltage = (voltage - _voltageMin) / voltageWidth;  // scale to full 0-5v range
+    return voltage * EncoderConstants::FULL_TURN;
 }
 
 // ================================================================
@@ -87,8 +87,8 @@ double DiffSwerveModule::SetSteerDrive(double x, double y, double twist, bool op
 	//auto signX = (_x >= 0) ? 1 : -1;
 	//auto signY = (_y >= 0) ? 1 : -1;
 
-	auto BP = x + twist * (_x) / _radius;
-	auto CP = y - twist * (_y) / _radius;
+	auto BP = x + twist * _x / _radius;
+	auto CP = y - twist * _y / _radius;
 
 	float setpoint = EncoderConstants::HALF_TURN;
 
@@ -101,16 +101,42 @@ double DiffSwerveModule::SetSteerDrive(double x, double y, double twist, bool op
 
 	auto power = sqrt(pow(BP, 2) + pow(CP, 2));
 
-	if (operatorControl && fabs(x) <= Constants::DEAD_ZONE && fabs(y) <= Constants::DEAD_ZONE && fabs(twist) <= Constants::DEAD_ZONE) {
+	if (operatorControl && InDeadZone(x) && InDeadZone(y) && InDeadZone(twist)) {
 		power = 0;
 	}
 /*
-	if (signX == signY){
+	if (signX == signY) {
 		power = -power;
 	}
-	if (signX == -1) power = -power;
+	if (signX == -1) {
+		power = -power;
+	}
 */
 	return power;
+}
+
+// ================================================================
+
+double DiffSwerveModule::GetSetpoint() {
+	return _setpoint;
+}
+
+// ================================================================
+
+double DiffSwerveModule::GetPower() {
+	return _lastPow;
+}
+
+// ================================================================
+
+bool DiffSwerveModule::InDeadZone(double value) {
+	return fabs(value) <= Constants::DEAD_ZONE;
+}
+
+// ================================================================
+
+void DiffSwerveModule::SetOffset(float off) {
+	_offset = off;
 }
 
 // ================================================================
@@ -140,14 +166,15 @@ void DiffSwerveModule::SetSteerSetpoint(float setpoint) {
 	// they may take a longer rotation but will keep spinning the same way
 	if(_lastPow > .3) {  // maybe should read speed instead of last power
 		optionincr = 2;
-		if(_inverse == -1)
+		if(_inverse == -1) {
 			firstoption = 1;
+		}
 	}
 
-	float minMove = 360*5; //impossibly big angle
+	float minMove = 360 * 5; //impossibly big angle
 	int minI = 0;
-	for (int i = firstoption; i < 6; i+=optionincr){
-		if (fabs(currentPosition - angleOptions[i]) < minMove){
+	for (int i = firstoption; i < 6; i += optionincr) {
+		if (fabs(currentPosition - angleOptions[i]) < minMove) {
 			minMove = fabs(currentPosition - angleOptions[i]);
 			minI = i;
 		}
@@ -155,8 +182,7 @@ void DiffSwerveModule::SetSteerSetpoint(float setpoint) {
 
 	_setpoint = angleOptions[minI];
 
-	if (minI % 2)
-		_inverse = -1;
-	else
-		_inverse = 1;
+	_inverse = (minI % 2) ? -1 : 1;
 }
+
+// ================================================================

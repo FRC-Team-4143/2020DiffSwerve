@@ -1,5 +1,6 @@
-#include <iostream>
 #include "controllers/VelocitySparkController.h"
+#include "Modules/Logger.h"
+//#include <iostream>
 
 //#define BOTTOMLIMIT 1
 
@@ -14,28 +15,29 @@
 
 #define ENCODER_COUNTS_PER_TURN 42
 
-//VelocitySparkController::VelocitySparkController(rev::CANSparkMax* motor) : _pidController(motor->GetPIDController()), _encoder(motor->GetEncoder()){
-//    _motor = motor;
-//	ConfigPID();
+//VelocitySparkController::VelocitySparkController(rev::CANSparkMax* motor)
+	//: _pidController(motor->GetPIDController()),
+	//_encoder(motor->GetEncoder()) {
+	//_motor = motor;
+	//ConfigPID();
 //}
 
 VelocitySparkController::VelocitySparkController(int canId)
-    : _motor{canId, rev::CANSparkMax::MotorType::kBrushless}
-	, _pidController(_motor.GetPIDController())
-	, _encoder(_motor.GetEncoder())
-{
+: _motor{canId, rev::CANSparkMax::MotorType::kBrushless},
+	_pidController(_motor.GetPIDController()),
+	_encoder(_motor.GetEncoder()) {
 	ConfigPID();
 }
 
-void VelocitySparkController::SetPercentPower(double value){
-    LOG("The motor controller is not configured for PercentOutput");
+void VelocitySparkController::SetPercentPower(double value) {
+	LOG("The motor controller is not configured for PercentOutput.");
 }
 
-double VelocitySparkController::GetEncoderPosition(){
-    return _encoder.GetVelocity();
+double VelocitySparkController::GetEncoderPosition() {
+	return _encoder.GetVelocity();
 }
 
-void VelocitySparkController::SetVelocity(double value){
+void VelocitySparkController::SetVelocity(double value) {
 	//if(fabs(value) > .001) {
 	//	LOG("SetVelocity");
 	//	std::cout << value << std::endl;
@@ -44,20 +46,24 @@ void VelocitySparkController::SetVelocity(double value){
 	//_motor->Set(value/5000.);
 }
 
-void VelocitySparkController::ConfigPID(){
-	kMaxVel = 5500, kMinVel = -kMaxVel, kMaxAcc = 1000, kAllErr = 0;
+void VelocitySparkController::ConfigPID() {
+	kMaxVel = 5500;
+	kMinVel = -kMaxVel;
+	kMaxAcc = 1000;
+	kAllErr = 0;
 
 	_motor.RestoreFactoryDefaults();
 	//_motor->SetSecondaryCurrentLimit(20);
 	_motor.SetSmartCurrentLimit(20);
+
 	_pidController.SetP(kP);
 	_pidController.SetI(kI);
 	_pidController.SetD(kD);
 	_pidController.SetIZone(kIZONE);
 	_pidController.SetFF(kFF);
 	_pidController.SetOutputRange(kMINOUTPUT, kMAXOUTPUT);	
-    _pidController.SetSmartMotionMaxVelocity(kMaxVel);
-    _pidController.SetSmartMotionMinOutputVelocity(kMinVel);
-    _pidController.SetSmartMotionMaxAccel(kMaxAcc);
-    _pidController.SetSmartMotionAllowedClosedLoopError(kAllErr);
+	_pidController.SetSmartMotionMaxVelocity(kMaxVel);
+	_pidController.SetSmartMotionMinOutputVelocity(kMinVel);
+	_pidController.SetSmartMotionMaxAccel(kMaxAcc);
+	_pidController.SetSmartMotionAllowedClosedLoopError(kAllErr);
 }

@@ -1,6 +1,7 @@
 #include "Modules/SwerveModule.h"
+#include "Modules/Constants.h"
+#include "Modules/Logger.h"
 #include "subsystems/EncoderConstants.h"
-#include "modules/Constants.h"
 #include <frc/Preferences.h>
 #include <iostream>
 

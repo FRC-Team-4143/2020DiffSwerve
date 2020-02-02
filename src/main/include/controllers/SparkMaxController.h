@@ -1,14 +1,18 @@
 #pragma once
-#include <rev/CANSparkMax.h>
 #include "controllers/MultiController.h"
+#include <rev/CANSparkMax.h>
 
-class SparkMaxController : public MultiController  {
+class SparkMaxController : public MultiController {
 public:
-    SparkMaxController(rev::CANSparkMax* motor);
-    SparkMaxController(int canId);
-    virtual void SetPercentPower(double value) override;
-    virtual double GetEncoderPosition() override;
+
+	SparkMaxController(rev::CANSparkMax* motor);
+	SparkMaxController(int canId);
+
+	// MultiController methods
+	virtual void SetPercentPower(double value) override;
+	virtual double GetEncoderPosition() override;
 
 private:
-    rev::CANSparkMax* _motor;
+
+	rev::CANSparkMax* _motor;
 };
