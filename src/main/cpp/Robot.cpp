@@ -1,27 +1,31 @@
-#define DIFFSWERVE 1
 #include "Robot.h"
 #include <frc/commands/Scheduler.h>
-#include <frc/smartdashboard/SmartDashboard.h>
 #include <frc/RobotController.h>
+#include <frc/smartdashboard/SmartDashboard.h>
+
 #include <rev/ColorSensorV3.h>
 #include <rev/ColorMatch.h>
 #include <iostream>
 
-#include "controllers/TalonController.h"
-#include "controllers/VictorController.h"
-#include "controllers/SteerTalonController.h"
-#include "controllers/SparkMaxController.h"
 #include "controllers/PositionSparkController.h"
+#include "controllers/SparkMaxController.h"
+#include "controllers/SteerTalonController.h"
+#include "controllers/TalonController.h"
 #include "controllers/VelocitySparkController.h"
+#include "controllers/VictorController.h"
 
 #include "Modules/Logger.h"
 #include "Modules/Constants.h"
+#include "Modules/DiffSwerveModule.h"
+#include "Modules/SwerveModule.h"
+#include "Modules/TalonFXDiffSwerveModule.h"
 
-#define USINGSPARKMAXDRIVE 1
-#define USINGVICTORDRIVE 0 // 1 for Comp Bot 
-#define ONROBORIONAVX 0 // 0 for Comp Bot
-#define TESTBOT (0.45)
+// If not using DIFFSWERVE, must set ONE of the following to 1:
+#define USING_SPARKMAX_DRIVE 1
+#define USING_VICTOR_DRIVE 0 // 1 for Comp Bot
+#define USING_TALON_DRIVE 0
 
+#define NAVX_MXP 0 // 0 for Comp Bot
 
 #define TESTELEVATOR 21
 #define ELEVATOR 11
@@ -31,21 +35,8 @@
 #define FRONTCLIMBER 15
 #define REARCLIMBER 16
 
-/*
-#define FLD 1
-#define FLS 2
-
-#define FRD 3
-#define FRS 4
-
-#define RLD 5
-#define RLS 6
-
-#define RRD 7
-#define RRS 8
-*/
-
 //======= System Definition =======//
+
 OI* Robot::oi = nullptr;
 DriveTrain* Robot::driveTrain = nullptr;
 GyroSub* Robot::gyroSub = nullptr;
@@ -56,57 +47,27 @@ Compressor* Robot::comp = nullptr;
 static constexpr auto i2cPort = frc::I2C::Port::kOnboard;
 
 //======= Motor Definition =======//
-#if DIFFSWERVE
-VelocityMultiController* Robot::driveTrainFrontLeftDrive = nullptr;
-VelocityMultiController* Robot::driveTrainFrontLeftSteer = nullptr;
 
-VelocityMultiController* Robot::driveTrainFrontRightDrive = nullptr;
-VelocityMultiController* Robot::driveTrainFrontRightSteer = nullptr;
+//Robot::DRIVE_MOTOR_TYPE* Robot::_driveTrainFrontLeftDrive = nullptr;
+//Robot::STEER_MOTOR_TYPE* Robot::_driveTrainFrontLeftSteer = nullptr;
 
-VelocityMultiController* Robot::driveTrainRearLeftDrive = nullptr;
-VelocityMultiController* Robot::driveTrainRearLeftSteer = nullptr;
+//Robot::DRIVE_MOTOR_TYPE* Robot::_driveTrainFrontRightDrive = nullptr;
+//Robot::STEER_MOTOR_TYPE* Robot::_driveTrainFrontRightSteer = nullptr;
 
-VelocityMultiController* Robot::driveTrainRearRightDrive = nullptr;
-VelocityMultiController* Robot::driveTrainRearRightSteer = nullptr;
+//Robot::DRIVE_MOTOR_TYPE* Robot::_driveTrainRearLeftDrive = nullptr;
+//Robot::STEER_MOTOR_TYPE* Robot::_driveTrainRearLeftSteer = nullptr;
 
-SwerveModuleInterface* Robot::frontLeftModule = nullptr;
-SwerveModuleInterface* Robot::frontRightModule = nullptr;
-SwerveModuleInterface* Robot::rearLeftModule = nullptr;
-SwerveModuleInterface* Robot::rearRightModule  = nullptr;
-
-AnalogInput* Robot::frontRightPot = nullptr;
-AnalogInput* Robot::frontLeftPot = nullptr;
-AnalogInput* Robot::rearRightPot = nullptr;
-AnalogInput* Robot::rearLeftPot = nullptr;
-
-#else
-MultiController* Robot::driveTrainFrontLeftDrive = nullptr;
-PositionMultiController* Robot::driveTrainFrontLeftSteer = nullptr;
-
-MultiController* Robot::driveTrainFrontRightDrive = nullptr;
-PositionMultiController* Robot::driveTrainFrontRightSteer = nullptr;
-
-MultiController* Robot::driveTrainRearLeftDrive = nullptr;
-PositionMultiController* Robot::driveTrainRearLeftSteer = nullptr;
-
-MultiController* Robot::driveTrainRearRightDrive = nullptr;
-PositionMultiController* Robot::driveTrainRearRightSteer = nullptr;
+//Robot::DRIVE_MOTOR_TYPE* Robot::_driveTrainRearRightDrive = nullptr;
+//Robot::STEER_MOTOR_TYPE* Robot::_driveTrainRearRightSteer = nullptr;
 
 SwerveModuleInterface* Robot::frontLeftModule = nullptr;
 SwerveModuleInterface* Robot::frontRightModule = nullptr;
 SwerveModuleInterface* Robot::rearLeftModule = nullptr;
 SwerveModuleInterface* Robot::rearRightModule  = nullptr;
-#endif
 
 MultiController* Robot::clampMotor = nullptr;
 
-Servo* Robot::frontServo = nullptr;
-Servo* Robot::rearServo = nullptr;
-
 AHRS* Robot::navx = nullptr;
-
-Solenoid* Robot::outsol = nullptr;
-Solenoid* Robot::insol = nullptr;
 
 rev::ColorSensorV3 m_colorSensor{i2cPort};
 rev::ColorMatch m_colorMatcher;
@@ -116,131 +77,16 @@ static constexpr frc::Color kGreenTarget = frc::Color(0.163, 0.572, 0.264);
 static constexpr frc::Color kRedTarget = frc::Color(0.524, 0.339, 0.139);
 static constexpr frc::Color kYellowTarget = frc::Color(0.317, 0.558, 0.124);
 
-
 double Robot::xCenterOffset = 0;
 double Robot::yCenterOffset = 0;
 
-
-void Robot::DeviceInitialization(){
-   //CameraServer::GetInstance()->StartAutomaticCapture();
-   comp = new Compressor(0);
-
-   insol = new Solenoid(0);
-   outsol = new Solenoid(1);
-
-   #if DIFFSWERVE
-
- /*     driveTrainFrontLeftSteer = new VelocitySparkController(&sparkmax1);
-      driveTrainFrontRightSteer = new VelocitySparkController(&sparkmax2);
-      driveTrainRearLeftSteer = new VelocitySparkController(&sparkmax3);
-      driveTrainRearRightSteer = new VelocitySparkController(&sparkmax4);
-      driveTrainFrontLeftDrive = new VelocitySparkController(&sparkmax5);
-      driveTrainFrontRightDrive = new VelocitySparkController(&sparkmax6);
-      driveTrainRearLeftDrive = new VelocitySparkController(&sparkmax7);
-      driveTrainRearRightDrive = new VelocitySparkController(&sparkmax8); */
-
-      driveTrainFrontLeftSteer = new VelocitySparkController(5);
-      driveTrainFrontLeftDrive = new VelocitySparkController(6);
-      driveTrainFrontRightSteer = new VelocitySparkController(3);
-      driveTrainFrontRightDrive = new VelocitySparkController(4);
-      driveTrainRearLeftSteer = new VelocitySparkController(7);
-      driveTrainRearLeftDrive = new VelocitySparkController(8);
-      driveTrainRearRightSteer = new VelocitySparkController(1);
-      driveTrainRearRightDrive = new VelocitySparkController(2); 
-   #else
-   //======= Front Left Steer =======//
-      driveTrainFrontLeftSteer = new SteerTalonController(FLS);
-   //======= Front Right Steer =======//
-      driveTrainFrontRightSteer = new SteerTalonController(FRS);
-   //======= Rear Left Steer =======//
-      driveTrainRearLeftSteer = new SteerTalonController(RLS);
-   //======= Rear Right Steer =======//
-      driveTrainRearRightSteer = new SteerTalonController(RRS);
-
-
-   #if USINGSPARKMAXDRIVE
-   //======= Front Left Drive =======//
-      driveTrainFrontLeftDrive = new SparkMaxController(FLD);
-   //======= Front Right Drive =======//
-      driveTrainFrontRightDrive = new SparkMaxController(FRD);
-   //======= Rear Left Drive =======//
-      driveTrainRearLeftDrive = new SparkMaxController(RLD);
-   //======= Rear Right Drive =======//
-      driveTrainRearRightDrive = new SparkMaxController(RRD);
-
-   #else
-   #if USINGVICTORDRIVE
-   //======= Front Left Drive =======//
-      driveTrainFrontLeftDrive = new VictorController(FLD);
-   //======= Front Right Drive =======//
-      //driveTrainFrontRightDrive = new VictorController(FRD);
-      driveTrainFrontRightDrive = new TalonController(FRD);
-   //======= Rear Left Drive =======//
-      driveTrainRearLeftDrive = new VictorController(RLD);
-   //======= Rear Right Drive =======//
-      driveTrainRearRightDrive = new VictorController(RRD);
-
-   #else
-   //======= Front Left Drive =======//
-      driveTrainFrontLeftDrive = new TalonController(FLD);
-   //======= Front Right Drive =======//
-      driveTrainFrontRightDrive = new TalonController(FRD);
-   //======= Rear Left Drive =======//
-      driveTrainRearLeftDrive = new TalonController(RLD);
-   //======= Rear Right Drive =======//
-      driveTrainRearRightDrive = new TalonController(RRD);
-   #endif
-   #endif
-   #endif
-
-//======= Subsystem Motor Initialization =======//
-   clampMotor = new TalonController(CLAMP);
-
-   frontServo = new Servo(0);
-   rearServo = new Servo(1);
-   LOG("DeviceInit Navx");
-
-//======= Sensor and Camera Initialization =======//
-#if ONROBORIONAVX
-   //navx = new AHRS(I2C::Port::kMXP);
-#else
-   //navx = new AHRS(I2C::Port::kOnboard); //kOnboard ?
-#endif
-
-//======= System Initialization =======//
-   
-   gyroSub = new GyroSub();
-   visionBridge = new VisionBridgeSub();
-   oi = new OI();
-
-   LOG("DeviceInit Analog");
-
-//======== Swerve Module Initialization =========//
-#if DIFFSWERVE
-   frontLeftPot = new AnalogInput(2);
-   frontRightPot = new AnalogInput(1);
-   rearLeftPot = new AnalogInput(3);
-   rearRightPot = new AnalogInput(0);
-
-   frontLeftModule = new DiffSwerveModule(driveTrainFrontLeftDrive, driveTrainFrontLeftSteer, Constants::FL_POS_NAME, frontLeftPot);
-   frontRightModule = new DiffSwerveModule(driveTrainFrontRightDrive, driveTrainFrontRightSteer, Constants::FR_POS_NAME, frontRightPot);
-   rearLeftModule = new DiffSwerveModule(driveTrainRearLeftDrive, driveTrainRearLeftSteer, Constants::RL_POS_NAME, rearLeftPot);
-   rearRightModule = new DiffSwerveModule(driveTrainRearRightDrive, driveTrainRearRightSteer, Constants::RR_POS_NAME, rearRightPot);
-#else
-   frontLeftModule = new SwerveModule(driveTrainFrontLeftDrive, driveTrainFrontLeftSteer, Constants::FL_POS_NAME);
-   frontRightModule = new SwerveModule(driveTrainFrontRightDrive, driveTrainFrontRightSteer, Constants::FR_POS_NAME);
-   rearLeftModule = new SwerveModule(driveTrainRearLeftDrive, driveTrainRearLeftSteer, Constants::RL_POS_NAME);
-   rearRightModule = new SwerveModule(driveTrainRearRightDrive, driveTrainRearRightSteer, Constants::RR_POS_NAME);
-#endif
-   driveTrain = new DriveTrain();
-   LOG("DeviceInit DriveTrain");
-   LOG("DeviceInit end");
-}
-
+// ================================================================
 
 void Robot::RobotInit() {
    DeviceInitialization();
+
    SmartDashboard::PutNumber("Yaw Offset", 0);
+
    driveTrain->LoadWheelOffsets();
 
    m_colorMatcher.AddColorMatch(kBlueTarget);
@@ -250,7 +96,9 @@ void Robot::RobotInit() {
 
    LOG("RobotInit end");
 }
-   
+
+// ================================================================
+
 void Robot::RobotPeriodic() {
    //LOG("robotperiodic start");
    if (navx != nullptr) {
@@ -266,13 +114,17 @@ void Robot::RobotPeriodic() {
 
    if (matchedColor == kBlueTarget) {
       colorString = "Blue";
-   } else if (matchedColor == kRedTarget) {
+   }
+   else if (matchedColor == kRedTarget) {
       colorString = "Red";
-   } else if (matchedColor == kGreenTarget) {
+   }
+   else if (matchedColor == kGreenTarget) {
       colorString = "Green";
-   } else if (matchedColor == kYellowTarget) {
+   }
+   else if (matchedColor == kYellowTarget) {
       colorString = "Yellow";
-   } else {
+   }
+   else {
       colorString = "Unknown";
    }
 
@@ -282,26 +134,26 @@ void Robot::RobotPeriodic() {
    frc::SmartDashboard::PutNumber("Confidence", confidence);
    frc::SmartDashboard::PutString("ColorDetected", colorString);
 
-   if(oi->GetButtonY()){
+   if (oi->GetButtonY()) {
       LOG("sol out");
-      insol->Set(false);
-      outsol->Set(true);
-   }else if(oi->GetButtonA()){
+      _insol->Set(false);
+      _outsol->Set(true);
+   }
+   else if (oi->GetButtonA()) {
       LOG("sol in");
-      outsol->Set(false);
-      insol->Set(true);
+      _outsol->Set(false);
+      _insol->Set(true);
    }
 
-   if(oi->GetButtonX() || oi->GetLeftBumper())
+   if (oi->GetButtonX() || oi->GetLeftBumper()) {
       clampMotor->SetPercentPower(-.3);
-   else if(oi->GetButtonB() || oi->GetRightBumper())
+   }
+   else if (oi->GetButtonB() || oi->GetRightBumper()) {
       clampMotor->SetPercentPower(.3);
-   else
-   {
+   }
+   else {
       clampMotor->SetPercentPower(0);
    }
-   
-
 
 	if (frc::RobotController::GetUserButton() == 1 && counter == 0) {
 		Robot::driveTrain->SetWheelOffsets();
@@ -309,12 +161,14 @@ void Robot::RobotPeriodic() {
 		std::cout << "SetWheelOffsets Complete" << std::endl;
       std::cout.flush();
 	}
+
 	if (counter > 0) {
       counter -= 1;
    }
 
    xCenterOffset = SmartDashboard::GetNumber("X Center Offset", 0);
    yCenterOffset = SmartDashboard::GetNumber("Y Center Offset", 0);
+
    SmartDashboard::PutNumber("X Center Offset", xCenterOffset);
    SmartDashboard::PutNumber("Y Center Offset", yCenterOffset);
 
@@ -322,8 +176,7 @@ void Robot::RobotPeriodic() {
    SmartDashboard::PutNumber("fr position", frontRightModule->GetSteerPosition());
    SmartDashboard::PutNumber("rl position", rearLeftModule->GetSteerPosition());
    SmartDashboard::PutNumber("rr position", rearRightModule->GetSteerPosition());
- 
- 
+
    SmartDashboard::PutNumber("fl setpoint", frontLeftModule->GetSetpoint());
    SmartDashboard::PutNumber("fr setpoint", frontRightModule->GetSetpoint());
    SmartDashboard::PutNumber("rl setpoint", rearLeftModule->GetSetpoint());
@@ -334,41 +187,185 @@ void Robot::RobotPeriodic() {
    SmartDashboard::PutNumber("rl power", rearLeftModule->GetPower());
    SmartDashboard::PutNumber("rr power", rearRightModule->GetPower());
 
-
    Robot::driveTrain->SetWheelbase(14, 14);
 }
 
+// ================================================================
+
 void Robot::DisabledInit() {
 }
+
+// ================================================================
 
 void Robot::DisabledPeriodic() {
    frc::Scheduler::GetInstance()->Run();
 }
 
+// ================================================================
+
 void Robot::AutonomousInit() {
-      comp->SetClosedLoopControl(true);
-
-
+   comp->SetClosedLoopControl(true);
 }
+
+// ================================================================
 
 void Robot::AutonomousPeriodic() {
    frc::Scheduler::GetInstance()->Run();
 }
 
-void Robot::TeleopInit() {
-      comp->SetClosedLoopControl(true);
+// ================================================================
 
+void Robot::TeleopInit() {
+   comp->SetClosedLoopControl(true);
 }
+
+// ================================================================
 
 void Robot::TeleopPeriodic() {
    frc::Scheduler::GetInstance()->Run();
 }
 
+// ================================================================
+
 void Robot::TestPeriodic() {
 }
+
+// ================================================================
+
+void Robot::DeviceInitialization(){
+   //CameraServer::GetInstance()->StartAutomaticCapture();
+   comp = new Compressor(0);
+
+_insol = new Solenoid(0);
+_outsol = new Solenoid(1);
+
+#if DIFFSWERVE
+
+#if USING_DIFFSWERVE_TALON_FX
+#elif USING_DIFFSWERVE_TALON_SRX
+_driveTrainFrontLeftSteer = new VelocitySparkController(5);
+_driveTrainFrontLeftDrive = new VelocitySparkController(6);
+_driveTrainFrontRightSteer = new VelocitySparkController(3);
+_driveTrainFrontRightDrive = new VelocitySparkController(4);
+_driveTrainRearLeftSteer = new VelocitySparkController(7);
+_driveTrainRearLeftDrive = new VelocitySparkController(8);
+_driveTrainRearRightSteer = new VelocitySparkController(1);
+_driveTrainRearRightDrive = new VelocitySparkController(2);
+#else
+#error Unsupported configuration. Check USING_DIFFSWERVE_* #defines.
+#endif
+
+#else
+
+#define FLD 1
+#define FLS 2
+
+#define FRD 3
+#define FRS 4
+
+#define RLD 5
+#define RLS 6
+
+#define RRD 7
+#define RRS 8
+
+_driveTrainFrontLeftSteer = new SteerTalonController(FLS);
+_driveTrainFrontRightSteer = new SteerTalonController(FRS);
+_driveTrainRearLeftSteer = new SteerTalonController(RLS);
+_driveTrainRearRightSteer = new SteerTalonController(RRS);
+
+#if USING_SPARKMAX_DRIVE
+_driveTrainFrontLeftDrive = new SparkMaxController(FLD);
+_driveTrainFrontRightDrive = new SparkMaxController(FRD);
+_driveTrainRearLeftDrive = new SparkMaxController(RLD);
+_driveTrainRearRightDrive = new SparkMaxController(RRD);
+#elif USING_VICTOR_DRIVE
+_driveTrainFrontLeftDrive = new VictorController(FLD);
+_driveTrainFrontRightDrive = new TalonController(FRD);
+_driveTrainRearLeftDrive = new VictorController(RLD);
+_driveTrainRearRightDrive = new VictorController(RRD);
+#elif USING_TALON_DRIVE
+_driveTrainFrontLeftDrive = new TalonController(FLD);
+_driveTrainFrontRightDrive = new TalonController(FRD);
+_driveTrainRearLeftDrive = new TalonController(RLD);
+_driveTrainRearRightDrive = new TalonController(RRD);
+#else
+#error Unsupported configuration. Check USING_*_DRIVE #defines.
+#endif // USING_SPARKMAX_DRIVE
+#endif // DIFFSWERVE
+
+//======= Subsystem Motor Initialization =======//
+
+clampMotor = new TalonController(CLAMP);
+
+//======= Sensor and Camera Initialization =======//
+
+LOG("DeviceInit Navx");
+
+#if NAVX_MXP
+   //navx = new AHRS(I2C::Port::kMXP);
+#else
+   //navx = new AHRS(I2C::Port::kOnboard); //kOnboard ?
+#endif
+
+//======= System Initialization =======//
+   
+   gyroSub = new GyroSub();
+   visionBridge = new VisionBridgeSub();
+   oi = new OI();
+
+//======== Swerve Module Initialization =========//
+
+#if DIFFSWERVE
+
+#if USING_DIFFSWERVE_TALON_FX
+
+   LOG("DeviceInit CANCoder");
+   _frontLeftPot = new CANCoder(1);
+   _frontRightPot = new CANCoder(4);
+   _rearLeftPot = new CANCoder(2);
+   _rearRightPot = new CANCoder(3);
+
+   frontLeftModule = new TalonFXDiffSwerveModule(21, 22, Constants::FL_POS_NAME, _frontLeftPot);
+   frontRightModule = new TalonFXDiffSwerveModule(27, 28, Constants::FR_POS_NAME, _frontRightPot);
+   rearLeftModule = new TalonFXDiffSwerveModule(23, 24, Constants::RL_POS_NAME, _rearLeftPot);
+   rearRightModule = new TalonFXDiffSwerveModule(25, 26, Constants::RR_POS_NAME, _rearRightPot);
+
+#elif USING_DIFFSWERVE_TALON_SRX
+
+   LOG("DeviceInit Analog");
+   _frontLeftPot = new AnalogInput(2);
+   _frontRightPot = new AnalogInput(1);
+   _rearLeftPot = new AnalogInput(3);
+   _rearRightPot = new AnalogInput(0);
+
+   frontLeftModule = new DiffSwerveModule(_driveTrainFrontLeftDrive, _driveTrainFrontLeftSteer, Constants::FL_POS_NAME, _frontLeftPot);
+   frontRightModule = new DiffSwerveModule(_driveTrainFrontRightDrive, _driveTrainFrontRightSteer, Constants::FR_POS_NAME, _frontRightPot);
+   rearLeftModule = new DiffSwerveModule(_driveTrainRearLeftDrive, _driveTrainRearLeftSteer, Constants::RL_POS_NAME, _rearLeftPot);
+   rearRightModule = new DiffSwerveModule(_driveTrainRearRightDrive, _driveTrainRearRightSteer, Constants::RR_POS_NAME, _rearRightPot);
+
+#else
+#error Unsupported configuration. Check USING_DIFFSWERVE_* #defines.
+#endif
+
+#else
+   frontLeftModule = new SwerveModule(_driveTrainFrontLeftDrive, _driveTrainFrontLeftSteer, Constants::FL_POS_NAME);
+   frontRightModule = new SwerveModule(_driveTrainFrontRightDrive, _driveTrainFrontRightSteer, Constants::FR_POS_NAME);
+   rearLeftModule = new SwerveModule(_driveTrainRearLeftDrive, _driveTrainRearLeftSteer, Constants::RL_POS_NAME);
+   rearRightModule = new SwerveModule(_driveTrainRearRightDrive, _driveTrainRearRightSteer, Constants::RR_POS_NAME);
+#endif
+
+   driveTrain = new DriveTrain();
+   LOG("DeviceInit DriveTrain");
+   LOG("DeviceInit end");
+}
+
+// ================================================================
 
 #ifndef RUNNING_FRC_TESTS
 int main(){
    return frc::StartRobot<Robot>();
 }
 #endif
+
+// ================================================================

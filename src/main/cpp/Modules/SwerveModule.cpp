@@ -1,14 +1,22 @@
-#include "modules/SwerveModule.h"
+#include "Modules/SwerveModule.h"
 #include "subsystems/EncoderConstants.h"
 #include "modules/Constants.h"
 #include <frc/Preferences.h>
 #include <iostream>
 
+// ================================================================
+
 SwerveModule::SwerveModule(MultiController* drive, PositionMultiController* steer, std::string configName) {
 	_drive = drive;
 	_steer = steer;
 	_configName = configName;
+	_x = 3;
+	_y = 4;
+	_radius = 5;
+	_setpoint = 0;
+	_offset = 0;
 	_lastPow = 0;
+	_inverse = 1;
 }
 
 // ================================================================
@@ -17,6 +25,31 @@ void SwerveModule::SetGeometry(double x, double y, double maxradius) {
 	_x = x;
 	_y = y;
 	_radius = maxradius;
+}
+
+// ================================================================
+
+void SwerveModule::SetWheelOffset() {
+	auto steerPosition = GetSteerPosition();
+	auto prefs = frc::Preferences::GetInstance();
+	prefs->PutDouble(_configName, steerPosition);
+	SetOffset(steerPosition);
+}
+
+// ================================================================
+
+void SwerveModule::LoadWheelOffset() {
+	auto prefs = frc::Preferences::GetInstance();
+	auto steerPosition = prefs->GetDouble(_configName);
+	SetOffset(steerPosition);
+}
+
+// ================================================================
+
+void SwerveModule::SetDriveSpeed(float speed) {
+	LOG("SetDriveSpeed");
+	_lastPow = speed;
+	_drive->SetPercentPower(speed * _inverse);
 }
 
 // ================================================================
@@ -30,50 +63,19 @@ double SwerveModule::GetSteerPosition() {
 
 // ================================================================
 
-void SwerveModule::SetWheelOffset() {
-	_steerPosition = GetSteerPosition();
-	auto prefs = frc::Preferences::GetInstance();
-	prefs->PutDouble(_configName, _steerPosition);
-	SetOffset(_steerPosition);
-}
-
-// ================================================================
-
-void SwerveModule::SetOffset(float off) {
-	_offset = off;
-}
-
-// ================================================================
-
-void SwerveModule::LoadWheelOffset() {
-	auto prefs = frc::Preferences::GetInstance();
-	_steerPosition = prefs->GetDouble(_configName);
-	SetOffset(_steerPosition);
-}
-
-// ================================================================
-
-void SwerveModule::SetDriveSpeed(float speed) {
-	LOG("SetDriveSpeed");
-	_lastPow = speed;
-	_drive->SetPercentPower(speed * _inverse);
-}
-
-// ================================================================
-
 double SwerveModule::SetSteerDrive(double x, double y, double twist, bool operatorControl) {
 	static constexpr double pi = 3.141592653589793238462643383;
 
 	//auto signX = (_x >= 0) ? 1 : -1;
 	//auto signY = (_y >= 0) ? 1 : -1;
 
-	auto BP = x + twist * (_x) / _radius;
-	auto CP = y - twist * (_y) / _radius;
+	auto BP = x + twist * _x / _radius;
+	auto CP = y - twist * _y / _radius;
 
 	float setpoint = EncoderConstants::HALF_TURN;
 
 	if (BP != 0 || CP != 0) {
-		setpoint = (EncoderConstants::HALF_TURN + EncoderConstants::HALF_TURN / pi * atan2(BP, CP));
+		setpoint = EncoderConstants::HALF_TURN + EncoderConstants::HALF_TURN / pi * atan2(BP, CP);
 	}
 
 	setpoint = -setpoint;
@@ -81,16 +83,42 @@ double SwerveModule::SetSteerDrive(double x, double y, double twist, bool operat
 
 	auto power = sqrt(pow(BP, 2) + pow(CP, 2));
 
-	if (operatorControl && fabs(x) <= Constants::DEAD_ZONE && fabs(y) <= Constants::DEAD_ZONE && fabs(twist) <= Constants::DEAD_ZONE) {
+	if (operatorControl && InDeadZone(x) && InDeadZone(y) && InDeadZone(twist)) {
 		power = 0;
 	}
 /*
-	if (signX == signY){
+	if (signX == signY) {
 		power = -power;
 	}
-	if (signX == -1) power = -power;
+	if (signX == -1) {
+		power = -power;
+	}
 */
 	return power;
+}
+
+// ================================================================
+
+double SwerveModule::GetSetpoint() {
+	return _setpoint;
+}
+
+// ================================================================
+
+double SwerveModule::GetPower() {
+	return _lastPow;
+}
+
+// ================================================================
+
+bool SwerveModule::InDeadZone(double value) {
+	return fabs(value) <= Constants::DEAD_ZONE;
+}
+
+// ================================================================
+
+void SwerveModule::SetOffset(float offset) {
+	_offset = offset;
 }
 
 // ================================================================
@@ -118,25 +146,26 @@ void SwerveModule::SetSteerSetpoint(float setpoint) {
     // this prevents motors from having to reverse
 	// if they are already rotating
 	// they may take a longer rotation but will keep spinning the same way
-	if(_lastPow > .3) {  
+	if (_lastPow > .3) {  
 		optionincr = 2;
-		if(_inverse == -1)
+		if (_inverse == -1) {
 			firstoption = 1;
+		}
 	}
 
-	float minMove = 360*5; //impossibly big angle
+	float minMove = 360 * 5; // impossibly big angle
 	int minI = 0;
-	for (int i = firstoption; i < 6; i+=optionincr){
-		if (fabs(currentPosition - angleOptions[i]) < minMove){
+	for (int i = firstoption; i < 6; i += optionincr){
+		if (fabs(currentPosition - angleOptions[i]) < minMove) {
 			minMove = fabs(currentPosition - angleOptions[i]);
 			minI = i;
 		}
 	}
 
-	_steer->SetPosition(angleOptions[minI]/EncoderConstants::FULL_TURN);
+	_setpoint = angleOptions[minI] / EncoderConstants::FULL_TURN;
+	_steer->SetPosition(_setpoint);
 
-	if (minI % 2)
-		_inverse = -1;
-	else
-		_inverse = 1;
+	_inverse = (minI % 2) ? -1 : 1;
 }
+
+// ================================================================

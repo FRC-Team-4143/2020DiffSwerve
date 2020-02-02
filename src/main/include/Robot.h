@@ -1,125 +1,123 @@
 #pragma once
-#define DIFFSWERVE 1
-
-#include <frc/TimedRobot.h>
-#include <frc/commands/Command.h>
-#include <frc/smartdashboard/SendableChooser.h>
-#include <frc/PowerDistributionPanel.h>
-#include <frc/Compressor.h>
-#include <frc/Solenoid.h>
-#include <frc/Servo.h>
-#include <rev/CANSparkMax.h>
-#include <rev/SparkMax.h>
-#include <ctre/Phoenix.h>
-#include <AHRS.h>
-#include <frc/I2C.h>
-
+#include "controllers/MultiController.h"
 #include "controllers/PositionMultiController.h"
+#include "controllers/VelocityMultiController.h"
 #include "Modules/SwerveModuleInterface.h"
-
-#include "OI.h"
 #include "subsystems/DriveTrain.h"
 #include "subsystems/GyroSub.h"
 #include "subsystems/VisionBridgeSub.h"
+#include "OI.h"
+
+#include <frc/AnalogInput.h>
+#include <frc/commands/Command.h>
+#include <frc/Compressor.h>
+#include <frc/I2C.h>
+#include <frc/PowerDistributionPanel.h>
+#include <frc/smartdashboard/SendableChooser.h>
+#include <frc/Solenoid.h>
+#include <frc/TimedRobot.h>
+
+#include <rev/CANSparkMax.h>
+#include <rev/SparkMax.h>
+
+#include <ctre/Phoenix.h>
+
+#include <AHRS.h>
+
+#define DIFFSWERVE 1
+
+// If using DIFFSWERVE, must set ONE of the following to 1:
+#define USING_DIFFSWERVE_TALON_FX 1
+#define USING_DIFFSWERVE_TALON_SRX 0
 
 class Robot : public frc::TimedRobot {
- public:
+public:
 
-//======= System Declaration =======//
-  static OI* oi;
-  static DriveTrain* driveTrain;
-  static GyroSub* gyroSub;
-  static VisionBridgeSub* visionBridge;
-  static PowerDistributionPanel* pdp;
-  static Compressor* comp;
-
-//======= Drive Train =======//
 #if DIFFSWERVE
-  static VelocityMultiController* driveTrainFrontLeftDrive;
-  static VelocityMultiController* driveTrainFrontLeftSteer;
+	typedef VelocityMultiController DRIVE_MOTOR_TYPE;
+	typedef VelocityMultiController STEER_MOTOR_TYPE;
 
-  static VelocityMultiController* driveTrainFrontRightDrive;
-  static VelocityMultiController* driveTrainFrontRightSteer;
-
-  static VelocityMultiController* driveTrainRearLeftDrive;
-  static VelocityMultiController* driveTrainRearLeftSteer;
-
-  static VelocityMultiController* driveTrainRearRightDrive;
-  static VelocityMultiController* driveTrainRearRightSteer;
-
-  static SwerveModuleInterface* frontLeftModule;
-  static SwerveModuleInterface* frontRightModule;
-  static SwerveModuleInterface *rearLeftModule;
-  static SwerveModuleInterface* rearRightModule;
-
-  static AnalogInput* frontLeftPot;
-  static AnalogInput* frontRightPot;
-  static AnalogInput* rearLeftPot;
-  static AnalogInput* rearRightPot;
-
-  static Solenoid* outsol;
-  static Solenoid* insol;
-
- /* rev::CANSparkMax sparkmax1{1, rev::CANSparkMax::MotorType::kBrushless};
-  rev::CANSparkMax sparkmax2{2, rev::CANSparkMax::MotorType::kBrushless};
-  rev::CANSparkMax sparkmax3{3, rev::CANSparkMax::MotorType::kBrushless};
-  rev::CANSparkMax sparkmax4{4, rev::CANSparkMax::MotorType::kBrushless};
-  rev::CANSparkMax sparkmax5{5, rev::CANSparkMax::MotorType::kBrushless};
-  rev::CANSparkMax sparkmax6{6, rev::CANSparkMax::MotorType::kBrushless};
-  rev::CANSparkMax sparkmax7{7, rev::CANSparkMax::MotorType::kBrushless};
-  rev::CANSparkMax sparkmax8{8, rev::CANSparkMax::MotorType::kBrushless}; */
- 
+#if USING_DIFFSWERVE_TALON_FX
+	typedef CANCoder DRIVE_POSITION_ENCODER_TYPE;
+#elif USING_DIFFSWERVE_TALON_SRX
+	typedef AnalogInput DRIVE_POSITION_ENCODER_TYPE;
 #else
-  static MultiController* driveTrainFrontLeftDrive;
-  static PositionMultiController* driveTrainFrontLeftSteer;
-
-  static MultiController* driveTrainFrontRightDrive;
-  static PositionMultiController* driveTrainFrontRightSteer;
-
-  static MultiController* driveTrainRearLeftDrive;
-  static PositionMultiController* driveTrainRearLeftSteer;
-
-  static MultiController* driveTrainRearRightDrive;
-  static PositionMultiController* driveTrainRearRightSteer;
-
-  static SwerveModuleInterface* frontLeftModule;
-  static SwerveModuleInterface* frontRightModule;
-  static SwerveModuleInterface *rearLeftModule;
-  static SwerveModuleInterface* rearRightModule;
+#error Unsupported configuration. Check USING_DIFFSWERVE_* #defines.
 #endif
 
+#else
+	typedef MultiController DRIVE_MOTOR_TYPE;
+	typedef PositionMultiController STEER_MOTOR_TYPE;
+#endif
+
+//======= System Declaration =======//
+
+	static OI* oi;
+	static DriveTrain* driveTrain;
+	static GyroSub* gyroSub;
+	static VisionBridgeSub* visionBridge;
+	static PowerDistributionPanel* pdp;
+	static Compressor* comp;
+
+//======= Drive Train =======//
+
+	static SwerveModuleInterface* frontLeftModule;
+	static SwerveModuleInterface* frontRightModule;
+	static SwerveModuleInterface* rearLeftModule;
+	static SwerveModuleInterface* rearRightModule;
+
 //======= Susystem Motors and Sensors =======//
-  static PositionMultiController* armMotor;
-  static MultiController* clampMotor;
-  static MultiController* frontClimberMotor;
-  static MultiController* rearClimberMotor;
-  static PositionMultiController* elevatorMotor;
-  static MultiController* rollerMotor;
-  static MultiController* testElevator;
 
-  static Servo* frontServo;
-  static Servo* rearServo;
+	static PositionMultiController* armMotor;
+	static MultiController* clampMotor;
+	static MultiController* frontClimberMotor;
+	static MultiController* rearClimberMotor;
+	static PositionMultiController* elevatorMotor;
+	static MultiController* rollerMotor;
+	static MultiController* testElevator;
 
-  static AHRS* navx;
+	static AHRS* navx;
 
 //===========================================//
 
-  void DeviceInitialization();
-  void RobotInit() override;
-  void RobotPeriodic() override;
-  void DisabledInit() override;
-  void DisabledPeriodic() override;
-  void AutonomousInit() override;
-  void AutonomousPeriodic() override;
-  void TeleopInit() override;
-  void TeleopPeriodic() override;
-  void TestPeriodic() override;
+	// TimedRobot methods
+	virtual void RobotInit() override;
+	virtual void RobotPeriodic() override;
+	virtual void DisabledInit() override;
+	virtual void DisabledPeriodic() override;
+	virtual void AutonomousInit() override;
+	virtual void AutonomousPeriodic() override;
+	virtual void TeleopInit() override;
+	virtual void TeleopPeriodic() override;
+	virtual void TestPeriodic() override;
 
-  int counter = 0;
-  static double xCenterOffset;
-  static double yCenterOffset;
+	int counter = 0;
+	static double xCenterOffset;
+	static double yCenterOffset;
 
- private:
-  // Have it null by default so that if testing teleop it
-  // doesn't have undefined behavior and potentially crash.
+private:
+
+	DRIVE_MOTOR_TYPE* _driveTrainFrontLeftDrive;
+	STEER_MOTOR_TYPE* _driveTrainFrontLeftSteer;
+
+	DRIVE_MOTOR_TYPE* _driveTrainFrontRightDrive;
+	STEER_MOTOR_TYPE* _driveTrainFrontRightSteer;
+
+	DRIVE_MOTOR_TYPE* _driveTrainRearLeftDrive;
+	STEER_MOTOR_TYPE* _driveTrainRearLeftSteer;
+
+	DRIVE_MOTOR_TYPE* _driveTrainRearRightDrive;
+	STEER_MOTOR_TYPE* _driveTrainRearRightSteer;
+
+#if DIFFSWERVE
+	DRIVE_POSITION_ENCODER_TYPE* _frontLeftPot;
+	DRIVE_POSITION_ENCODER_TYPE* _frontRightPot;
+	DRIVE_POSITION_ENCODER_TYPE* _rearLeftPot;
+	DRIVE_POSITION_ENCODER_TYPE* _rearRightPot;
+#endif
+
+	Solenoid* _outsol;
+	Solenoid* _insol;
+
+	void DeviceInitialization();
 };
