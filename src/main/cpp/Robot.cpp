@@ -27,13 +27,7 @@
 
 #define NAVX_MXP 0 // 0 for Comp Bot
 
-#define TESTELEVATOR 21
-#define ELEVATOR 11
 #define CLAMP 12
-#define ROLLER 13
-#define ARM 14
-#define FRONTCLIMBER 15
-#define REARCLIMBER 16
 
 //======= System Definition =======//
 
@@ -57,6 +51,9 @@ MultiController* Robot::clampMotor = nullptr;
 
 AHRS* Robot::navx = nullptr;
 
+double Robot::xCenterOffset = 0;
+double Robot::yCenterOffset = 0;
+
 rev::ColorSensorV3 m_colorSensor{i2cPort};
 rev::ColorMatch m_colorMatcher;
 
@@ -64,9 +61,6 @@ static constexpr frc::Color kBlueTarget = frc::Color(0.121, 0.406, 0.472);
 static constexpr frc::Color kGreenTarget = frc::Color(0.163, 0.572, 0.264);
 static constexpr frc::Color kRedTarget = frc::Color(0.524, 0.339, 0.139);
 static constexpr frc::Color kYellowTarget = frc::Color(0.317, 0.558, 0.124);
-
-double Robot::xCenterOffset = 0;
-double Robot::yCenterOffset = 0;
 
 // ================================================================
 
