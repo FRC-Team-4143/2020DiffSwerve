@@ -322,10 +322,10 @@ void Robot::DeviceInitialization() {
 #elif USING_DIFFSWERVE_TALON_SRX
 
 	LOG("DeviceInit Analog");
-	_frontLeftPot = new AnalogInput(2);
-	_frontRightPot = new AnalogInput(1);
-	_rearLeftPot = new AnalogInput(3);
-	_rearRightPot = new AnalogInput(0);
+	_frontLeftPot = new frc::AnalogInput(2);
+	_frontRightPot = new frc::AnalogInput(1);
+	_rearLeftPot = new frc::AnalogInput(3);
+	_rearRightPot = new frc::AnalogInput(0);
 
 	frontLeftModule = new DiffSwerveModule(_driveTrainFrontLeftDrive, _driveTrainFrontLeftSteer, Constants::FL_POS_NAME, _frontLeftPot);
 	frontRightModule = new DiffSwerveModule(_driveTrainFrontRightDrive, _driveTrainFrontRightSteer, Constants::FR_POS_NAME, _frontRightPot);

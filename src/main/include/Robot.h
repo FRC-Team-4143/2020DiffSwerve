@@ -40,7 +40,7 @@ public:
 #if USING_DIFFSWERVE_TALON_FX
 	typedef CANCoder DRIVE_POSITION_ENCODER_TYPE;
 #elif USING_DIFFSWERVE_TALON_SRX
-	typedef AnalogInput DRIVE_POSITION_ENCODER_TYPE;
+	typedef frc::AnalogInput DRIVE_POSITION_ENCODER_TYPE;
 #else
 #error Unsupported configuration. Check USING_DIFFSWERVE_* #defines.
 #endif
