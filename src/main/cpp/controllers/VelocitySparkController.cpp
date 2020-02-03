@@ -8,7 +8,7 @@
 #define kI 0.000001
 #define kD 0
 #define kIZONE 0
-#define kFF 0 
+#define kFF 0
 //kFF 0.000156
 #define kMINOUTPUT -1
 #define kMAXOUTPUT 1
@@ -16,7 +16,7 @@
 #define ENCODER_COUNTS_PER_TURN 42
 
 //VelocitySparkController::VelocitySparkController(rev::CANSparkMax* motor)
-//	: _pidController(motor->GetPIDController()),
+//:	_pidController(motor->GetPIDController()),
 //	_encoder(motor->GetEncoder()) {
 //	_motor = motor;
 //	ConfigPID();
@@ -61,7 +61,7 @@ void VelocitySparkController::ConfigPID() {
 	_pidController.SetD(kD);
 	_pidController.SetIZone(kIZONE);
 	_pidController.SetFF(kFF);
-	_pidController.SetOutputRange(kMINOUTPUT, kMAXOUTPUT);	
+	_pidController.SetOutputRange(kMINOUTPUT, kMAXOUTPUT);
 	_pidController.SetSmartMotionMaxVelocity(kMaxVel);
 	_pidController.SetSmartMotionMinOutputVelocity(kMinVel);
 	_pidController.SetSmartMotionMaxAccel(kMaxAcc);

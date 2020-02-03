@@ -1,8 +1,8 @@
-#include "modules/TalonFXDiffSwerveModule.h"
-#include "modules/Constants.h"
+#include "Modules/TalonFXDiffSwerveModule.h"
+#include "Modules/Constants.h"
 #include <frc/Preferences.h>
 #include <ctre/Phoenix.h>
-#include <iostream>
+//#include <iostream>
 
 // ================================================================
 
@@ -238,7 +238,7 @@ void TalonFXDiffSwerveModule::ConfigMotors() {
 	_master.Config_kD(kSlot_Turning, kGains_Turning.kD, kTimeoutMs);
 	_master.Config_kF(kSlot_Turning, kGains_Turning.kF, kTimeoutMs);
 	_master.Config_IntegralZone(kSlot_Turning, kGains_Turning.kIzone, kTimeoutMs);
-	_master.ConfigClosedLoopPeakOutput(kSlot_Turning,kGains_Turning.kPeakOutput, kTimeoutMs);
+	_master.ConfigClosedLoopPeakOutput(kSlot_Turning, kGains_Turning.kPeakOutput, kTimeoutMs);
 
 	// velocity servo
 	_master.Config_kP(kSlot_Velocit, kGains_Velocit.kP, kTimeoutMs);
@@ -246,7 +246,7 @@ void TalonFXDiffSwerveModule::ConfigMotors() {
 	_master.Config_kD(kSlot_Velocit, kGains_Velocit.kD, kTimeoutMs);
 	_master.Config_kF(kSlot_Velocit, kGains_Velocit.kF, kTimeoutMs);
 	_master.Config_IntegralZone(kSlot_Velocit, kGains_Velocit.kIzone, kTimeoutMs);
-	_master.ConfigClosedLoopPeakOutput(kSlot_Velocit,kGains_Velocit.kPeakOutput, kTimeoutMs);
+	_master.ConfigClosedLoopPeakOutput(kSlot_Velocit, kGains_Velocit.kPeakOutput, kTimeoutMs);
 
 	_slave.SetNeutralMode(NeutralMode::Brake);
 	_master.SetNeutralMode(NeutralMode::Brake);
@@ -321,7 +321,7 @@ void TalonFXDiffSwerveModule::SetSteerSetpoint(float setpoint) {
 	int firstoption = 0;
 	int optionincr = 1;
 
-    // this prevents motors from having to reverse
+	// this prevents motors from having to reverse
 	// if they are already rotating
 	// they may take a longer rotation but will keep spinning the same way
 

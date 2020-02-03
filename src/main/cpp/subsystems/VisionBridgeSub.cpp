@@ -1,8 +1,8 @@
 #include "subsystems/VisionBridgeSub.h"
-#include <frc/smartdashboard/SmartDashboard.h>
-#include "modules/CastUtil.h"
-#include "modules/Logger.h"
+#include "Modules/CastUtil.h"
+#include "Modules/Logger.h"
 #include "Robot.h"
+#include <frc/smartdashboard/SmartDashboard.h>
 
 #include <netinet/in.h>
 #include <sys/socket.h>
@@ -60,6 +60,7 @@ void VisionBridgeSub::EnableDebug(bool debug) {
 
 double VisionBridgeSub::GetGearPosition() {
 	std::unique_lock<std::recursive_mutex> lock(_mutex);
+
 	return (_gearRightX1 + _gearRightX2 + _gearLeftX1 + _gearLeftX2)/4;
 }
 
@@ -67,6 +68,7 @@ double VisionBridgeSub::GetGearPosition() {
 
 double VisionBridgeSub::GetGearDistance() {
 	std::unique_lock<std::recursive_mutex> lock(_mutex);
+
 	return (_gearRightY1 + _gearRightY2 + _gearLeftY1 + _gearLeftY2)/4;
 }
 
@@ -74,24 +76,28 @@ double VisionBridgeSub::GetGearDistance() {
 
 double VisionBridgeSub::GetBoilerPosition() {
 	std::unique_lock<std::recursive_mutex> lock(_mutex);
+
 	float lowestNum = _boilerX1;
-	if(_boilerX2 != 0 && fabs(_boilerX2) < fabs(lowestNum))
+	if (_boilerX2 != 0 && fabs(_boilerX2) < fabs(lowestNum)) {
 		lowestNum = _boilerX2;
-	if(_boilerX3 != 0 && fabs(_boilerX3) < fabs(lowestNum))
+	}
+	if (_boilerX3 != 0 && fabs(_boilerX3) < fabs(lowestNum)) {
 		lowestNum = _boilerX3;
-	
+	}
+
 	return lowestNum;
 }
 
-/* ==========================================================================
+// ==========================================================================
 
 double VisionBridgeSub::GetBoilerDistance() {
 	std::unique_lock<std::recursive_mutex> lock(_mutex);
-	return _boilerY1;
+
+	// TODO
 	return 0;
 }
 
-*/ // ==========================================================================
+// ==========================================================================
 
 void VisionBridgeSub::DebugOutput(std::string packet) {
 	LOG("VisionPacket=" + packet);
@@ -163,7 +169,7 @@ void VisionBridgeSub::ParsePacket(char packet[]) {
 		pch = std::strtok(nullptr, " ");
 		int cam = std::stod(pch);
 
-		switch (cam){
+		switch (cam) {
 		case 0:
 			SetBoiler(x1, x2, x3);
 			break;
@@ -183,44 +189,46 @@ void VisionBridgeSub::ParsePacket(char packet[]) {
 
 void VisionBridgeSub::SetGearRight(double x1, double y1, double x2, double y2) {
 	std::unique_lock<std::recursive_mutex> lock(_mutex);
+
 	if (x1 != 0.0) _gearRightX1 = x1;
 	if (y1 != 0.0) _gearRightY1 = y1;
 	if (x2 != 0.0) _gearRightX2 = x2;
 	if (y2 != 0.0) _gearRightY2 = y2;
 
-	SmartDashboard::PutNumber("gearRightX1", x1);
-	SmartDashboard::PutNumber("gearRightY1", y1);
-	SmartDashboard::PutNumber("gearRightX2", x2);
-	SmartDashboard::PutNumber("gearRightY2", y2);
+	frc::SmartDashboard::PutNumber("gearRightX1", x1);
+	frc::SmartDashboard::PutNumber("gearRightY1", y1);
+	frc::SmartDashboard::PutNumber("gearRightX2", x2);
+	frc::SmartDashboard::PutNumber("gearRightY2", y2);
 }
 
 // ==========================================================================
 
 void VisionBridgeSub::SetGearLeft(double x1, double y1, double x2, double y2) {
 	std::unique_lock<std::recursive_mutex> lock(_mutex);
+
 	if (x1 != 0.0) _gearLeftX1 = x1;
 	if (y1 != 0.0) _gearLeftY1 = y1;
 	if (x2 != 0.0) _gearLeftX2 = x2;
 	if (y2 != 0.0) _gearLeftY2 = y2;
 
-	SmartDashboard::PutNumber("gearLeftX1", x1);
-	SmartDashboard::PutNumber("gearLeftY1", y1);
-	SmartDashboard::PutNumber("gearLeftX2", x2);
-	SmartDashboard::PutNumber("gearLeftY2", y2);
+	frc::SmartDashboard::PutNumber("gearLeftX1", x1);
+	frc::SmartDashboard::PutNumber("gearLeftY1", y1);
+	frc::SmartDashboard::PutNumber("gearLeftX2", x2);
+	frc::SmartDashboard::PutNumber("gearLeftY2", y2);
 }
 
 // ==========================================================================
+
 void VisionBridgeSub::SetBoiler(double x1, double x2, double x3) {
 	std::unique_lock<std::recursive_mutex> lock(_mutex);
+
 	if (x1 != 0.0) _boilerX1 = x1;
 	if (x2 != 0.0) _boilerX2 = x2;
 	if (x3 != 0.0) _boilerX3 = x3;
 
-	SmartDashboard::PutNumber("BoilerX1", x1);
-	SmartDashboard::PutNumber("BoilerX2", x2);
-	SmartDashboard::PutNumber("BoilerX3", x3);
-	
-
+	frc::SmartDashboard::PutNumber("BoilerX1", x1);
+	frc::SmartDashboard::PutNumber("BoilerX2", x2);
+	frc::SmartDashboard::PutNumber("BoilerX3", x3);
 }
 
 // ==========================================================================

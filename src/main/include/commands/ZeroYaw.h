@@ -1,18 +1,19 @@
 #pragma once
-
 #include <frc/commands/Command.h>
 
 // ==========================================================================
 
 class ZeroYaw : public frc::Command {
 public:
+
 	ZeroYaw();
 
-	void Initialize();
-	void Execute();
-	bool IsFinished();
-	void End();
-	void Interrupted();
+	// Command methods
+	virtual void Initialize() override;
+	virtual void Execute() override;
+	virtual bool IsFinished() override;
+	virtual void End() override;
+	virtual void Interrupted() override;
 };
 
 // ==========================================================================

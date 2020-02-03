@@ -24,9 +24,9 @@ void GyroSub::InitDefaultCommand() {
 // PIDSource methods
 // ==========================================================================
 
-double GyroSub::PIDGet() { 
-	if(theGyro() != nullptr){
-		return theGyro()->GetYaw() + (SmartDashboard::GetNumber("Yaw Offset", 0)); 
+double GyroSub::PIDGet() {
+	if (theGyro() != nullptr) {
+		return theGyro()->GetYaw() + (frc::SmartDashboard::GetNumber("Yaw Offset", 0));
 	}
 	return 0;
 }
@@ -36,44 +36,44 @@ double GyroSub::PIDGet() {
 // Call these from Commands.
 // ==========================================================================
 
-double GyroSub::GetHeading() { 
-	if(theGyro() != nullptr){
-		return theGyro()->GetCompassHeading(); 
-	}
-		return 0;
-}
-
-// ==========================================================================
-
-bool GyroSub::IsCalibrating(){ 
-		if(theGyro() != nullptr){
-			return theGyro()->IsCalibrating();
-		}
-		return false;
-	}
-
-// ==========================================================================
-
-void GyroSub::ResetGyro() {
-	if(theGyro() != nullptr){
-		theGyro()->ZeroYaw();
-	}
-}
-
-// ==========================================================================
-
-float GyroSub::GetDisplacementX() { 
-	if(theGyro() != nullptr){
-		return theGyro()->GetDisplacementX(); 
+double GyroSub::GetHeading() {
+	if (theGyro() != nullptr) {
+		return theGyro()->GetCompassHeading();
 	}
 	return 0;
 }
 
 // ==========================================================================
 
-float GyroSub::GetDisplacementY() { 
-	if(theGyro() != nullptr){
-		return theGyro()->GetDisplacementY(); 
+bool GyroSub::IsCalibrating() {
+	if (theGyro() != nullptr) {
+		return theGyro()->IsCalibrating();
+	}
+	return false;
+}
+
+// ==========================================================================
+
+void GyroSub::ResetGyro() {
+	if (theGyro() != nullptr) {
+		theGyro()->ZeroYaw();
+	}
+}
+
+// ==========================================================================
+
+float GyroSub::GetDisplacementX() {
+	if (theGyro() != nullptr) {
+		return theGyro()->GetDisplacementX();
+	}
+	return 0;
+}
+
+// ==========================================================================
+
+float GyroSub::GetDisplacementY() {
+	if (theGyro() != nullptr) {
+		return theGyro()->GetDisplacementY();
 	}
 	return 0;
 }

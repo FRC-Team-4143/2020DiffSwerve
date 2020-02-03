@@ -41,8 +41,8 @@ OI* Robot::oi = nullptr;
 DriveTrain* Robot::driveTrain = nullptr;
 GyroSub* Robot::gyroSub = nullptr;
 VisionBridgeSub* Robot::visionBridge = nullptr;
-PowerDistributionPanel* Robot::pdp = nullptr;
-Compressor* Robot::comp = nullptr;
+frc::PowerDistributionPanel* Robot::pdp = nullptr;
+frc::Compressor* Robot::comp = nullptr;
 
 static constexpr auto i2cPort = frc::I2C::Port::kOnboard;
 
@@ -73,7 +73,7 @@ double Robot::yCenterOffset = 0;
 void Robot::RobotInit() {
 	DeviceInitialization();
 
-	SmartDashboard::PutNumber("Yaw Offset", 0);
+	frc::SmartDashboard::PutNumber("Yaw Offset", 0);
 
 	driveTrain->LoadWheelOffsets();
 
@@ -89,8 +89,8 @@ void Robot::RobotInit() {
 
 void Robot::RobotPeriodic() {
 	if (navx != nullptr) {
-		auto yawOff = SmartDashboard::GetNumber("Yaw Offset", 0);
-		SmartDashboard::PutNumber("Yaw", Robot::navx->GetYaw() + yawOff);
+		auto yawOff = frc::SmartDashboard::GetNumber("Yaw Offset", 0);
+		frc::SmartDashboard::PutNumber("Yaw", Robot::navx->GetYaw() + yawOff);
 	}
 
 	frc::Color detectedColor = m_colorSensor.GetColor();
@@ -153,26 +153,26 @@ void Robot::RobotPeriodic() {
 		counter -= 1;
 	}
 
-	xCenterOffset = SmartDashboard::GetNumber("X Center Offset", 0);
-	yCenterOffset = SmartDashboard::GetNumber("Y Center Offset", 0);
+	xCenterOffset = frc::SmartDashboard::GetNumber("X Center Offset", 0);
+	yCenterOffset = frc::SmartDashboard::GetNumber("Y Center Offset", 0);
 
-	SmartDashboard::PutNumber("X Center Offset", xCenterOffset);
-	SmartDashboard::PutNumber("Y Center Offset", yCenterOffset);
+	frc::SmartDashboard::PutNumber("X Center Offset", xCenterOffset);
+	frc::SmartDashboard::PutNumber("Y Center Offset", yCenterOffset);
 
-	SmartDashboard::PutNumber("fl position", frontLeftModule->GetSteerPosition());
-	SmartDashboard::PutNumber("fr position", frontRightModule->GetSteerPosition());
-	SmartDashboard::PutNumber("rl position", rearLeftModule->GetSteerPosition());
-	SmartDashboard::PutNumber("rr position", rearRightModule->GetSteerPosition());
+	frc::SmartDashboard::PutNumber("fl position", frontLeftModule->GetSteerPosition());
+	frc::SmartDashboard::PutNumber("fr position", frontRightModule->GetSteerPosition());
+	frc::SmartDashboard::PutNumber("rl position", rearLeftModule->GetSteerPosition());
+	frc::SmartDashboard::PutNumber("rr position", rearRightModule->GetSteerPosition());
 
-	SmartDashboard::PutNumber("fl setpoint", frontLeftModule->GetSetpoint());
-	SmartDashboard::PutNumber("fr setpoint", frontRightModule->GetSetpoint());
-	SmartDashboard::PutNumber("rl setpoint", rearLeftModule->GetSetpoint());
-	SmartDashboard::PutNumber("rr setpoint", rearRightModule->GetSetpoint());
+	frc::SmartDashboard::PutNumber("fl setpoint", frontLeftModule->GetSetpoint());
+	frc::SmartDashboard::PutNumber("fr setpoint", frontRightModule->GetSetpoint());
+	frc::SmartDashboard::PutNumber("rl setpoint", rearLeftModule->GetSetpoint());
+	frc::SmartDashboard::PutNumber("rr setpoint", rearRightModule->GetSetpoint());
 
-	SmartDashboard::PutNumber("fl power", frontLeftModule->GetPower());
-	SmartDashboard::PutNumber("fr power", frontRightModule->GetPower());
-	SmartDashboard::PutNumber("rl power", rearLeftModule->GetPower());
-	SmartDashboard::PutNumber("rr power", rearRightModule->GetPower());
+	frc::SmartDashboard::PutNumber("fl power", frontLeftModule->GetPower());
+	frc::SmartDashboard::PutNumber("fr power", frontRightModule->GetPower());
+	frc::SmartDashboard::PutNumber("rl power", rearLeftModule->GetPower());
+	frc::SmartDashboard::PutNumber("rr power", rearRightModule->GetPower());
 
 	Robot::driveTrain->SetWheelbase(14, 14);
 }
@@ -222,10 +222,10 @@ void Robot::TestPeriodic() {
 void Robot::DeviceInitialization() {
 	//CameraServer::GetInstance()->StartAutomaticCapture();
 
-	comp = new Compressor(0);
+	comp = new frc::Compressor(0);
 
-	_insol = new Solenoid(0);
-	_outsol = new Solenoid(1);
+	_insol = new frc::Solenoid(0);
+	_outsol = new frc::Solenoid(1);
 
 #if DIFFSWERVE
 

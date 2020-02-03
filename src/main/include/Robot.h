@@ -56,8 +56,8 @@ public:
 	static DriveTrain* driveTrain;
 	static GyroSub* gyroSub;
 	static VisionBridgeSub* visionBridge;
-	static PowerDistributionPanel* pdp;
-	static Compressor* comp;
+	static frc::PowerDistributionPanel* pdp;
+	static frc::Compressor* comp;
 
 //======= Drive Train =======//
 
@@ -116,8 +116,8 @@ private:
 	DRIVE_POSITION_ENCODER_TYPE* _rearRightPot;
 #endif
 
-	Solenoid* _outsol;
-	Solenoid* _insol;
+	frc::Solenoid* _outsol;
+	frc::Solenoid* _insol;
 
 	void DeviceInitialization();
 };

@@ -6,7 +6,7 @@
 // 2015-02-01 JKSalmon - Initial development
 // 2017-01-28 JKSalmon - Minor code and performance improvements
 // ==========================================================================
-#include "modules/Logger.h"
+#include "Modules/Logger.h"
 #include <time.h>
 #include <iostream>
 

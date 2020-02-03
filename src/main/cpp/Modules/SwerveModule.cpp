@@ -145,10 +145,10 @@ void SwerveModule::SetSteerSetpoint(float setpoint) {
 	int firstoption = 0;
 	int optionincr = 1;
 
-    // this prevents motors from having to reverse
+	// this prevents motors from having to reverse
 	// if they are already rotating
 	// they may take a longer rotation but will keep spinning the same way
-	if (_lastPow > .3) {  
+	if (_lastPow > .3) {
 		optionincr = 2;
 		if (_inverse == -1) {
 			firstoption = 1;

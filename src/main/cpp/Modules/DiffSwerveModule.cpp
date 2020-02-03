@@ -55,9 +55,9 @@ void DiffSwerveModule::LoadWheelOffset() {
 void DiffSwerveModule::SetDriveSpeed(float speed) {
 	_lastPow = speed;
 
-    double turn = GetSteerPosition() - _setpoint;
-	//if (turn > EncoderConstants::HALF_TURN) turn -= EncoderConstants::FULL_TURN; 
-    //if (turn < -EncoderConstants::HALF_TURN) turn += EncoderConstants::FULL_TURN;
+	double turn = GetSteerPosition() - _setpoint;
+	//if (turn > EncoderConstants::HALF_TURN) turn -= EncoderConstants::FULL_TURN;
+	//if (turn < -EncoderConstants::HALF_TURN) turn += EncoderConstants::FULL_TURN;
 
 	if (fabs(turn) < .02) {
 		turn = 0;
@@ -77,12 +77,12 @@ double DiffSwerveModule::GetSteerPosition() {
 	if (voltage > .1 && voltage < _voltageMin) {
 		_voltageMin = voltage;
 	}
-    if (voltage < 4.9 && voltage > _voltageMax) {
+	if (voltage < 4.9 && voltage > _voltageMax) {
 		_voltageMax = voltage;
 	}
-    double voltageWidth = _voltageMax - _voltageMin;
-	voltage = (voltage - _voltageMin) / voltageWidth;  // scale to full 0-5v range
-    return voltage * EncoderConstants::FULL_TURN;
+	double voltageWidth = _voltageMax - _voltageMin;
+	voltage = (voltage - _voltageMin) / voltageWidth; // scale to full 0-5v range
+	return voltage * EncoderConstants::FULL_TURN;
 }
 
 // ================================================================
@@ -167,7 +167,7 @@ void DiffSwerveModule::SetSteerSetpoint(float setpoint) {
 	int firstoption = 0;
 	int optionincr = 1;
 
-    // this prevents motors from having to reverse
+	// this prevents motors from having to reverse
 	// if they are already rotating
 	// they may take a longer rotation but will keep spinning the same way
 	if (_lastPow > .3) { // maybe should read speed instead of last power

@@ -22,7 +22,7 @@ private:
 	static constexpr double pi = 3.141592653589793238462643383; // many more digits than necessary
 
 	double X;
-	double Y; 
+	double Y;
 	double yaw;
 	double joystickAngle;
 	bool fieldCentricMode;

@@ -1,10 +1,10 @@
 #include "commands/ZeroYaw.h"
 #include "Robot.h"
-#include "OI.h"
 
 // ==========================================================================
 
-ZeroYaw::ZeroYaw(): frc::Command("Zero Yaw") {
+ZeroYaw::ZeroYaw()
+:	frc::Command("Zero Yaw") {
 	SetRunWhenDisabled(true);
 }
 

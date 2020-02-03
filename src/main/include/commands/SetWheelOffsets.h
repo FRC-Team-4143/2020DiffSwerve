@@ -1,15 +1,19 @@
 #pragma once
-
 #include <frc/commands/Command.h>
 
+// ==========================================================================
+
 class SetWheelOffsets : public frc::Command {
- public:
+public:
 
+	SetWheelOffsets();
 
-  SetWheelOffsets();
-  void Initialize() override;
-  void Execute() override;
-  bool IsFinished() override;
-  void End() override;
-  void Interrupted() override;
+	// Command methods
+	virtual void Initialize() override;
+	virtual void Execute() override;
+	virtual bool IsFinished() override;
+	virtual void End() override;
+	virtual void Interrupted() override;
 };
+
+// ==========================================================================

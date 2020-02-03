@@ -1,6 +1,5 @@
 #pragma once
-
-#include <frc/commands/subsystem.h>
+#include <frc/commands/Subsystem.h>
 #include <mutex>
 #include <thread>
 
@@ -27,10 +26,11 @@ public:
 	double GetBoilerDistance();
 
 private:
+
 	std::recursive_mutex _mutex;
 	uint16_t _listeningPort;
 
-	//Vision Values
+	// Vision Values
 	double _gearRightX1;
 	double _gearRightY1;
 	double _gearRightX2;
