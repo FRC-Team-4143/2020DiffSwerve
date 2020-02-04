@@ -98,7 +98,7 @@ void TalonFXDiffSwerveModule::SetDriveSpeed(float speed) {
 	auto target0 = target_unitsPer100ms; // speed
 	auto target1 = heading_units; // turning
 
-	_master.Set(ControlMode::Velocity, target0, DemandType_AuxPID, target1);
+	_master.Set(ControlMode::Velocity, target0 * _inverse, DemandType_AuxPID, target1);
 	_slave.Follow(_master, FollowerType::FollowerType_AuxOutput1);
 }
 
