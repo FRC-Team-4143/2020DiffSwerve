@@ -91,9 +91,9 @@ void TalonFXDiffSwerveModule::SetDriveSpeed(float speed) {
 
 	constexpr int MAX_RPM = 1000;
 	double target_RPM = speed * MAX_RPM; // +- MAX_RPM
-	auto target_unitsPer100ms = target_RPM * kSensorUnitsPerRotation / 600.0;
+	auto target_unitsPer100ms = target_RPM * kSensorUnitsPerRotation / (60 * 10.0);
 
-	auto heading_units = _setpoint;
+	auto heading_units = _setpoint * (kTurnTravelUnitsPerRotation / kCANCoderUnitsPerRotation);
 
 	auto target0 = target_unitsPer100ms; // speed
 	auto target1 = heading_units; // turning
