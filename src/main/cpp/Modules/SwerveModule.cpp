@@ -7,7 +7,7 @@
 
 // ================================================================
 
-SwerveModule::SwerveModule(MultiController* drive, PositionMultiController* steer, std::string configName) {
+SwerveModule::SwerveModule(IMultiController* drive, IPositionMultiController* steer, std::string configName) {
 	_drive = drive;
 	_steer = steer;
 	_configName = configName;

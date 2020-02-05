@@ -3,11 +3,10 @@
 #include "Modules/Logger.h"
 #include "subsystems/EncoderConstants.h"
 #include <frc/Preferences.h>
-//#include <iostream>
 
 // ================================================================
 
-DiffSwerveModule::DiffSwerveModule(VelocityMultiController* master, VelocityMultiController* slave, std::string configName, frc::AnalogInput* headingSensor) {
+DiffSwerveModule::DiffSwerveModule(IVelocityMultiController* master, IVelocityMultiController* slave, std::string configName, frc::AnalogInput* headingSensor) {
 	_master = master;
 	_slave = slave;
 	_configName = configName;

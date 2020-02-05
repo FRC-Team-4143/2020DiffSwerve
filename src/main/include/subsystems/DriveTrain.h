@@ -1,6 +1,6 @@
 #pragma once
 #include <frc/commands/Subsystem.h>
-#include "Modules/SwerveModuleInterface.h"
+#include "Modules/ISwerveModule.h"
 
 class DriveTrain : public frc::Subsystem {
 public:
@@ -30,8 +30,8 @@ private:
 	float lasty;
 	float lasttwist;
 
-	SwerveModuleInterface* frontLeftModule;
-	SwerveModuleInterface* frontRightModule;
-	SwerveModuleInterface* rearLeftModule;
-	SwerveModuleInterface* rearRightModule;
+	ISwerveModule* frontLeftModule;
+	ISwerveModule* frontRightModule;
+	ISwerveModule* rearLeftModule;
+	ISwerveModule* rearRightModule;
 };

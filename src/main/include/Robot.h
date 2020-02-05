@@ -1,8 +1,8 @@
 #pragma once
-#include "controllers/MultiController.h"
-#include "controllers/PositionMultiController.h"
-#include "controllers/VelocityMultiController.h"
-#include "Modules/SwerveModuleInterface.h"
+#include "controllers/IMultiController.h"
+#include "controllers/IPositionMultiController.h"
+#include "controllers/IVelocityMultiController.h"
+#include "Modules/ISwerveModule.h"
 #include "subsystems/DriveTrain.h"
 #include "subsystems/GyroSub.h"
 #include "subsystems/VisionBridgeSub.h"
@@ -34,8 +34,8 @@ class Robot : public frc::TimedRobot {
 public:
 
 #if DIFFSWERVE
-	typedef VelocityMultiController DRIVE_MOTOR_TYPE;
-	typedef VelocityMultiController STEER_MOTOR_TYPE;
+	typedef IVelocityMultiController DRIVE_MOTOR_TYPE;
+	typedef IVelocityMultiController STEER_MOTOR_TYPE;
 
 #if USING_DIFFSWERVE_TALON_FX
 	typedef CANCoder DRIVE_POSITION_ENCODER_TYPE;
@@ -46,8 +46,8 @@ public:
 #endif
 
 #else
-	typedef MultiController DRIVE_MOTOR_TYPE;
-	typedef PositionMultiController STEER_MOTOR_TYPE;
+	typedef IMultiController DRIVE_MOTOR_TYPE;
+	typedef IPositionMultiController STEER_MOTOR_TYPE;
 #endif
 
 //======= System Declaration =======//
@@ -56,25 +56,18 @@ public:
 	static DriveTrain* driveTrain;
 	static GyroSub* gyroSub;
 	static VisionBridgeSub* visionBridge;
-	static frc::PowerDistributionPanel* pdp;
 	static frc::Compressor* comp;
 
 //======= Drive Train =======//
 
-	static SwerveModuleInterface* frontLeftModule;
-	static SwerveModuleInterface* frontRightModule;
-	static SwerveModuleInterface* rearLeftModule;
-	static SwerveModuleInterface* rearRightModule;
+	static ISwerveModule* frontLeftModule;
+	static ISwerveModule* frontRightModule;
+	static ISwerveModule* rearLeftModule;
+	static ISwerveModule* rearRightModule;
 
 //======= Susystem Motors and Sensors =======//
 
-	static PositionMultiController* armMotor;
-	static MultiController* clampMotor;
-	static MultiController* frontClimberMotor;
-	static MultiController* rearClimberMotor;
-	static PositionMultiController* elevatorMotor;
-	static MultiController* rollerMotor;
-	static MultiController* testElevator;
+	static IMultiController* clampMotor;
 
 	static AHRS* navx;
 

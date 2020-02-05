@@ -1,14 +1,14 @@
 #pragma once
-#include "controllers/MultiController.h"
+#include "controllers/IMultiController.h"
 #include <ctre/Phoenix.h>
 
-class TalonController : public MultiController {
+class TalonController : public IMultiController {
 public:
 
 	TalonController(WPI_TalonSRX* motor);
 	TalonController(int canId);
 
-	// MultiController methods
+	// IMultiController methods
 	virtual void SetPercentPower(double value) override;
 	virtual double GetEncoderPosition() override;
 

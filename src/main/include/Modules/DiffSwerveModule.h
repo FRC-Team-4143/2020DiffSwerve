@@ -1,15 +1,15 @@
 #pragma once
-#include "Modules/SwerveModuleInterface.h"
-#include "controllers/VelocityMultiController.h"
+#include "Modules/ISwerveModule.h"
+#include "controllers/IVelocityMultiController.h"
 #include "frc/AnalogInput.h"
 #include <string>
 
-class DiffSwerveModule : public SwerveModuleInterface {
+class DiffSwerveModule : public ISwerveModule {
 public:
 
-	DiffSwerveModule(VelocityMultiController* master, VelocityMultiController* slave, std::string configName, frc::AnalogInput* headingSensor);
+	DiffSwerveModule(IVelocityMultiController* master, IVelocityMultiController* slave, std::string configName, frc::AnalogInput* headingSensor);
 
-	// SwerveModuleInterface methods
+	// ISwerveModule methods
 	virtual void SetGeometry(double x, double y, double maxradius) override;
 	virtual void SetWheelOffset() override;
 	virtual void LoadWheelOffset() override;
@@ -21,8 +21,8 @@ public:
 
 private:
 
-	VelocityMultiController* _master; // speed controller for the drive motor
-	VelocityMultiController* _slave; // speed controller for the steer motor
+	IVelocityMultiController* _master; // speed controller for the drive motor
+	IVelocityMultiController* _slave; // speed controller for the steer motor
 	std::string _configName;
 	frc::AnalogInput* _headingSensor;
 

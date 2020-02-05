@@ -1,14 +1,14 @@
 #pragma once
-#include "Modules/SwerveModuleInterface.h"
+#include "Modules/ISwerveModule.h"
 #include <ctre/Phoenix.h>
 #include <string>
 
-class TalonFXDiffSwerveModule : public SwerveModuleInterface {
+class TalonFXDiffSwerveModule : public ISwerveModule {
 public:
 
 	TalonFXDiffSwerveModule(int masterId, int slaveId, std::string configName, CANCoder* headingSensor);
 
-	// SwerveModuleInterface methods
+	// ISwerveModule methods
 	virtual void SetGeometry(double x, double y, double maxradius) override;
 	virtual void SetWheelOffset() override;
 	virtual void LoadWheelOffset() override;

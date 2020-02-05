@@ -1,7 +1,7 @@
 #pragma once
-#include "controllers/MultiController.h"
+#include "controllers/IMultiController.h"
 
-class PositionMultiController : public MultiController {
+class IPositionMultiController : public IMultiController {
 public:
 
 	virtual void SetPosition(double value) = 0;

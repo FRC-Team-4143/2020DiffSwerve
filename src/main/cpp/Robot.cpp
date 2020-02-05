@@ -35,19 +35,18 @@ OI* Robot::oi = nullptr;
 DriveTrain* Robot::driveTrain = nullptr;
 GyroSub* Robot::gyroSub = nullptr;
 VisionBridgeSub* Robot::visionBridge = nullptr;
-frc::PowerDistributionPanel* Robot::pdp = nullptr;
 frc::Compressor* Robot::comp = nullptr;
 
 static constexpr auto i2cPort = frc::I2C::Port::kOnboard;
 
 //======= Motor Definition =======//
 
-SwerveModuleInterface* Robot::frontLeftModule = nullptr;
-SwerveModuleInterface* Robot::frontRightModule = nullptr;
-SwerveModuleInterface* Robot::rearLeftModule = nullptr;
-SwerveModuleInterface* Robot::rearRightModule  = nullptr;
+ISwerveModule* Robot::frontLeftModule = nullptr;
+ISwerveModule* Robot::frontRightModule = nullptr;
+ISwerveModule* Robot::rearLeftModule = nullptr;
+ISwerveModule* Robot::rearRightModule  = nullptr;
 
-MultiController* Robot::clampMotor = nullptr;
+IMultiController* Robot::clampMotor = nullptr;
 
 AHRS* Robot::navx = nullptr;
 

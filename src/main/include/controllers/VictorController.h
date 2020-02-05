@@ -1,14 +1,14 @@
 #pragma once
-#include "controllers/MultiController.h"
+#include "controllers/IMultiController.h"
 #include <ctre/Phoenix.h>
 
-class VictorController : public MultiController {
+class VictorController : public IMultiController {
 public:
 
 	VictorController(WPI_VictorSPX* motor);
 	VictorController(int canId);
 
-	// MultiController methods
+	// IMultiController methods
 	virtual void SetPercentPower(double value) override;
 	virtual double GetEncoderPosition() override;
 

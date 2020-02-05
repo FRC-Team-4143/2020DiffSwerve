@@ -1,14 +1,14 @@
 #pragma once
-#include "controllers/PositionMultiController.h"
+#include "controllers/IPositionMultiController.h"
 #include <ctre/Phoenix.h>
 
-class SteerTalonController : public PositionMultiController {
+class SteerTalonController : public IPositionMultiController {
 public:
 
 	SteerTalonController(WPI_TalonSRX* motor);
 	SteerTalonController(int canId);
 
-	// PositionMultiController methods
+	// IPositionMultiController methods
 	virtual void SetPercentPower(double value) override;
 	virtual double GetEncoderPosition() override;
 	virtual void SetPosition(double value) override;

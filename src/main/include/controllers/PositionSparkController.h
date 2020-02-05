@@ -1,14 +1,14 @@
 #pragma once
-#include "controllers/PositionMultiController.h"
+#include "controllers/IPositionMultiController.h"
 #include <rev/CANSparkMax.h>
 
-class PositionSparkController : public PositionMultiController {
+class PositionSparkController : public IPositionMultiController {
 public:
 
 	PositionSparkController(rev::CANSparkMax* motor);
 	PositionSparkController(int canId);
 
-	// PositionMultiController methods
+	// IPositionMultiController methods
 	virtual void SetPercentPower(double value) override;
 	virtual double GetEncoderPosition() override;
 	virtual void SetPosition(double value) override;

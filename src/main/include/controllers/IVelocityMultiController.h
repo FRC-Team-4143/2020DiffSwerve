@@ -1,7 +1,7 @@
 #pragma once
-#include "controllers/MultiController.h"
+#include "controllers/IMultiController.h"
 
-class VelocityMultiController : public MultiController {
+class IVelocityMultiController : public IMultiController {
 public:
 
 	virtual void SetVelocity(double value) = 0;

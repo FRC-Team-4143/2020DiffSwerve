@@ -1,6 +1,6 @@
 #pragma once
 
-class MultiController {
+class IMultiController {
 public:
 
 	virtual void SetPercentPower(double value) = 0;

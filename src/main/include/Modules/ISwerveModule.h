@@ -1,6 +1,6 @@
 #pragma once
 
-class SwerveModuleInterface {
+class ISwerveModule {
 public:
 
 	virtual void SetGeometry(double x, double y, double maxradius) = 0;

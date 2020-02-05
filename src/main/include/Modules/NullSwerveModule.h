@@ -1,11 +1,11 @@
 #pragma once
-#include "Modules/SwerveModuleInterface.h"
+#include "Modules/ISwerveModule.h"
 
-class NullSwerveModule : public SwerveModuleInterface {
+class NullSwerveModule : public ISwerveModule {
 public:
 	NullSwerveModule();
 
-	// SwerveModuleInterface methods
+	// ISwerveModule methods
 	virtual void SetGeometry(double x, double y, double maxradius) override;
 	virtual void SetWheelOffset() override;
 	virtual void LoadWheelOffset() override;
