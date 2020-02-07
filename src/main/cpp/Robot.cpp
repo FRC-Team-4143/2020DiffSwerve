@@ -49,9 +49,6 @@ IMultiController* Robot::clampMotor = nullptr;
 
 AHRS* Robot::navx = nullptr;
 
-double Robot::xCenterOffset = 0;
-double Robot::yCenterOffset = 0;
-
 rev::ColorSensorV3 m_colorSensor{i2cPort};
 rev::ColorMatch m_colorMatcher;
 
@@ -144,12 +141,6 @@ void Robot::RobotPeriodic() {
 	if (counter > 0) {
 		counter -= 1;
 	}
-
-	xCenterOffset = frc::SmartDashboard::GetNumber("X Center Offset", 0);
-	yCenterOffset = frc::SmartDashboard::GetNumber("Y Center Offset", 0);
-
-	frc::SmartDashboard::PutNumber("X Center Offset", xCenterOffset);
-	frc::SmartDashboard::PutNumber("Y Center Offset", yCenterOffset);
 
 	frc::SmartDashboard::PutNumber("fl position", frontLeftModule->GetSteerPosition());
 	frc::SmartDashboard::PutNumber("fr position", frontRightModule->GetSteerPosition());

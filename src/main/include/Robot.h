@@ -78,8 +78,6 @@ public:
 	virtual void TestPeriodic() override;
 
 	int counter = 0;
-	static double xCenterOffset;
-	static double yCenterOffset;
 
 private:
 

@@ -1,10 +1,10 @@
 #include "subsystems/DriveTrain.h"
-#include <frc/smartdashboard/SmartDashboard.h>
 #include "Modules/Constants.h"
+#include "Modules/Logger.h"
 #include "Robot.h"
 #include "commands/CrabDrive.h"
 #include "commands/FieldCentric.h"
-#include "Modules/Logger.h"
+#include <frc/smartdashboard/SmartDashboard.h>
 #include <iostream>
 #include <algorithm>
 #include <cmath>
@@ -41,14 +41,6 @@ void DriveTrain::SetWheelbase(double width, double length, double xOffset, doubl
 	double halfWidth = X / 2;
 	double halfLength = Y / 2;
 
-	//double xOffset = Robot::xCenterOffset;
-	//double yOffset = Robot::yCenterOffset;
-
-	//frontLeftModule->SetGeometry(-halfWidth, halfLength);
-	//frontRightModule->SetGeometry(halfWidth, halfLength);
-	//rearLeftModule->SetGeometry(-halfWidth, -halfWidth);
-	//rearRightModule->SetGeometry(halfWidth, -halfLength);
-
 	auto maxradius = std::sqrt(pow(halfWidth + fabs(xOffset), 2) + pow(halfLength + fabs(yOffset), 2));
 
 	frontLeftModule->SetGeometry(halfWidth - xOffset, -halfLength - yOffset, maxradius);
@@ -78,9 +70,6 @@ void DriveTrain::LoadWheelOffsets() {
 // ================================================================
 
 void DriveTrain::Crab(float twist, float y, float x, bool operatorControl) {
-	//LOG("DriveTrain::Crab");
-	//return;   //remove this to enable drivetrain
-
 	if (operatorControl && x == 0.0 && y == 0.0 && twist == 0.0 && false) {
 		if (fabs(lasty) > 0 || fabs(lastx) > 0 || fabs(lasttwist) > 0) {
 			y = std::min(std::max(lasty, -Constants::DEAD_ZONE), Constants::DEAD_ZONE);
