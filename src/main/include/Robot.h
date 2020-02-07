@@ -11,18 +11,11 @@
 #include <frc/AnalogInput.h>
 #include <frc/commands/Command.h>
 #include <frc/Compressor.h>
-#include <frc/I2C.h>
-#include <frc/PowerDistributionPanel.h>
-#include <frc/smartdashboard/SendableChooser.h>
 #include <frc/Solenoid.h>
 #include <frc/TimedRobot.h>
 
-#include <rev/CANSparkMax.h>
-#include <rev/SparkMax.h>
-
-#include <ctre/Phoenix.h>
-
 #include <AHRS.h>
+#include <ctre/Phoenix.h>
 
 #define DIFFSWERVE 1
 

@@ -7,7 +7,6 @@
 #include <rev/ColorMatch.h>
 #include <iostream>
 
-#include "controllers/PositionSparkController.h"
 #include "controllers/SparkMaxController.h"
 #include "controllers/SteerTalonController.h"
 #include "controllers/TalonController.h"
