@@ -14,9 +14,6 @@ struct Gains {
 	double kPeakOutput;
 };
 
-constexpr static Gains kGains_Velocit = { 0.2, 0.0, 0.0, 0.05, 300, 0.50 };
-constexpr static Gains kGains_Turning = { 0.1, 0.0, 0.0, 0.00, 200, 0.25 };
-
 // ================================================================
 
 const static int REMOTE_0 = 0;
@@ -25,20 +22,31 @@ const static int PID_PRIMARY = 0;
 const static int PID_TURN = 1;
 const static int SLOT_1 = 1;
 const static int SLOT_2 = 2;
-const static int kTimeoutMs = 30;
-const static int kSensorUnitsPerRotation = 2048;
-const static int kSlot_Turning = SLOT_1;
-const static int kSlot_Velocit = SLOT_2;
 
-// This is a property of the CANCoder, and should not be changed.
-constexpr static int kCANCoderUnitsPerRotation = 360.0;
+// Number of sensor units per rotation for the motor sensor.
+// @link https://github.com/CrossTheRoadElec/Phoenix-Documentation#what-are-the-units-of-my-sensor
+const static int kSensorUnitsPerRotation = 2048;
+
+// Number of sensor units per rotation for the CANCoder.
+constexpr static int kCANCoderUnitsPerRotation = 360;
 
 // Using the config feature, scale units to 3600 per rotation.
 // This is nice as it keeps 0.1 deg resolution, and is fairly intuitive.
 constexpr static double kTurnTravelUnitsPerRotation = 3600;
 
+// Set to zero to skip waiting for confirmation.
+// Set to nonzero to wait and report to DS if action fails.
+const static int kTimeoutMs = 30;
+
 // Motor neutral dead-band, set to the minimum 0.1%.
 constexpr static double kNeutralDeadband = 0.001;
+
+// PID constants                           kP   kI   kD    kF   Iz  PeakOut
+constexpr static Gains kGains_Velocit = { 0.2, 0.0, 0.0, 0.05, 300, 0.50 };
+constexpr static Gains kGains_Turning = { 0.1, 0.0, 0.0, 0.00, 200, 0.25 };
+
+const static int kSlot_Turning = SLOT_1;
+const static int kSlot_Velocit = SLOT_2;
 
 // ================================================================
 
@@ -320,16 +328,17 @@ void TalonFXDiffSwerveModule::SetSteerSetpoint(float setpoint) {
 	int firstoption = 0;
 	int optionincr = 1;
 
-	// this prevents motors from having to reverse
-	// if they are already rotating
-	// they may take a longer rotation but will keep spinning the same way
-
-	/*if (_lastPow > .3) { // maybe should read speed instead of last power
+	// This prevents motors from having to reverse if they are already
+	// rotating. They may take a longer rotation but will keep spinning
+	// the same way.
+#if 0
+	if (_lastPow > .3) { // maybe should read speed instead of last power
 		optionincr = 2;
 		if (_inverse == -1) {
 			firstoption = 1;
 		}
-	} */
+	}
+#endif
 
 	float minMove = 360 * 5; // impossibly big angle
 	int minI = 0;
