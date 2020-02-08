@@ -49,7 +49,6 @@ public:
 	static DriveTrain* driveTrain;
 	static GyroSub* gyroSub;
 	static VisionBridgeSub* visionBridge;
-	static frc::Compressor* comp;
 
 //======= Drive Train =======//
 
@@ -58,7 +57,7 @@ public:
 	static ISwerveModule* rearLeftModule;
 	static ISwerveModule* rearRightModule;
 
-//======= Susystem Motors and Sensors =======//
+//======= Subsystem Motors and Sensors =======//
 
 	static IMultiController* clampMotor;
 
@@ -76,8 +75,6 @@ public:
 	virtual void TeleopInit() override;
 	virtual void TeleopPeriodic() override;
 	virtual void TestPeriodic() override;
-
-	int counter = 0;
 
 private:
 
@@ -100,8 +97,12 @@ private:
 	DRIVE_POSITION_ENCODER_TYPE* _rearRightPot;
 #endif
 
+	frc::Compressor* _compressor;
+
 	frc::Solenoid* _outsol;
 	frc::Solenoid* _insol;
+
+	int _counter = 0;
 
 	void DeviceInitialization();
 };

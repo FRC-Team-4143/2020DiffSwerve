@@ -34,7 +34,6 @@ OI* Robot::oi = nullptr;
 DriveTrain* Robot::driveTrain = nullptr;
 GyroSub* Robot::gyroSub = nullptr;
 VisionBridgeSub* Robot::visionBridge = nullptr;
-frc::Compressor* Robot::comp = nullptr;
 
 static constexpr auto i2cPort = frc::I2C::Port::kOnboard;
 
@@ -65,6 +64,7 @@ void Robot::RobotInit() {
 	frc::SmartDashboard::PutNumber("Yaw Offset", 0);
 
 	driveTrain->LoadWheelOffsets();
+	driveTrain->SetWheelbase(14, 14);
 
 	m_colorMatcher.AddColorMatch(kBlueTarget);
 	m_colorMatcher.AddColorMatch(kGreenTarget);
@@ -131,15 +131,15 @@ void Robot::RobotPeriodic() {
 		clampMotor->SetPercentPower(0);
 	}
 
-	if (frc::RobotController::GetUserButton() == 1 && counter == 0) {
-		Robot::driveTrain->SetWheelOffsets();
-		counter = 100;
+	if (frc::RobotController::GetUserButton() == 1 && _counter == 0) {
+		driveTrain->SetWheelOffsets();
+		_counter = 100;
 		std::cout << "SetWheelOffsets Complete" << std::endl;
 		std::cout.flush();
 	}
 
-	if (counter > 0) {
-		counter -= 1;
+	if (_counter > 0) {
+		_counter -= 1;
 	}
 
 	frc::SmartDashboard::PutNumber("fl position", frontLeftModule->GetSteerPosition());
@@ -156,8 +156,6 @@ void Robot::RobotPeriodic() {
 	frc::SmartDashboard::PutNumber("fr power", frontRightModule->GetPower());
 	frc::SmartDashboard::PutNumber("rl power", rearLeftModule->GetPower());
 	frc::SmartDashboard::PutNumber("rr power", rearRightModule->GetPower());
-
-	Robot::driveTrain->SetWheelbase(14, 14);
 }
 
 // ================================================================
@@ -174,7 +172,7 @@ void Robot::DisabledPeriodic() {
 // ================================================================
 
 void Robot::AutonomousInit() {
-	comp->SetClosedLoopControl(true);
+	_compressor->SetClosedLoopControl(true);
 }
 
 // ================================================================
@@ -186,7 +184,7 @@ void Robot::AutonomousPeriodic() {
 // ================================================================
 
 void Robot::TeleopInit() {
-	comp->SetClosedLoopControl(true);
+	_compressor->SetClosedLoopControl(true);
 }
 
 // ================================================================
@@ -205,7 +203,7 @@ void Robot::TestPeriodic() {
 void Robot::DeviceInitialization() {
 	//CameraServer::GetInstance()->StartAutomaticCapture();
 
-	comp = new frc::Compressor(0);
+	_compressor = new frc::Compressor(0);
 
 	_insol = new frc::Solenoid(0);
 	_outsol = new frc::Solenoid(1);
