@@ -79,7 +79,7 @@ void Robot::RobotInit() {
 void Robot::RobotPeriodic() {
 	if (navx != nullptr) {
 		auto yawOff = frc::SmartDashboard::GetNumber("Yaw Offset", 0);
-		frc::SmartDashboard::PutNumber("Yaw", Robot::navx->GetYaw() + yawOff);
+		frc::SmartDashboard::PutNumber("Yaw", navx->GetYaw() + yawOff);
 	}
 
 	frc::Color detectedColor = m_colorSensor.GetColor();
