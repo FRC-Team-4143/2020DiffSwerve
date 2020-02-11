@@ -43,14 +43,14 @@ constexpr static double kNeutralDeadband = 0.001;
 
 // PID constants                           kP   kI   kD    kF   Iz  PeakOut
 constexpr static Gains kGains_Velocit = { 0.2, 0.0, 0.0, 0.05, 300, 0.50 };
-constexpr static Gains kGains_Turning = { 0.1, 0.0, 0.0, 0.00, 200, 0.25 };
+constexpr static Gains kGains_Turning = { 0.8, 0.0, 0.0, 0.00, 200, 0.25 };
 
 const static int kSlot_Turning = SLOT_1;
 const static int kSlot_Velocit = SLOT_2;
 
 // ================================================================
 
-TalonFXDiffSwerveModule::TalonFXDiffSwerveModule(int masterId, int slaveId, std::string configName, CANCoder* headingSensor)
+TalonFXDiffSwerveModule::TalonFXDiffSwerveModule(int masterId, int slaveId, std::string configName, CANCoder* headingSensor, bool invert)
 	: _master(masterId),
 	_slave(slaveId),
 	_configName(configName),
@@ -63,7 +63,7 @@ TalonFXDiffSwerveModule::TalonFXDiffSwerveModule(int masterId, int slaveId, std:
 	_lastPow = 0;
 	_inverse = 1;
 
-	ConfigMotors();
+	ConfigMotors(invert);
 }
 
 // ================================================================
@@ -81,6 +81,7 @@ void TalonFXDiffSwerveModule::SetWheelOffset() {
 	auto prefs = frc::Preferences::GetInstance();
 	prefs->PutDouble(_configName, steerPosition);
 	SetOffset(steerPosition);
+
 }
 
 // ================================================================
@@ -96,7 +97,7 @@ void TalonFXDiffSwerveModule::LoadWheelOffset() {
 void TalonFXDiffSwerveModule::SetDriveSpeed(float speed) {
 	_lastPow = speed;
 
-	constexpr int MAX_RPM = 1000;
+	constexpr int MAX_RPM = 4000;
 	double target_RPM = speed * MAX_RPM; // +- MAX_RPM
 	auto target_unitsPer100ms = target_RPM * kSensorUnitsPerRotation / (60 * 10.0);
 
@@ -134,7 +135,7 @@ double TalonFXDiffSwerveModule::SetSteerDrive(double x, double y, double twist, 
 	}
 
 	setpoint = -setpoint;
-	SetSteerSetpoint(setpoint + _offset);
+		SetSteerSetpoint(setpoint + (_offset));
 
 	auto power = sqrt(pow(BP, 2) + pow(CP, 2));
 
@@ -172,16 +173,17 @@ bool TalonFXDiffSwerveModule::InDeadZone(double value) {
 
 // ================================================================
 
-void TalonFXDiffSwerveModule::ConfigMotors() {
+void TalonFXDiffSwerveModule::ConfigMotors(bool invert) {
 	_master.ConfigFactoryDefault();
 	_slave.ConfigFactoryDefault();
 
 	_headingSensor->ConfigFactoryDefault();
+	_headingSensor->SetStatusFramePeriod(CANCoderStatusFrame_SensorData, 5,20);
 
 	_master.Set(ControlMode::PercentOutput, 0);
 	_slave.Set(ControlMode::PercentOutput, 0);
 
-	constexpr double MAX_CURRENT = 10.0;
+	constexpr double MAX_CURRENT = 30.0;
 
 	SupplyCurrentLimitConfiguration supply(true, MAX_CURRENT, MAX_CURRENT, 10);
 	_slave.ConfigSupplyCurrentLimit(supply);
@@ -193,7 +195,7 @@ void TalonFXDiffSwerveModule::ConfigMotors() {
 
 	_slave.SetInverted(true);
 	_slave.SetSensorPhase(true);
-	_master.SetInverted(false);
+	_master.SetInverted(invert);
 	_master.SetSensorPhase(true);
 
 	// other side is quad
@@ -306,7 +308,7 @@ void TalonFXDiffSwerveModule::SetOffset(float offset) {
 // ================================================================
 
 void TalonFXDiffSwerveModule::SetSteerSetpoint(float setpoint) {
-	float currentPosition = GetSteerPosition() / kCANCoderUnitsPerRotation;
+	float currentPosition = _headingSensor->GetPosition() / kCANCoderUnitsPerRotation;
 	int turns = trunc(currentPosition);
 	float currentAngle = currentPosition - turns;
 

@@ -37,8 +37,8 @@ void CrabDrive::Execute() {
 	}
 	//y *= (y < 0 ? -y: y);
 
-	//Robot::driveTrain->Crab(z, -y, x, true);
-	Robot::driveTrain->Crab(z, x, y, true);
+	Robot::driveTrain->Crab(-z, -y, x, true);
+	//Robot::driveTrain->Crab(z, x, y, true);
 }
 
 // ==========================================================================

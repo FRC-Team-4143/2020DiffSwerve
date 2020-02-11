@@ -64,7 +64,7 @@ void Robot::RobotInit() {
 	frc::SmartDashboard::PutNumber("Yaw Offset", 0);
 
 	driveTrain->LoadWheelOffsets();
-	driveTrain->SetWheelbase(14, 14);
+	driveTrain->SetWheelbase(20.5, 26);
 
 	m_colorMatcher.AddColorMatch(kBlueTarget);
 	m_colorMatcher.AddColorMatch(kGreenTarget);
@@ -295,10 +295,10 @@ void Robot::DeviceInitialization() {
 	_rearLeftPot = new CANCoder(2);
 	_rearRightPot = new CANCoder(3);
 
-	frontLeftModule = new TalonFXDiffSwerveModule(21, 22, Constants::FL_POS_NAME, _frontLeftPot);
-	frontRightModule = new TalonFXDiffSwerveModule(27, 28, Constants::FR_POS_NAME, _frontRightPot);
-	rearLeftModule = new TalonFXDiffSwerveModule(23, 24, Constants::RL_POS_NAME, _rearLeftPot);
-	rearRightModule = new TalonFXDiffSwerveModule(25, 26, Constants::RR_POS_NAME, _rearRightPot);
+	frontLeftModule = new TalonFXDiffSwerveModule(21, 22, Constants::FL_POS_NAME, _frontLeftPot, false);
+	frontRightModule = new TalonFXDiffSwerveModule(27, 28, Constants::FR_POS_NAME, _frontRightPot, false);
+	rearLeftModule = new TalonFXDiffSwerveModule(23, 24, Constants::RL_POS_NAME, _rearLeftPot, false);
+	rearRightModule = new TalonFXDiffSwerveModule(25, 26, Constants::RR_POS_NAME, _rearRightPot, false);
 
 #elif USING_DIFFSWERVE_TALON_SRX
 

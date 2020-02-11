@@ -6,7 +6,7 @@
 class TalonFXDiffSwerveModule : public ISwerveModule {
 public:
 
-	TalonFXDiffSwerveModule(int masterId, int slaveId, std::string configName, CANCoder* headingSensor);
+	TalonFXDiffSwerveModule(int masterId, int slaveId, std::string configName, CANCoder* headingSensor, bool invert);
 
 	// ISwerveModule methods
 	virtual void SetGeometry(double x, double y, double maxradius) override;
@@ -34,7 +34,7 @@ private:
 
 	static bool InDeadZone(double value);
 
-	void ConfigMotors();
+	void ConfigMotors(bool invert);
 	void ConfigureNeutralOnLOS(bool enable);
 	void SetOffset(float offset);
 	void SetSteerSetpoint(float setpoint);

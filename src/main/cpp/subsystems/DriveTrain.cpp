@@ -17,7 +17,7 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain") {
 	rearLeftModule = Robot::rearLeftModule;
 	rearRightModule = Robot::rearRightModule;
 
-	SetWheelbase(14, 14);
+	SetWheelbase(20.5, 26);
 	yaw = 0;
 	joystickAngle = 0;
 	fieldCentricMode = false;
