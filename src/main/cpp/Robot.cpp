@@ -110,18 +110,9 @@ void Robot::RobotPeriodic() {
 	frc::SmartDashboard::PutNumber("Confidence", confidence);
 	frc::SmartDashboard::PutString("ColorDetected", colorString);
 
-	if (oi->GetButtonY()) {
-		LOG("sol out");
-		_insol->Set(false);
-		_outsol->Set(true);
-	}
-	else if (oi->GetButtonA()) {
-		LOG("sol in");
-		_outsol->Set(false);
-		_insol->Set(true);
-	}
+	
 
-	if (oi->GetButtonX() || oi->GetLeftBumper()) {
+	/*if (oi->GetButtonX() || oi->GetLeftBumper()) {
 		clampMotor->SetPercentPower(-.3);
 	}
 	else if (oi->GetButtonB() || oi->GetRightBumper()) {
@@ -129,7 +120,51 @@ void Robot::RobotPeriodic() {
 	}
 	else {
 		clampMotor->SetPercentPower(0);
+	}*/
+	
+	//Controls elevator
+	if (oi->GetButtonY()) {
+		//elevator up code
 	}
+	else if (oi->GetButtonA()) {
+		//elevator down code
+	}
+	//Climber Pneumatics in/out
+	if (oi->GetButtonX()) {
+		LOG("sol out");
+		_insol1->Set(false);
+		_outsol1->Set(true);
+	}
+	else  {
+		LOG("sol in");
+		_outsol1->Set(false);
+		_insol1->Set(true);
+	}
+
+	//Pickup in/out
+	if (oi->GetRightBumper()) {
+		_outsol2->Set(false);
+		_insol2->Set(true);
+	}
+	else {
+		_outsol2->Set(true);
+		_insol2->Set(false);
+	}
+	
+	//Runs shooter, feeder, and vision code
+	if (oi->GetButtonB()) {
+		//run shooter, feeder, and vision
+	}
+
+	//Controls on Bar
+	if (oi->GetButtonBack()) {
+		//Moves left on Bar
+	}
+	if (oi->GetButtonStart()) {
+		//Moves right on Bar
+	}
+
+	//
 
 	if (frc::RobotController::GetUserButton() == 1 && _counter == 0) {
 		driveTrain->SetWheelOffsets();
@@ -205,9 +240,10 @@ void Robot::DeviceInitialization() {
 
 	_compressor = new frc::Compressor(0);
 
-	_insol = new frc::Solenoid(0);
-	_outsol = new frc::Solenoid(1);
-
+	_insol1 = new frc::Solenoid(0);
+	_outsol2 = new frc::Solenoid(1);
+	_insol1 = new frc::Solenoid(2);
+	_outsol2 = new frc::Solenoid(3);
 #if DIFFSWERVE
 
 #if USING_DIFFSWERVE_TALON_FX
