@@ -26,7 +26,7 @@
 
 #define NAVX_MXP 0 // 0 for Comp Bot
 
-#define CLAMP 12
+//#define CLAMP 12
 
 //======= System Definition =======//
 
@@ -44,7 +44,7 @@ ISwerveModule* Robot::frontRightModule = nullptr;
 ISwerveModule* Robot::rearLeftModule = nullptr;
 ISwerveModule* Robot::rearRightModule  = nullptr;
 
-IMultiController* Robot::clampMotor = nullptr;
+//IMultiController* Robot::clampMotor = nullptr;
 
 AHRS* Robot::navx = nullptr;
 
@@ -132,23 +132,23 @@ void Robot::RobotPeriodic() {
 	//Climber Pneumatics in/out
 	if (oi->GetButtonX()) {
 		LOG("sol out");
-		_insol1->Set(false);
-		_outsol1->Set(true);
+	//	_insol1->Set(false);
+	//	_outsol1->Set(true);
 	}
 	else  {
 		LOG("sol in");
-		_outsol1->Set(false);
-		_insol1->Set(true);
+	//	_outsol1->Set(false);
+	//	_insol1->Set(true);
 	}
 
 	//Pickup in/out
 	if (oi->GetRightBumper()) {
-		_outsol2->Set(false);
-		_insol2->Set(true);
+	//	_outsol2->Set(false);
+	//	_insol2->Set(true);
 	}
 	else {
-		_outsol2->Set(true);
-		_insol2->Set(false);
+	//	_outsol2->Set(true);
+	//	_insol2->Set(false);
 	}
 	
 	//Runs shooter, feeder, and vision code
@@ -240,10 +240,10 @@ void Robot::DeviceInitialization() {
 
 	_compressor = new frc::Compressor(0);
 
-	_insol1 = new frc::Solenoid(0);
-	_outsol2 = new frc::Solenoid(1);
-	_insol1 = new frc::Solenoid(2);
-	_outsol2 = new frc::Solenoid(3);
+//	_insol1 = new frc::Solenoid(0);
+//	_outsol2 = new frc::Solenoid(1);
+//	_insol1 = new frc::Solenoid(2);
+//	_outsol2 = new frc::Solenoid(3);
 #if DIFFSWERVE
 
 #if USING_DIFFSWERVE_TALON_FX
@@ -301,7 +301,7 @@ void Robot::DeviceInitialization() {
 
 	//======= Subsystem Motor Initialization =======//
 
-	clampMotor = new TalonController(CLAMP);
+	//clampMotor = new TalonController(CLAMP);
 
 	//======= Sensor and Camera Initialization =======//
 

@@ -97,7 +97,7 @@ void TalonFXDiffSwerveModule::LoadWheelOffset() {
 void TalonFXDiffSwerveModule::SetDriveSpeed(float speed) {
 	_lastPow = speed;
 
-	constexpr int MAX_RPM = 4000;
+	constexpr int MAX_RPM = 3000;
 	double target_RPM = speed * MAX_RPM; // +- MAX_RPM
 	auto target_unitsPer100ms = target_RPM * kSensorUnitsPerRotation / (60 * 10.0);
 
@@ -183,7 +183,7 @@ void TalonFXDiffSwerveModule::ConfigMotors(bool invert) {
 	_master.Set(ControlMode::PercentOutput, 0);
 	_slave.Set(ControlMode::PercentOutput, 0);
 
-	constexpr double MAX_CURRENT = 30.0;
+	constexpr double MAX_CURRENT = 20.0;
 
 	SupplyCurrentLimitConfiguration supply(true, MAX_CURRENT, MAX_CURRENT, 10);
 	_slave.ConfigSupplyCurrentLimit(supply);
