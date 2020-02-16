@@ -5,6 +5,7 @@
 #include "Modules/ISwerveModule.h"
 #include "subsystems/DriveTrain.h"
 #include "subsystems/GyroSub.h"
+#include "subsystems/IPickUp.h"
 #include "subsystems/VisionBridgeSub.h"
 #include "OI.h"
 
@@ -16,6 +17,7 @@
 
 #include <AHRS.h>
 #include <ctre/Phoenix.h>
+#include <memory>
 
 #define DIFFSWERVE 1
 
@@ -58,6 +60,8 @@ public:
 	static ISwerveModule* rearRightModule;
 
 //======= Subsystem Motors and Sensors =======//
+
+	static std::unique_ptr<IPickUp> pickUp;
 
 	static IMultiController* clampMotor;
 

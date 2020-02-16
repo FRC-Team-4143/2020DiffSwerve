@@ -19,12 +19,20 @@
 #include "Modules/SwerveModule.h"
 #include "Modules/TalonFXDiffSwerveModule.h"
 
+#include "subsystems/PickUp.h"
+
 // If not using DIFFSWERVE, must set ONE of the following to 1:
 #define USING_SPARKMAX_DRIVE 1
 #define USING_VICTOR_DRIVE 0 // 1 for Comp Bot
 #define USING_TALON_DRIVE 0
 
 #define NAVX_MXP 0 // 0 for Comp Bot
+
+// PCM channels for pickup solenoids
+constexpr int PICKUP_SOL1_FWD = 0;
+constexpr int PICKUP_SOL1_REV = 1;
+constexpr int PICKUP_SOL2_FWD = 2;
+constexpr int PICKUP_SOL2_REV = 3;
 
 //#define CLAMP 12
 
@@ -43,6 +51,8 @@ ISwerveModule* Robot::frontLeftModule = nullptr;
 ISwerveModule* Robot::frontRightModule = nullptr;
 ISwerveModule* Robot::rearLeftModule = nullptr;
 ISwerveModule* Robot::rearRightModule  = nullptr;
+
+std::unique_ptr<IPickUp> Robot::pickUp;
 
 //IMultiController* Robot::clampMotor = nullptr;
 
@@ -300,6 +310,8 @@ void Robot::DeviceInitialization() {
 #endif // DIFFSWERVE
 
 	//======= Subsystem Motor Initialization =======//
+
+	pickUp = std::make_unique<PickUp>(PICKUP_SOL1_FWD, PICKUP_SOL1_REV, PICKUP_SOL2_FWD, PICKUP_SOL2_REV);
 
 	//clampMotor = new TalonController(CLAMP);
 
