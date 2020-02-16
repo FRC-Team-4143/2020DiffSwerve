@@ -29,6 +29,9 @@
 
 #define NAVX_MXP 0 // 0 for Comp Bot
 
+//CAN IDs for PickUp Subsystem
+constexpr int PICKUP_INTAKE_CAN = 10; 
+
 // PCM channels for pickup solenoids
 constexpr int PICKUP_SOL1_FWD = 0;
 constexpr int PICKUP_SOL1_REV = 1;
@@ -287,7 +290,7 @@ void Robot::DeviceInitialization() {
 
 	//======= Subsystem Motor Initialization =======//
 
-	pickUp = std::make_unique<PickUp>(PICKUP_SOL1_FWD, PICKUP_SOL1_REV, PICKUP_SOL2_FWD, PICKUP_SOL2_REV);
+	pickUp = std::make_unique<PickUp>(PICKUP_SOL1_FWD, PICKUP_SOL1_REV, PICKUP_SOL2_FWD, PICKUP_SOL2_REV, PICKUP_INTAKE_CAN);
 	climber = std::make_unique<Climber>(CLIMBER_SOL1_FWD, CLIMBER_SOL1_REV, CLIMBER_SOL2_FWD, CLIMBER_SOL2_REV, CLIMBER_BRAKE_FWD);
 
 	//clampMotor = new TalonController(CLAMP);
