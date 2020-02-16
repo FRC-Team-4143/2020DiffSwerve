@@ -5,6 +5,7 @@
 
 RetractPickUp::RetractPickUp()
 :	frc::Command("Retract PickUp") {
+	Requires(Robot::pickUp.get());
 }
 
 // ==========================================================================

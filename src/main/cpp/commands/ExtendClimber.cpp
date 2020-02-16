@@ -5,6 +5,7 @@
 
 ExtendClimber::ExtendClimber()
 :	frc::Command("Extend Climber") {
+	Requires(Robot::climber.get());
 }
 
 // ==========================================================================

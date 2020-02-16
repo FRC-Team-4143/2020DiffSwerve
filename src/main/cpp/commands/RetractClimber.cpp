@@ -5,6 +5,7 @@
 
 RetractClimber::RetractClimber()
 :	frc::Command("Retract Climber") {
+	Requires(Robot::climber.get());
 }
 
 // ==========================================================================
