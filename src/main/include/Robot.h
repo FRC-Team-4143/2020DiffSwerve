@@ -6,6 +6,7 @@
 #include "subsystems/DriveTrain.h"
 #include "subsystems/GyroSub.h"
 #include "subsystems/IPickUp.h"
+#include "subsystems/IClimber.h"
 #include "subsystems/VisionBridgeSub.h"
 #include "OI.h"
 
@@ -62,6 +63,7 @@ public:
 //======= Subsystem Motors and Sensors =======//
 
 	static std::unique_ptr<IPickUp> pickUp;
+	static std::unique_ptr<IClimber> climber;
 
 	static IMultiController* clampMotor;
 

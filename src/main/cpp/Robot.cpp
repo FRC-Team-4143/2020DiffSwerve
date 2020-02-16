@@ -20,6 +20,7 @@
 #include "Modules/TalonFXDiffSwerveModule.h"
 
 #include "subsystems/PickUp.h"
+#include "subsystems/Climber.h"
 
 // If not using DIFFSWERVE, must set ONE of the following to 1:
 #define USING_SPARKMAX_DRIVE 1
@@ -33,6 +34,12 @@ constexpr int PICKUP_SOL1_FWD = 0;
 constexpr int PICKUP_SOL1_REV = 1;
 constexpr int PICKUP_SOL2_FWD = 2;
 constexpr int PICKUP_SOL2_REV = 3;
+
+// PCM channels for climber solenoids
+constexpr int CLIMBER_SOL1_FWD = 4;
+constexpr int CLIMBER_SOL1_REV = 5;
+constexpr int CLIMBER_SOL2_FWD = 6;
+constexpr int CLIMBER_SOL2_REV = 7;
 
 //#define CLAMP 12
 
@@ -53,6 +60,7 @@ ISwerveModule* Robot::rearLeftModule = nullptr;
 ISwerveModule* Robot::rearRightModule  = nullptr;
 
 std::unique_ptr<IPickUp> Robot::pickUp;
+std::unique_ptr<IClimber> Robot::climber;
 
 //IMultiController* Robot::clampMotor = nullptr;
 
@@ -312,6 +320,7 @@ void Robot::DeviceInitialization() {
 	//======= Subsystem Motor Initialization =======//
 
 	pickUp = std::make_unique<PickUp>(PICKUP_SOL1_FWD, PICKUP_SOL1_REV, PICKUP_SOL2_FWD, PICKUP_SOL2_REV);
+	climber = std::make_unique<Climber>(CLIMBER_SOL1_FWD, CLIMBER_SOL1_REV, CLIMBER_SOL2_FWD, CLIMBER_SOL2_REV);
 
 	//clampMotor = new TalonController(CLAMP);
 
