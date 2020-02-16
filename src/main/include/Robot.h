@@ -13,7 +13,6 @@
 #include <frc/AnalogInput.h>
 #include <frc/commands/Command.h>
 #include <frc/Compressor.h>
-#include <frc/Solenoid.h>
 #include <frc/TimedRobot.h>
 
 #include <AHRS.h>
@@ -104,11 +103,6 @@ private:
 #endif
 
 	frc::Compressor* _compressor;
-
-//	frc::Solenoid* _outsol1;
-//	frc::Solenoid* _insol1;
-//	frc::Solenoid* _outsol2;
-//	frc::Solenoid* _insol2;
 
 	int _counter = 0;
 

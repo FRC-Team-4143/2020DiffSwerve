@@ -1,5 +1,8 @@
 #include "OI.h"
 #include "commands/ExtendPickUp.h"
+#include "commands/RetractPickUp.h"
+#include "commands/ExtendClimber.h"
+#include "commands/RetractClimber.h"
 #include "commands/SetWheelOffsets.h"
 #include "commands/ZeroYaw.h"
 #include "Modules/Constants.h"
@@ -35,6 +38,10 @@ OI::OI() {
 
 	(new frc::JoystickButton(_driverJoystick, JOYSTICK_BUTTON_LEFT))->ToggleWhenPressed(_crabDrive);
 	(new frc::JoystickButton(_driverJoystick, JOYSTICK_BUTTON_RB))->WhenPressed(new ExtendPickUp());
+	(new frc::JoystickButton(_driverJoystick, JOYSTICK_BUTTON_LB))->WhenPressed(new RetractPickUp());
+	(new frc::JoystickButton(_driverJoystick, JOYSTICK_BUTTON_X))->WhenPressed(new ExtendClimber());
+	(new frc::JoystickButton(_driverJoystick, JOYSTICK_BUTTON_Y))->WhenPressed(new RetractClimber());
+
 }
 
 // ==========================================================================
