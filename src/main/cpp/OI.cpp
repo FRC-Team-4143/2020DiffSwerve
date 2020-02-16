@@ -1,4 +1,5 @@
 #include "OI.h"
+#include "commands/ExtendPickUp.h"
 #include "commands/SetWheelOffsets.h"
 #include "commands/ZeroYaw.h"
 #include "Modules/Constants.h"
@@ -33,6 +34,7 @@ OI::OI() {
 	frc::SmartDashboard::PutData("Zero Yaw", new ZeroYaw());
 
 	(new frc::JoystickButton(_driverJoystick, JOYSTICK_BUTTON_LEFT))->ToggleWhenPressed(_crabDrive);
+	(new frc::JoystickButton(_driverJoystick, JOYSTICK_BUTTON_RB))->WhenPressed(new ExtendPickUp());
 }
 
 // ==========================================================================
