@@ -12,6 +12,9 @@ public:
 
 	virtual void Extend() = 0;
 	virtual void Retract() = 0;
+	virtual void Intake() = 0;
+	virtual void StopIntake() = 0;
+	virtual void RevIntake() = 0;
 };
 
 // ==========================================================================
