@@ -5,6 +5,7 @@
 
 ExtendPickUp::ExtendPickUp()
 :	frc::Command("Extend PickUp") {
+	Requires(Robot::pickUp.get());
 }
 
 // ==========================================================================
