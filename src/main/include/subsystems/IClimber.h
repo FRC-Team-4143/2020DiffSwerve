@@ -12,6 +12,7 @@ public:
 
 	virtual void Extend() = 0;
 	virtual void Retract() = 0;
+	virtual void Brake() = 0;
 };
 
 // ==========================================================================

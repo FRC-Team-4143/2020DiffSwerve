@@ -1,38 +1,38 @@
-#include "commands/RetractClimber.h"
+#include "commands/EngageBrake.h"
 #include "Robot.h"
 
 // ==========================================================================
 
-RetractClimber::RetractClimber()
-:	frc::Command("Retract Climber") {
+EngageBrake::EngageBrake()
+:	frc::Command("Engage Brake") {
 	Requires(Robot::climber.get());
 }
 
 // ==========================================================================
 
-void RetractClimber::Initialize() {
+void EngageBrake::Initialize() {
 }
 
 // ==========================================================================
 
-void RetractClimber::Execute() {
-	Robot::climber->Retract();
+void EngageBrake::Execute() {
+	Robot::climber->Brake();
 }
 
 // ==========================================================================
 
-bool RetractClimber::IsFinished() {
+bool EngageBrake::IsFinished() {
 	return true;
 }
 
 // ==========================================================================
 
-void RetractClimber::End() {
+void EngageBrake::End() {
 }
 
 // ==========================================================================
 
-void RetractClimber::Interrupted() {
+void EngageBrake::Interrupted() {
 	End();
 }
 

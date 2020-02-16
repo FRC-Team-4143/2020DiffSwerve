@@ -40,6 +40,7 @@ constexpr int CLIMBER_SOL1_FWD = 4;
 constexpr int CLIMBER_SOL1_REV = 5;
 constexpr int CLIMBER_SOL2_FWD = 6;
 constexpr int CLIMBER_SOL2_REV = 7;
+constexpr int CLIMBER_BRAKE_FWD = 8; //BRAKE SOLENOID
 
 //#define CLAMP 12
 
@@ -287,7 +288,7 @@ void Robot::DeviceInitialization() {
 	//======= Subsystem Motor Initialization =======//
 
 	pickUp = std::make_unique<PickUp>(PICKUP_SOL1_FWD, PICKUP_SOL1_REV, PICKUP_SOL2_FWD, PICKUP_SOL2_REV);
-	climber = std::make_unique<Climber>(CLIMBER_SOL1_FWD, CLIMBER_SOL1_REV, CLIMBER_SOL2_FWD, CLIMBER_SOL2_REV);
+	climber = std::make_unique<Climber>(CLIMBER_SOL1_FWD, CLIMBER_SOL1_REV, CLIMBER_SOL2_FWD, CLIMBER_SOL2_REV, CLIMBER_BRAKE_FWD);
 
 	//clampMotor = new TalonController(CLAMP);
 

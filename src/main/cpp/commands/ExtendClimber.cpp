@@ -16,7 +16,7 @@ void ExtendClimber::Initialize() {
 // ==========================================================================
 
 void ExtendClimber::Execute() {
-	Robot::pickUp->Extend();
+	Robot::climber->Extend();
 }
 
 // ==========================================================================
