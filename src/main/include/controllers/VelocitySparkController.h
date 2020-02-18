@@ -2,6 +2,8 @@
 #include "controllers/IVelocityMultiController.h"
 #include <rev/CANSparkMax.h>
 
+// ================================================================
+
 class VelocitySparkController : public IVelocityMultiController {
 public:
 
@@ -24,3 +26,5 @@ private:
 	rev::CANPIDController _pidController;
 	rev::CANEncoder _encoder;
 };
+
+// ================================================================

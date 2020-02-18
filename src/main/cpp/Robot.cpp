@@ -233,7 +233,7 @@ void Robot::DeviceInitialization() {
 #if DIFFSWERVE
 
 #if USING_DIFFSWERVE_TALON_FX
-#elif USING_DIFFSWERVE_TALON_SRX
+#elif USING_DIFFSWERVE_SPARK
 	_driveTrainFrontLeftSteer = new VelocitySparkController(5);
 	_driveTrainFrontLeftDrive = new VelocitySparkController(6);
 	_driveTrainFrontRightSteer = new VelocitySparkController(3);
@@ -325,7 +325,7 @@ void Robot::DeviceInitialization() {
 	rearLeftModule = new TalonFXDiffSwerveModule(23, 24, Constants::RL_POS_NAME, _rearLeftPot, false);
 	rearRightModule = new TalonFXDiffSwerveModule(25, 26, Constants::RR_POS_NAME, _rearRightPot, false);
 
-#elif USING_DIFFSWERVE_TALON_SRX
+#elif USING_DIFFSWERVE_SPARK
 
 	LOG("DeviceInit Analog");
 	_frontLeftPot = new frc::AnalogInput(2);

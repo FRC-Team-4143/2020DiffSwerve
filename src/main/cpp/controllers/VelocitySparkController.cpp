@@ -15,12 +15,16 @@
 
 #define ENCODER_COUNTS_PER_TURN 42
 
+// ================================================================
+
 //VelocitySparkController::VelocitySparkController(rev::CANSparkMax* motor)
 //:	_pidController(motor->GetPIDController()),
 //	_encoder(motor->GetEncoder()) {
 //	_motor = motor;
 //	ConfigPID();
 //}
+
+// ================================================================
 
 VelocitySparkController::VelocitySparkController(int canId)
 	: _motor{canId, rev::CANSparkMax::MotorType::kBrushless},
@@ -29,13 +33,19 @@ VelocitySparkController::VelocitySparkController(int canId)
 	ConfigPID();
 }
 
+// ================================================================
+
 void VelocitySparkController::SetPercentPower(double value) {
 	LOG("The motor controller is not configured for PercentOutput.");
 }
 
+// ================================================================
+
 double VelocitySparkController::GetEncoderPosition() {
 	return _encoder.GetVelocity();
 }
+
+// ================================================================
 
 void VelocitySparkController::SetVelocity(double value) {
 	//if (fabs(value) > .001) {
@@ -45,6 +55,8 @@ void VelocitySparkController::SetVelocity(double value) {
 	_pidController.SetReference(value, rev::ControlType::kVelocity);
 	//_motor->Set(value/5000.);
 }
+
+// ================================================================
 
 void VelocitySparkController::ConfigPID() {
 	kMaxVel = 5500;
@@ -67,3 +79,5 @@ void VelocitySparkController::ConfigPID() {
 	_pidController.SetSmartMotionMaxAccel(kMaxAcc);
 	_pidController.SetSmartMotionAllowedClosedLoopError(kAllErr);
 }
+
+// ================================================================

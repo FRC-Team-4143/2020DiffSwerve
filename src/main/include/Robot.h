@@ -23,7 +23,7 @@
 
 // If using DIFFSWERVE, must set ONE of the following to 1:
 #define USING_DIFFSWERVE_TALON_FX 1
-#define USING_DIFFSWERVE_TALON_SRX 0
+#define USING_DIFFSWERVE_SPARK 0
 
 class Robot : public frc::TimedRobot {
 public:
@@ -34,7 +34,7 @@ public:
 
 #if USING_DIFFSWERVE_TALON_FX
 	typedef CANCoder DRIVE_POSITION_ENCODER_TYPE;
-#elif USING_DIFFSWERVE_TALON_SRX
+#elif USING_DIFFSWERVE_SPARK
 	typedef frc::AnalogInput DRIVE_POSITION_ENCODER_TYPE;
 #else
 #error Unsupported configuration. Check USING_DIFFSWERVE_* #defines.

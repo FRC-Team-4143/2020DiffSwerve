@@ -11,6 +11,8 @@
 
 //const float DEAD_ZONE = 0.15;
 
+// ================================================================
+
 DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain") {
 	frontLeftModule = Robot::frontLeftModule;
 	frontRightModule = Robot::frontRightModule;
@@ -38,15 +40,15 @@ void DriveTrain::SetWheelbase(double width, double length, double xOffset, doubl
 		Y = length;
 	}
 
-	double halfWidth = X / 2;
-	double halfLength = Y / 2;
+	auto halfWidth = X / 2.0;
+	auto halfLength = Y / 2.0;
 
-	auto maxradius = std::sqrt(pow(halfWidth + fabs(xOffset), 2) + pow(halfLength + fabs(yOffset), 2));
+	auto maxRadius = std::sqrt(pow(halfWidth + fabs(xOffset), 2) + pow(halfLength + fabs(yOffset), 2));
 
-	frontLeftModule->SetGeometry(halfWidth - xOffset, -halfLength - yOffset, maxradius);
-	frontRightModule->SetGeometry(halfWidth - xOffset, halfLength - yOffset, maxradius);
-	rearLeftModule->SetGeometry(-halfWidth - xOffset, -halfLength - yOffset, maxradius);
-	rearRightModule->SetGeometry(-halfWidth - xOffset, halfLength - yOffset, maxradius);
+	frontLeftModule->SetGeometry(-halfWidth - xOffset, halfLength - yOffset, maxRadius);
+	frontRightModule->SetGeometry(halfWidth - xOffset, halfLength - yOffset, maxRadius);
+	rearLeftModule->SetGeometry(-halfWidth - xOffset, -halfLength - yOffset, maxRadius);
+	rearRightModule->SetGeometry(halfWidth - xOffset, -halfLength - yOffset, maxRadius);
 }
 
 // ================================================================
@@ -178,13 +180,13 @@ void DriveTrain::Crab(float twist, float y, float x, bool operatorControl) {
 	speeds[2] = rearLeftModule->SetSteerDrive(x, y, twist, operatorControl);
 	speeds[3] = rearRightModule->SetSteerDrive(x, y, twist, operatorControl);
 
-	double maxspeed = *std::max_element(speeds, speeds + 4);
+	auto maxSpeed = *std::max_element(speeds, speeds + 4);
 
-	if (maxspeed > 1) {
-		frontLeftModule->SetDriveSpeed(speeds[0]/maxspeed);
-		frontRightModule->SetDriveSpeed(speeds[1]/maxspeed);
-		rearLeftModule->SetDriveSpeed(speeds[2]/maxspeed);
-		rearRightModule->SetDriveSpeed(speeds[3]/maxspeed);
+	if (maxSpeed > 1) {
+		frontLeftModule->SetDriveSpeed(speeds[0] / maxSpeed);
+		frontRightModule->SetDriveSpeed(speeds[1] / maxSpeed);
+		rearLeftModule->SetDriveSpeed(speeds[2] / maxSpeed);
+		rearRightModule->SetDriveSpeed(speeds[3] / maxSpeed);
 	}
 	else {
 		frontLeftModule->SetDriveSpeed(speeds[0]);
@@ -206,8 +208,8 @@ void DriveTrain::Crab(float twist, float y, float x, bool operatorControl) {
 void DriveTrain::FieldCentricCrab(float twist, float y, float x, bool operatorControl) {
 	fieldCentricMode = true;
 
-	float FWD = y;
-	float STR = x;
+	auto FWD = y;
+	auto STR = x;
 
 	auto robotangle = Robot::gyroSub->PIDGet() * pi / 180;
 
@@ -236,7 +238,7 @@ double DriveTrain::GyroRotate() {
 		desiredangle = 0;
 	}
 
-	float twist = desiredangle - yaw;
+	auto twist = desiredangle - yaw;
 	while (twist > 180.0) {
 		twist -= 360.0;
 	}
