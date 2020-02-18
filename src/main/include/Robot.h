@@ -2,6 +2,7 @@
 #include "controllers/IMultiController.h"
 #include "controllers/IPositionMultiController.h"
 #include "controllers/IVelocityMultiController.h"
+#include "encoders/IPositionEncoder.h"
 #include "Modules/ISwerveModule.h"
 #include "subsystems/DriveTrain.h"
 #include "subsystems/GyroSub.h"
@@ -22,7 +23,8 @@
 #define DIFFSWERVE 1
 
 // If using DIFFSWERVE, must set ONE of the following to 1:
-#define USING_DIFFSWERVE_TALON_FX 1
+#define USING_DIFFSWERVE_TALON_FX 0
+#define USING_DIFFSWERVE_BASIC 1
 #define USING_DIFFSWERVE_SPARK 0
 
 class Robot : public frc::TimedRobot {
@@ -34,6 +36,8 @@ public:
 
 #if USING_DIFFSWERVE_TALON_FX
 	typedef CANCoder DRIVE_POSITION_ENCODER_TYPE;
+#elif USING_DIFFSWERVE_BASIC
+	typedef IPositionEncoder DRIVE_POSITION_ENCODER_TYPE;
 #elif USING_DIFFSWERVE_SPARK
 	typedef frc::AnalogInput DRIVE_POSITION_ENCODER_TYPE;
 #else

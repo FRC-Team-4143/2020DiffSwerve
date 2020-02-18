@@ -11,10 +11,14 @@
 #include "controllers/SteerTalonController.h"
 #include "controllers/TalonSRXController.h"
 #include "controllers/VelocitySparkController.h"
+#include "controllers/VelocityTalonFXController.h"
 #include "controllers/VictorController.h"
+
+#include "encoders/CANCoderPositionEncoder.h"
 
 #include "Modules/Logger.h"
 #include "Modules/Constants.h"
+#include "Modules/BasicDiffSwerveModule.h"
 #include "Modules/DiffSwerveModule.h"
 #include "Modules/SwerveModule.h"
 #include "Modules/TalonFXDiffSwerveModule.h"
@@ -24,7 +28,7 @@
 
 // If not using DIFFSWERVE, must set ONE of the following to 1:
 #define USING_SPARKMAX_DRIVE 1
-#define USING_VICTOR_DRIVE 0 // 1 for Comp Bot
+#define USING_VICTOR_DRIVE 0
 #define USING_TALON_DRIVE 0
 
 #define NAVX_MXP 0 // 0 for Comp Bot
@@ -129,8 +133,6 @@ void Robot::RobotPeriodic() {
 	frc::SmartDashboard::PutNumber("Confidence", confidence);
 	frc::SmartDashboard::PutString("ColorDetected", colorString);
 
-	
-
 	/*if (oi->GetButtonX() || oi->GetLeftBumper()) {
 		clampMotor->SetPercentPower(-.3);
 	}
@@ -153,8 +155,6 @@ void Robot::RobotPeriodic() {
 	if (oi->GetButtonStart()) {
 		//Moves right on Bar
 	}
-
-	//
 
 	if (frc::RobotController::GetUserButton() == 1 && _counter == 0) {
 		driveTrain->SetWheelOffsets();
@@ -233,7 +233,20 @@ void Robot::DeviceInitialization() {
 #if DIFFSWERVE
 
 #if USING_DIFFSWERVE_TALON_FX
+
+#elif USING_DIFFSWERVE_BASIC
+
+	_driveTrainFrontLeftSteer = new VelocityTalonFXController(21);
+	_driveTrainFrontLeftDrive = new VelocityTalonFXController(22);
+	_driveTrainFrontRightSteer = new VelocityTalonFXController(27);
+	_driveTrainFrontRightDrive = new VelocityTalonFXController(28);
+	_driveTrainRearLeftSteer = new VelocityTalonFXController(23);
+	_driveTrainRearLeftDrive = new VelocityTalonFXController(24);
+	_driveTrainRearRightSteer = new VelocityTalonFXController(25);
+	_driveTrainRearRightDrive = new VelocityTalonFXController(26);
+
 #elif USING_DIFFSWERVE_SPARK
+
 	_driveTrainFrontLeftSteer = new VelocitySparkController(5);
 	_driveTrainFrontLeftDrive = new VelocitySparkController(6);
 	_driveTrainFrontRightSteer = new VelocitySparkController(3);
@@ -242,6 +255,7 @@ void Robot::DeviceInitialization() {
 	_driveTrainRearLeftDrive = new VelocitySparkController(8);
 	_driveTrainRearRightSteer = new VelocitySparkController(1);
 	_driveTrainRearRightDrive = new VelocitySparkController(2);
+
 #else
 #error Unsupported configuration. Check USING_DIFFSWERVE_* #defines.
 #endif
@@ -324,6 +338,19 @@ void Robot::DeviceInitialization() {
 	frontRightModule = new TalonFXDiffSwerveModule(27, 28, Constants::FR_POS_NAME, _frontRightPot, false);
 	rearLeftModule = new TalonFXDiffSwerveModule(23, 24, Constants::RL_POS_NAME, _rearLeftPot, false);
 	rearRightModule = new TalonFXDiffSwerveModule(25, 26, Constants::RR_POS_NAME, _rearRightPot, false);
+
+#elif USING_DIFFSWERVE_BASIC
+
+	LOG("DeviceInit CANCoderPositionEncoder");
+	_frontLeftPot = new CANCoderPositionEncoder(1);
+	_frontRightPot = new CANCoderPositionEncoder(4);
+	_rearLeftPot = new CANCoderPositionEncoder(2);
+	_rearRightPot = new CANCoderPositionEncoder(3);
+
+	frontLeftModule = new BasicDiffSwerveModule(_driveTrainFrontLeftDrive, _driveTrainFrontLeftSteer, Constants::FL_POS_NAME, _frontLeftPot);
+	frontRightModule = new BasicDiffSwerveModule(_driveTrainFrontRightDrive, _driveTrainFrontRightSteer, Constants::FR_POS_NAME, _frontRightPot);
+	rearLeftModule = new BasicDiffSwerveModule(_driveTrainRearLeftDrive, _driveTrainRearLeftSteer, Constants::RL_POS_NAME, _rearLeftPot);
+	rearRightModule = new BasicDiffSwerveModule(_driveTrainRearRightDrive, _driveTrainRearRightSteer, Constants::RR_POS_NAME, _rearRightPot);
 
 #elif USING_DIFFSWERVE_SPARK
 
