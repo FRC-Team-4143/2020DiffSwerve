@@ -4,10 +4,9 @@
 
 // ==========================================================================
 
-PickUp::PickUp(int solenoid1ForwardChannel, int solenoid1ReverseChannel, int solenoid2ForwardChannel, int solenoid2ReverseChannel, int intakeCANId)
+PickUp::PickUp(int forwardChannel, int reverseChannel, int intakeCANId)
 :	IPickUp("PickUp") {
-	_solenoid1 = std::make_unique<frc::DoubleSolenoid>(solenoid1ForwardChannel, solenoid1ReverseChannel);
-	_solenoid2 = std::make_unique<frc::DoubleSolenoid>(solenoid2ForwardChannel, solenoid2ReverseChannel);
+	_solenoid = std::make_unique<frc::DoubleSolenoid>(forwardChannel, reverseChannel);
 	_intakeMotor = std::make_unique<VictorController>(intakeCANId);
 }
 
@@ -20,15 +19,13 @@ void PickUp::InitDefaultCommand() {
 // ==========================================================================
 
 void PickUp::Extend() {
-	_solenoid1->Set(frc::DoubleSolenoid::kForward);
-	_solenoid2->Set(frc::DoubleSolenoid::kForward);
+	_solenoid->Set(frc::DoubleSolenoid::kForward);
 }
 
 // ==========================================================================
 
 void PickUp::Retract() {
-	_solenoid1->Set(frc::DoubleSolenoid::kReverse);
-	_solenoid2->Set(frc::DoubleSolenoid::kReverse);
+	_solenoid->Set(frc::DoubleSolenoid::kReverse);
 }
 
 // ==========================================================================
@@ -40,7 +37,7 @@ void PickUp::Intake(float intakeSpeed) {
 // ==========================================================================
 
 void PickUp::StopIntake() {
-	_intakeMotor->SetPercentPower(0);
+	Intake(0);
 }
-// ==========================================================================
 
+// ==========================================================================

@@ -11,7 +11,7 @@
 class PickUp : public IPickUp {
 public:
 
-	PickUp(int solenoid1ForwardChannel, int solenoid1ReverseChannel, int solenoid2ForwardChannel, int solenoid2ReverseChannel, int intakeCANId);
+	PickUp(int forwardChannel, int reverseChannel, int intakeCANId);
 
 	// Subsystem methods
 	virtual void InitDefaultCommand() override;
@@ -24,8 +24,7 @@ public:
 
 private:
 
-	std::unique_ptr<frc::DoubleSolenoid> _solenoid1;
-	std::unique_ptr<frc::DoubleSolenoid> _solenoid2;
+	std::unique_ptr<frc::DoubleSolenoid> _solenoid;
 	std::unique_ptr<IMultiController> _intakeMotor; 
 };
 

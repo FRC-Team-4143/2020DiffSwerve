@@ -1,6 +1,6 @@
 // ==========================================================================
 // ControlPanel class
-// The ControlPanel class implements an IControlPanel subsystem. (Modeled after Climber System)
+// The ControlPanel class implements an IControlPanel subsystem.
 // ==========================================================================
 #pragma once
 #include "subsystems/IControlPanel.h"

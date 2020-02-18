@@ -6,10 +6,10 @@
 
 Shooter::Shooter(int shooterCANId, int turretCANId, int feederCANId, int stirCANId)
 :	IShooter("Shooter") {
-    //_shooter = std::make_unique<TalonFX>(shooterCANId);
-    _turret = std::make_unique<VictorController>(turretCANId);
-    _feeder = std::make_unique<VictorController>(feederCANId);
-    _stir = std::make_unique<VictorController>(stirCANId);
+	//_shooter = std::make_unique<TalonFX>(shooterCANId);
+	_turret = std::make_unique<VictorController>(turretCANId);
+	_feeder = std::make_unique<VictorController>(feederCANId);
+	_stir = std::make_unique<VictorController>(stirCANId);
 }
 
 // ==========================================================================
@@ -35,25 +35,29 @@ void Shooter::TurretStop() {
 void Shooter::TurretRight() {
 	_turret->SetPercentPower(-0.10);
 }
+
 // ==========================================================================
 
 void Shooter::Feed() {
-    //something here
+	//something here
 }
 
 // ==========================================================================
 
 void Shooter::Stir() {
-    _stir->SetPercentPower(0.10);
+	_stir->SetPercentPower(0.10);
 }
+
 // ==========================================================================
 
 void Shooter::StirStop() {
-    _stir->SetPercentPower(0.10);
+	_stir->SetPercentPower(0.10);
 }
+
 // ==========================================================================
 
 void Shooter::Shoot() {
-    _shooter-> SetPercentPower(0);
+	_shooter-> SetPercentPower(0);
 }
+
 // ==========================================================================

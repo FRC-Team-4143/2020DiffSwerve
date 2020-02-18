@@ -2,11 +2,10 @@
 
 // ==========================================================================
 
-Climber::Climber(int solenoid1ForwardChannel, int solenoid1ReverseChannel, int solenoid2ForwardChannel, int solenoid2ReverseChannel, int solenoidBrakeChannel)
+Climber::Climber(int extenderForwardChannel, int extenderReverseChannel, int brakeForwardChannel, int brakeReverseChannel)
 :	IClimber("Climber") {
-	_solenoid1 = std::make_unique<frc::DoubleSolenoid>(solenoid1ForwardChannel, solenoid1ReverseChannel);
-	_solenoid2 = std::make_unique<frc::DoubleSolenoid>(solenoid2ForwardChannel, solenoid2ReverseChannel);
-	_brake = std::make_unique<frc::Solenoid>(solenoidBrakeChannel);
+	_extender = std::make_unique<frc::DoubleSolenoid>(extenderForwardChannel, extenderReverseChannel);
+	_brake = std::make_unique<frc::DoubleSolenoid>(brakeForwardChannel, brakeReverseChannel);
 }
 
 // ==========================================================================
@@ -18,21 +17,25 @@ void Climber::InitDefaultCommand() {
 // ==========================================================================
 
 void Climber::Extend() {
-	_solenoid1->Set(frc::DoubleSolenoid::kForward);
-	_solenoid2->Set(frc::DoubleSolenoid::kForward);
+	_extender->Set(frc::DoubleSolenoid::kForward);
 }
 
 // ==========================================================================
 
 void Climber::Retract() {
-	_solenoid1->Set(frc::DoubleSolenoid::kReverse);
-	_solenoid2->Set(frc::DoubleSolenoid::kReverse);
+	_extender->Set(frc::DoubleSolenoid::kReverse);
 }
 
 // ==========================================================================
 
-void Climber::Brake() {
-	_brake->Set(true);
+void Climber::EngageBrake() {
+	_brake->Set(frc::DoubleSolenoid::kForward);
+}
+
+// ==========================================================================
+
+void Climber::ReleaseBrake() {
+	_brake->Set(frc::DoubleSolenoid::kReverse);
 }
 
 // ==========================================================================

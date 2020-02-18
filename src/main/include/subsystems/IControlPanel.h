@@ -1,6 +1,6 @@
 // ==========================================================================
 // IControlPanel interface
-// The IControlPanel interface represents the functionality of the Control Panel subsystem.(Modeled after Climber System)
+// The IControlPanel interface represents the functionality of the Control Panel subsystem.
 // ==========================================================================
 #pragma once
 #include <frc/commands/Subsystem.h>

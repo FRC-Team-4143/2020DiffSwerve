@@ -16,19 +16,20 @@ public:
 	virtual void InitDefaultCommand() override;
 
 	// IShooter methods
-    virtual void TurretLeft() override;
-    virtual void TurretStop() override;
-    virtual void TurretRight() override;
-    virtual void Feed() override;
-    virtual void Stir() override;
-    virtual void StirStop() override;
-    virtual void Shoot() override;
+	virtual void TurretLeft() override;
+	virtual void TurretStop() override;
+	virtual void TurretRight() override;
+	virtual void Feed() override;
+	virtual void Stir() override;
+	virtual void StirStop() override;
+	virtual void Shoot() override;
+
 private:
+
 	std::unique_ptr<IMultiController> _shooter;
 	std::unique_ptr<IMultiController> _turret;
 	std::unique_ptr<IMultiController> _feeder;
 	std::unique_ptr<IMultiController> _stir;
-
 };
 
 // ==========================================================================

@@ -9,7 +9,7 @@
 
 #include "controllers/SparkMaxController.h"
 #include "controllers/SteerTalonController.h"
-#include "controllers/TalonController.h"
+#include "controllers/TalonSRXController.h"
 #include "controllers/VelocitySparkController.h"
 #include "controllers/VictorController.h"
 
@@ -33,17 +33,14 @@
 constexpr int PICKUP_INTAKE_CAN = 10;
 
 // PCM channels for pickup solenoids
-constexpr int PICKUP_SOL1_FWD = 0;
-constexpr int PICKUP_SOL1_REV = 1;
-constexpr int PICKUP_SOL2_FWD = 2;
-constexpr int PICKUP_SOL2_REV = 3;
+constexpr int PICKUP_SOL_FWD = 0;
+constexpr int PICKUP_SOL_REV = 1;
 
 // PCM channels for climber solenoids
-constexpr int CLIMBER_SOL1_FWD = 4;
-constexpr int CLIMBER_SOL1_REV = 5;
-constexpr int CLIMBER_SOL2_FWD = 6;
-constexpr int CLIMBER_SOL2_REV = 7;
-constexpr int CLIMBER_BRAKE_FWD = 8; //BRAKE SOLENOID
+constexpr int CLIMBER_EXTENDER_FWD = 4;
+constexpr int CLIMBER_EXTENDER_REV = 5;
+constexpr int CLIMBER_BRAKE_FWD = 6;
+constexpr int CLIMBER_BRAKE_REV = 7;
 
 //#define CLAMP 12
 
@@ -275,14 +272,14 @@ void Robot::DeviceInitialization() {
 	_driveTrainRearRightDrive = new SparkMaxController(RRD);
 #elif USING_VICTOR_DRIVE
 	_driveTrainFrontLeftDrive = new VictorController(FLD);
-	_driveTrainFrontRightDrive = new TalonController(FRD);
+	_driveTrainFrontRightDrive = new TalonSRXController(FRD);
 	_driveTrainRearLeftDrive = new VictorController(RLD);
 	_driveTrainRearRightDrive = new VictorController(RRD);
 #elif USING_TALON_DRIVE
-	_driveTrainFrontLeftDrive = new TalonController(FLD);
-	_driveTrainFrontRightDrive = new TalonController(FRD);
-	_driveTrainRearLeftDrive = new TalonController(RLD);
-	_driveTrainRearRightDrive = new TalonController(RRD);
+	_driveTrainFrontLeftDrive = new TalonSRXController(FLD);
+	_driveTrainFrontRightDrive = new TalonSRXController(FRD);
+	_driveTrainRearLeftDrive = new TalonSRXController(RLD);
+	_driveTrainRearRightDrive = new TalonSRXController(RRD);
 #else
 #error Unsupported configuration. Check USING_*_DRIVE #defines.
 #endif // USING_SPARKMAX_DRIVE
@@ -290,10 +287,10 @@ void Robot::DeviceInitialization() {
 
 	//======= Subsystem Motor Initialization =======//
 
-	pickUp = std::make_unique<PickUp>(PICKUP_SOL1_FWD, PICKUP_SOL1_REV, PICKUP_SOL2_FWD, PICKUP_SOL2_REV, PICKUP_INTAKE_CAN);
-	climber = std::make_unique<Climber>(CLIMBER_SOL1_FWD, CLIMBER_SOL1_REV, CLIMBER_SOL2_FWD, CLIMBER_SOL2_REV, CLIMBER_BRAKE_FWD);
+	pickUp = std::make_unique<PickUp>(PICKUP_SOL_FWD, PICKUP_SOL_REV, PICKUP_INTAKE_CAN);
+	climber = std::make_unique<Climber>(CLIMBER_EXTENDER_FWD, CLIMBER_EXTENDER_REV, CLIMBER_BRAKE_FWD, CLIMBER_BRAKE_REV);
 
-	//clampMotor = new TalonController(CLAMP);
+	//clampMotor = new TalonSRXController(CLAMP);
 
 	//======= Sensor and Camera Initialization =======//
 

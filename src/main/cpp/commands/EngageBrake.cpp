@@ -16,7 +16,7 @@ void EngageBrake::Initialize() {
 // ==========================================================================
 
 void EngageBrake::Execute() {
-	Robot::climber->Brake();
+	Robot::climber->EngageBrake();
 }
 
 // ==========================================================================

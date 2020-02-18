@@ -28,7 +28,7 @@ bool PickUpIntake::IsFinished() {
 // ==========================================================================
 
 void PickUpIntake::End() {
-    Robot::pickUp->StopIntake();
+	Robot::pickUp->StopIntake();
 }
 
 // ==========================================================================
