@@ -25,7 +25,7 @@ void BasicDiffSwerveModule::SetGeometry(double x, double y, double maxRadius) {
 // ================================================================
 
 void BasicDiffSwerveModule::SetWheelOffset() {
-	_headingSensor->InitializePosition(90);
+	_headingSensor->InitializePosition(0); // Used to be 0
 	auto offset = _headingSensor->GetOffset();
 	auto prefs = frc::Preferences::GetInstance();
 	prefs->PutDouble(_configName, offset);
@@ -53,8 +53,8 @@ void BasicDiffSwerveModule::SetDriveSpeed(float speed) {
 	    turn *= 1000.0 / 180; // simple gain on steering error
 	}
 
-	_master->SetVelocity((speed * _inverse * 5000) - turn);
-	_slave->SetVelocity(-(speed * _inverse * 5000) - turn);
+	_master->SetVelocity((speed * _inverse * 6000) - turn);
+	_slave->SetVelocity(-(speed * _inverse * 6000) - turn);
 }
 
 // ================================================================
@@ -70,6 +70,7 @@ double BasicDiffSwerveModule::SetSteerDrive(double x, double y, double twist, bo
 
 	//auto signX = (_x >= 0) ? 1 : -1;
 	//auto signY = (_y >= 0) ? 1 : -1;
+	
 
 	auto BP = x + twist * _x / _radius;
 	auto CP = y - twist * _y / _radius;

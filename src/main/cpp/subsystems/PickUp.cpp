@@ -31,7 +31,7 @@ void PickUp::Retract() {
 // ==========================================================================
 
 void PickUp::Intake(float intakeSpeed) {
-	_intakeMotor->SetPercentPower(intakeSpeed);
+	_intakeMotor->SetPercentPower(intakeSpeed*2);
 }
 
 // ==========================================================================

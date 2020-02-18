@@ -19,7 +19,7 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain") {
 	rearLeftModule = Robot::rearLeftModule;
 	rearRightModule = Robot::rearRightModule;
 
-	SetWheelbase(20.5, 26);
+	SetWheelbase(30.25, 20.5);
 	yaw = 0;
 	joystickAngle = 0;
 	fieldCentricMode = false;
@@ -45,10 +45,10 @@ void DriveTrain::SetWheelbase(double width, double length, double xOffset, doubl
 
 	auto maxRadius = std::sqrt(pow(halfWidth + fabs(xOffset), 2) + pow(halfLength + fabs(yOffset), 2));
 
-	frontLeftModule->SetGeometry(-halfWidth - xOffset, halfLength - yOffset, maxRadius);
+	frontLeftModule->SetGeometry(halfWidth - xOffset, -halfLength - yOffset, maxRadius);
 	frontRightModule->SetGeometry(halfWidth - xOffset, halfLength - yOffset, maxRadius);
 	rearLeftModule->SetGeometry(-halfWidth - xOffset, -halfLength - yOffset, maxRadius);
-	rearRightModule->SetGeometry(halfWidth - xOffset, -halfLength - yOffset, maxRadius);
+	rearRightModule->SetGeometry(-halfWidth - xOffset, halfLength - yOffset, maxRadius);
 }
 
 // ================================================================
@@ -105,8 +105,9 @@ void DriveTrain::Crab(float twist, float y, float x, bool operatorControl) {
 
 	auto leftTrigger = Robot::oi->GetLeftTrigger();
 	auto rightTrigger = Robot::oi->GetRightTrigger();
+	auto rightBumper = Robot::oi->GetRightBumper();
 
-	if (leftTrigger > 0 || rightTrigger > 0) { // turbo mode
+	if (rightBumper) { // turbo mode use to be leftTrigger > 0 || rightTrigger > 0
 		x *= 2.0;
 		y *= 2.0;
 	}

@@ -87,7 +87,7 @@ void Robot::RobotInit() {
 	frc::SmartDashboard::PutNumber("Yaw Offset", 0);
 
 	driveTrain->LoadWheelOffsets();
-	driveTrain->SetWheelbase(20.5, 26);
+	driveTrain->SetWheelbase(30.25 ,20.5);
 
 	m_colorMatcher.AddColorMatch(kBlueTarget);
 	m_colorMatcher.AddColorMatch(kGreenTarget);
@@ -241,7 +241,7 @@ void Robot::DeviceInitialization() {
 	_driveTrainFrontRightSteer = new VelocityTalonFXController(27);
 	_driveTrainFrontRightDrive = new VelocityTalonFXController(28);
 	_driveTrainRearLeftSteer = new VelocityTalonFXController(23);
-	_driveTrainRearLeftDrive = new VelocityTalonFXController(24);
+	_driveTrainRearLeftDrive = new VelocityTalonFXController(24); 
 	_driveTrainRearRightSteer = new VelocityTalonFXController(25);
 	_driveTrainRearRightDrive = new VelocityTalonFXController(26);
 

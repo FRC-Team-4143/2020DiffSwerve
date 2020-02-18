@@ -29,7 +29,7 @@ const static int kTimeoutMs = 30;
 constexpr static double kNeutralDeadband = 0.001;
 
 // PID constants                           kP   kI   kD    kF   Iz  PeakOut
-constexpr static Gains kGains_Velocit = { 0.2, 0.0, 0.0, 0.05, 300, 0.50 };
+constexpr static Gains kGains_Velocit = { 0.2, 0.0, 0.0, 0.05, 300, 0.70 };
 
 const static int kSlot_Velocit = SLOT_2;
 
@@ -63,7 +63,7 @@ void VelocityTalonFXController::SetVelocity(double value) {
 void VelocityTalonFXController::ConfigPID() {
 	_motor->ConfigFactoryDefault();
 
-	constexpr double MAX_CURRENT = 20.0;
+	constexpr double MAX_CURRENT = 30.0;
 
 	SupplyCurrentLimitConfiguration supply(true, MAX_CURRENT, MAX_CURRENT, kTimeoutMs);
 	_motor->ConfigSupplyCurrentLimit(supply);
@@ -91,7 +91,7 @@ void VelocityTalonFXController::ConfigPID() {
 	_motor->Config_IntegralZone(kSlot_Velocit, kGains_Velocit.kIzone, kTimeoutMs);
 	_motor->ConfigClosedLoopPeakOutput(kSlot_Velocit, kGains_Velocit.kPeakOutput, kTimeoutMs);
 
-	_motor->SetNeutralMode(NeutralMode::Brake);
+	_motor->SetNeutralMode(NeutralMode::Coast);
 
 	_motor->SelectProfileSlot(kSlot_Velocit, PID_PRIMARY);
 }

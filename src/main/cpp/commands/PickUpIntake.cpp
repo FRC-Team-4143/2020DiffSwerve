@@ -16,13 +16,13 @@ void PickUpIntake::Initialize() {
 // ==========================================================================
 
 void PickUpIntake::Execute() {
-	Robot::pickUp->Intake(Robot::oi->GetRightTrigger() + Robot::oi->GetLeftTrigger());
+	Robot::pickUp->Intake(-Robot::oi->GetRightTrigger() + Robot::oi->GetLeftTrigger());
 }
 
 // ==========================================================================
 
 bool PickUpIntake::IsFinished() {
-	return true;
+	return false;
 }
 
 // ==========================================================================
