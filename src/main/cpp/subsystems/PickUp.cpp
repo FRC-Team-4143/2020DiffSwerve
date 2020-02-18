@@ -1,4 +1,5 @@
 #include "subsystems/PickUp.h"
+#include "commands/PickUpIntake.h"
 #include "controllers/VictorController.h"
 
 // ==========================================================================
@@ -13,7 +14,7 @@ PickUp::PickUp(int solenoid1ForwardChannel, int solenoid1ReverseChannel, int sol
 // ==========================================================================
 
 void PickUp::InitDefaultCommand() {
-	// No default command needed for this subsystem.
+	SetDefaultCommand(new PickUpIntake());
 }
 
 // ==========================================================================
@@ -32,8 +33,8 @@ void PickUp::Retract() {
 
 // ==========================================================================
 
-void PickUp::Intake() {
-	_intakeMotor->SetPercentPower(0.10);
+void PickUp::Intake(float intakeSpeed) {
+	_intakeMotor->SetPercentPower(intakeSpeed);
 }
 
 // ==========================================================================
@@ -41,11 +42,5 @@ void PickUp::Intake() {
 void PickUp::StopIntake() {
 	_intakeMotor->SetPercentPower(0);
 }
-
 // ==========================================================================
 
-void PickUp::RevIntake() {
-	_intakeMotor->SetPercentPower(-0.10);
-}
-
-// ==========================================================================

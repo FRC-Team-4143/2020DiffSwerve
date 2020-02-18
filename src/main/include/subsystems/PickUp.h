@@ -19,9 +19,8 @@ public:
 	// IPickUp methods
 	virtual void Extend() override;
 	virtual void Retract() override;
-	virtual void Intake() override;
+	virtual void Intake(float intakeSpeed) override;
 	virtual void StopIntake() override;
-	virtual void RevIntake() override;
 
 private:
 

@@ -30,7 +30,7 @@
 #define NAVX_MXP 0 // 0 for Comp Bot
 
 //CAN IDs for PickUp Subsystem
-constexpr int PICKUP_INTAKE_CAN = 10; 
+constexpr int PICKUP_INTAKE_CAN = 10;
 
 // PCM channels for pickup solenoids
 constexpr int PICKUP_SOL1_FWD = 0;
