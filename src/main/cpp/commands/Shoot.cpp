@@ -1,39 +1,41 @@
-#include "commands/Feed.h"
+#include "commands/Shoot.h"
 #include "Robot.h"
 
 // ==========================================================================
 
-Feed::Feed()
-:	frc::Command("Feed") {
+Shoot::Shoot()
+:	frc::Command("Shoot") {
 	Requires(Robot::shooter.get());
 }
 
 // ==========================================================================
 
-void Feed::Initialize() {
+void Shoot::Initialize() {
 }
 
 // ==========================================================================
 
-void Feed::Execute() {
+void Shoot::Execute() {
+	Robot::shooter->Shoot();
 	Robot::shooter->Feed();
 }
 
 // ==========================================================================
 
-bool Feed::IsFinished() {
-	return true;
+bool Shoot::IsFinished() {
+	return false;
 }
 
 // ==========================================================================
 
-void Feed::End() {
+void Shoot::End() {
+	Robot::shooter->ShootStop();
 	Robot::shooter->FeedStop();
 }
 
 // ==========================================================================
 
-void Feed::Interrupted() {
+void Shoot::Interrupted() {
 	End();
 }
 

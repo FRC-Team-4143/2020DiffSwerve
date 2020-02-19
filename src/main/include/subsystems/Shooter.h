@@ -24,6 +24,7 @@ public:
 	virtual void Stir() override;
 	virtual void StirStop() override;
 	virtual void Shoot() override;
+	virtual void ShootStop() override;
 
 private:
 

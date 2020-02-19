@@ -3,10 +3,10 @@
 
 // ==========================================================================
 
-class Feed : public frc::Command {
+class Shoot : public frc::Command {
 public:
 
-	Feed();
+	Shoot();
 
 	// Command methods
 	virtual void Initialize() override;

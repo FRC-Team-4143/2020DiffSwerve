@@ -63,6 +63,12 @@ void Shooter::StirStop() {
 // ==========================================================================
 
 void Shooter::Shoot() {
+	_shooter-> SetPercentPower(0.20);
+}
+
+// ==========================================================================
+
+void Shooter::ShootStop() {
 	_shooter-> SetPercentPower(0);
 }
 
