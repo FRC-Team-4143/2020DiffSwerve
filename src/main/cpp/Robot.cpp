@@ -39,11 +39,11 @@ constexpr int PICKUP_INTAKE_CAN = 10;
 
 // PCM channels for pickup solenoids
 constexpr int PICKUP_SOL_FWD = 0;
-constexpr int PICKUP_SOL_REV = 1;
+constexpr int PICKUP_SOL_REV = 4;
 
 // PCM channels for climber solenoids
-constexpr int CLIMBER_EXTENDER_FWD = 4;
-constexpr int CLIMBER_EXTENDER_REV = 5;
+constexpr int CLIMBER_EXTENDER_FWD = 3;
+constexpr int CLIMBER_EXTENDER_REV = 2;
 constexpr int CLIMBER_BRAKE_FWD = 6;
 constexpr int CLIMBER_BRAKE_REV = 7;
 
