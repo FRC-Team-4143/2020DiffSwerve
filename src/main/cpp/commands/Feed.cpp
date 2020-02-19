@@ -1,39 +1,39 @@
-#include "commands/PickUpIntake.h"
+#include "commands/Feed.h"
 #include "Robot.h"
 
 // ==========================================================================
 
-PickUpIntake::PickUpIntake()
-:	frc::Command("PickUp Intake") {
-	Requires(Robot::pickUp.get());
+Feed::Feed()
+:	frc::Command("Feed") {
+	Requires(Robot::shooter.get());
 }
 
 // ==========================================================================
 
-void PickUpIntake::Initialize() {
+void Feed::Initialize() {
 }
 
 // ==========================================================================
 
-void PickUpIntake::Execute() {
-	Robot::pickUp->Intake(-Robot::oi->GetRightTrigger() + Robot::oi->GetLeftTrigger());
+void Feed::Execute() {
+	Robot::shooter->Feed();
 }
 
 // ==========================================================================
 
-bool PickUpIntake::IsFinished() {
-	return false;
+bool Feed::IsFinished() {
+	return true;
 }
 
 // ==========================================================================
 
-void PickUpIntake::End() {
-	Robot::pickUp->IntakeStop();
+void Feed::End() {
+	Robot::shooter->FeedStop();
 }
 
 // ==========================================================================
 
-void PickUpIntake::Interrupted() {
+void Feed::Interrupted() {
 	End();
 }
 

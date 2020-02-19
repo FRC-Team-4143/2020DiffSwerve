@@ -8,6 +8,7 @@
 #include "subsystems/GyroSub.h"
 #include "subsystems/IPickUp.h"
 #include "subsystems/IClimber.h"
+#include "subsystems/IShooter.h"
 #include "subsystems/VisionBridgeSub.h"
 #include "OI.h"
 
@@ -67,6 +68,7 @@ public:
 
 	static std::unique_ptr<IPickUp> pickUp;
 	static std::unique_ptr<IClimber> climber;
+	static std::unique_ptr<IShooter> shooter;
 
 	static IMultiController* clampMotor;
 

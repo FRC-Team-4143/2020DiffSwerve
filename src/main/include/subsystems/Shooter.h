@@ -20,6 +20,7 @@ public:
 	virtual void TurretStop() override;
 	virtual void TurretRight() override;
 	virtual void Feed() override;
+	virtual void FeedStop() override;
 	virtual void Stir() override;
 	virtual void StirStop() override;
 	virtual void Shoot() override;

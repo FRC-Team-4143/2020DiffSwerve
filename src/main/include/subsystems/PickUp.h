@@ -20,7 +20,7 @@ public:
 	virtual void Extend() override;
 	virtual void Retract() override;
 	virtual void Intake(float intakeSpeed) override;
-	virtual void StopIntake() override;
+	virtual void IntakeStop() override;
 
 private:
 

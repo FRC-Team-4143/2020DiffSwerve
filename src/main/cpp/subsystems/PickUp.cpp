@@ -36,7 +36,7 @@ void PickUp::Intake(float intakeSpeed) {
 
 // ==========================================================================
 
-void PickUp::StopIntake() {
+void PickUp::IntakeStop() {
 	Intake(0);
 }
 

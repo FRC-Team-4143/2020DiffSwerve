@@ -25,6 +25,7 @@
 
 #include "subsystems/PickUp.h"
 #include "subsystems/Climber.h"
+#include "subsystems/Shooter.h"
 
 // If not using DIFFSWERVE, must set ONE of the following to 1:
 #define USING_SPARKMAX_DRIVE 1
@@ -66,6 +67,7 @@ ISwerveModule* Robot::rearRightModule  = nullptr;
 
 std::unique_ptr<IPickUp> Robot::pickUp;
 std::unique_ptr<IClimber> Robot::climber;
+std::unique_ptr<IShooter> Robot::shooter;
 
 //IMultiController* Robot::clampMotor = nullptr;
 
