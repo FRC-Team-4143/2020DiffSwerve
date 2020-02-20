@@ -10,10 +10,9 @@ public:
 	IWinch(const wpi::Twine& name);
 
 	virtual void WinchUp() = 0;
-	virtual void WinchStop() = 0;
 	virtual void WinchDown() = 0;
-    virtual void WinchActive(float WinchSpeed) = 0;
-    virtual void WinchActiveStop() = 0;
+	virtual void WinchDrive(float speed) = 0;
+	virtual void WinchStop() = 0;
 };
 
 // ==========================================================================

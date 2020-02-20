@@ -10,17 +10,16 @@
 class Winch : public IWinch {
 public:
 
-	Winch(int WinchCANId);
+	Winch(int canId);
 
 	// Subsystem methods
 	virtual void InitDefaultCommand() override;
 
 	// IWinch methods
 	virtual void WinchUp() override;
-	virtual void WinchStop() override;
 	virtual void WinchDown() override;
-    virtual void WinchActive(float WinchSpeed) override;
-    virtual void WinchActiveStop() override;
+	virtual void WinchDrive(float speed) override;
+	virtual void WinchStop() override;
 
 private:
 
