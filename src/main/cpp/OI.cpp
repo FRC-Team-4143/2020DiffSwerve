@@ -42,7 +42,7 @@ OI::OI() {
 	(new frc::JoystickButton(_driverJoystick, JOYSTICK_BUTTON_LEFT))->ToggleWhenPressed(_crabDrive);
 	(new frc::JoystickButton(_driverJoystick, JOYSTICK_BUTTON_RB))->WhenPressed(new ExtendPickUp());
 	(new frc::JoystickButton(_driverJoystick, JOYSTICK_BUTTON_LB))->WhenPressed(new RetractPickUp());
-	(new frc::JoystickButton(_driverJoystick, JOYSTICK_BUTTON_B))->WhenPressed(new Shoot());
+	(new frc::JoystickButton(_driverJoystick, JOYSTICK_BUTTON_B))->ToggleWhenPressed(new Shoot());
 	//(new frc::JoystickButton(_driverJoystick, JOYSTICK_BUTTON_X))->WhenPressed(new ExtendClimber()); //Retracts - Switched for now
 	(new frc::JoystickButton(_driverJoystick, JOYSTICK_BUTTON_BACK))->WhenPressed(new EngageBrake());
 	//(new frc::JoystickButton(_driverJoystick, JOYSTICK_BUTTON_Y))->WhenPressed(new RetractClimber()); // Extends - Switched for now

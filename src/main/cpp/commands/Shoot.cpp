@@ -18,6 +18,7 @@ void Shoot::Initialize() {
 void Shoot::Execute() {
 	Robot::shooter->Shoot();
 	Robot::shooter->Feed();
+	Robot::shooter->Stir();
 }
 
 // ==========================================================================
