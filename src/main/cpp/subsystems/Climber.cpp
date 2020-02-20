@@ -17,13 +17,13 @@ void Climber::InitDefaultCommand() {
 // ==========================================================================
 
 void Climber::Extend() {
-	_extender->Set(frc::DoubleSolenoid::kForward);
+	_extender->Set(frc::DoubleSolenoid::kReverse);
 }
 
 // ==========================================================================
 
 void Climber::Retract() {
-	_extender->Set(frc::DoubleSolenoid::kReverse);
+	_extender->Set(frc::DoubleSolenoid::kForward);
 }
 
 // ==========================================================================
