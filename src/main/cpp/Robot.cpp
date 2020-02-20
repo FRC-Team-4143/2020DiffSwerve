@@ -26,6 +26,7 @@
 #include "subsystems/PickUp.h"
 #include "subsystems/Climber.h"
 #include "subsystems/Shooter.h"
+#include "subsystems/Winch.h"
 
 // If not using DIFFSWERVE, must set ONE of the following to 1:
 #define USING_SPARKMAX_DRIVE 1
@@ -49,6 +50,12 @@ constexpr int CLIMBER_BRAKE_REV = 7;
 
 //#define CLAMP 12
 
+// Shooter Ids
+constexpr int SHOOTER_MOTOR = 14;
+constexpr int STIR_MOTOR = 12;
+constexpr int TURRET_MOTOR = 13;
+constexpr int FEED_MOTOR = 11;
+constexpr int WINCH_MOTOR = 15;
 //======= System Definition =======//
 
 OI* Robot::oi = nullptr;
@@ -68,6 +75,7 @@ ISwerveModule* Robot::rearRightModule  = nullptr;
 std::unique_ptr<IPickUp> Robot::pickUp;
 std::unique_ptr<IClimber> Robot::climber;
 std::unique_ptr<IShooter> Robot::shooter;
+std::unique_ptr<IWinch> Robot::winch;
 
 //IMultiController* Robot::clampMotor = nullptr;
 
@@ -305,7 +313,8 @@ void Robot::DeviceInitialization() {
 
 	pickUp = std::make_unique<PickUp>(PICKUP_SOL_FWD, PICKUP_SOL_REV, PICKUP_INTAKE_CAN);
 	climber = std::make_unique<Climber>(CLIMBER_EXTENDER_FWD, CLIMBER_EXTENDER_REV, CLIMBER_BRAKE_FWD, CLIMBER_BRAKE_REV);
-
+	shooter = std::make_unique<Shooter>(SHOOTER_MOTOR, TURRET_MOTOR, FEED_MOTOR, STIR_MOTOR);
+	winch = std::make_unique<Winch>(WINCH_MOTOR);
 	//clampMotor = new TalonSRXController(CLAMP);
 
 	//======= Sensor and Camera Initialization =======//

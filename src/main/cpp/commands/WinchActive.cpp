@@ -1,39 +1,39 @@
-#include "commands/PickUpIntake.h"
+#include "commands/WinchActive.h"
 #include "Robot.h"
 
 // ==========================================================================
 
-PickUpIntake::PickUpIntake()
-:	frc::Command("PickUp Intake") {
-	Requires(Robot::pickUp.get());
+WinchActive::WinchActive()
+:	frc::Command("WinchActive") {
+	Requires(Robot::winch.get());
 }
 
 // ==========================================================================
 
-void PickUpIntake::Initialize() {
+void WinchActive::Initialize() {
 }
 
 // ==========================================================================
 
-void PickUpIntake::Execute() {
-	//Robot::pickUp->Intake(-Robot::oi->GetRightTrigger() + Robot::oi->GetLeftTrigger());
+void WinchActive::Execute() {
+	Robot::winch->WinchActive(-Robot::oi->GetRightTrigger() + Robot::oi->GetLeftTrigger());
 }
 
 // ==========================================================================
 
-bool PickUpIntake::IsFinished() {
+bool WinchActive::IsFinished() {
 	return false;
 }
 
 // ==========================================================================
 
-void PickUpIntake::End() {
-	Robot::pickUp->IntakeStop();
+void WinchActive::End() {
+	//Robot::winch->WinchActiveStop();
 }
 
 // ==========================================================================
 
-void PickUpIntake::Interrupted() {
+void WinchActive::Interrupted() {
 	End();
 }
 

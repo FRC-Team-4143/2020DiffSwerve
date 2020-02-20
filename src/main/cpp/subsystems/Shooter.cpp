@@ -1,12 +1,14 @@
 #include "subsystems/Shooter.h"
 #include <ctre/Phoenix.h>
 #include "controllers/VictorController.h"
+#include "controllers/VelocityTalonFXController.h"
+
 
 // ==========================================================================
 
 Shooter::Shooter(int shooterCANId, int turretCANId, int feederCANId, int stirCANId)
 :	IShooter("Shooter") {
-	//_shooter = std::make_unique<TalonFX>(shooterCANId);
+	_shooter = std::make_unique<VelocityTalonFXController>(shooterCANId);
 	_turret = std::make_unique<VictorController>(turretCANId);
 	_feeder = std::make_unique<VictorController>(feederCANId);
 	_stir = std::make_unique<VictorController>(stirCANId);

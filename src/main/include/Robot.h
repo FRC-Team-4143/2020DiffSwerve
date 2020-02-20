@@ -10,6 +10,7 @@
 #include "subsystems/IClimber.h"
 #include "subsystems/IShooter.h"
 #include "subsystems/VisionBridgeSub.h"
+#include "subsystems/IWinch.h"
 #include "OI.h"
 
 #include <frc/AnalogInput.h>
@@ -69,6 +70,7 @@ public:
 	static std::unique_ptr<IPickUp> pickUp;
 	static std::unique_ptr<IClimber> climber;
 	static std::unique_ptr<IShooter> shooter;
+	static std::unique_ptr<IWinch> winch;
 
 	static IMultiController* clampMotor;
 
