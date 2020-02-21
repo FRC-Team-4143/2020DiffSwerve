@@ -23,8 +23,8 @@
 #include "Modules/SwerveModule.h"
 #include "Modules/TalonFXDiffSwerveModule.h"
 
-#include "subsystems/PickUp.h"
 #include "subsystems/Climber.h"
+#include "subsystems/PickUp.h"
 #include "subsystems/Shooter.h"
 #include "subsystems/Winch.h"
 
@@ -35,6 +35,12 @@
 
 #define NAVX_MXP 0 // 0 for Comp Bot
 
+// PCM channels for climber solenoids
+constexpr int CLIMBER_EXTENDER_FWD = 2;
+constexpr int CLIMBER_EXTENDER_REV = 3;
+constexpr int CLIMBER_BRAKE_FWD = 6;
+constexpr int CLIMBER_BRAKE_REV = 7;
+
 //CAN IDs for PickUp Subsystem
 constexpr int PICKUP_INTAKE_CAN = 10;
 
@@ -42,20 +48,15 @@ constexpr int PICKUP_INTAKE_CAN = 10;
 constexpr int PICKUP_SOL_FWD = 0;
 constexpr int PICKUP_SOL_REV = 4;
 
-// PCM channels for climber solenoids
-constexpr int CLIMBER_EXTENDER_FWD = 2;
-constexpr int CLIMBER_EXTENDER_REV = 3;
-constexpr int CLIMBER_BRAKE_FWD = 6;
-constexpr int CLIMBER_BRAKE_REV = 7;
-
-//#define CLAMP 12
-
 // Shooter Ids
+constexpr int FEED_MOTOR = 11;
 constexpr int SHOOTER_MOTOR = 14;
 constexpr int STIR_MOTOR = 12;
 constexpr int TURRET_MOTOR = 13;
-constexpr int FEED_MOTOR = 11;
 constexpr int WINCH_MOTOR = 15;
+
+//#define CLAMP 12
+
 //======= System Definition =======//
 
 OI* Robot::oi = nullptr;
@@ -72,8 +73,8 @@ ISwerveModule* Robot::frontRightModule = nullptr;
 ISwerveModule* Robot::rearLeftModule = nullptr;
 ISwerveModule* Robot::rearRightModule  = nullptr;
 
-std::unique_ptr<IPickUp> Robot::pickUp;
 std::unique_ptr<IClimber> Robot::climber;
+std::unique_ptr<IPickUp> Robot::pickUp;
 std::unique_ptr<IShooter> Robot::shooter;
 std::unique_ptr<IWinch> Robot::winch;
 
@@ -295,10 +296,11 @@ void Robot::DeviceInitialization() {
 
 	//======= Subsystem Motor Initialization =======//
 
-	pickUp = std::make_unique<PickUp>(PICKUP_SOL_FWD, PICKUP_SOL_REV, PICKUP_INTAKE_CAN);
 	climber = std::make_unique<Climber>(CLIMBER_EXTENDER_FWD, CLIMBER_EXTENDER_REV, CLIMBER_BRAKE_FWD, CLIMBER_BRAKE_REV);
+	pickUp = std::make_unique<PickUp>(PICKUP_SOL_FWD, PICKUP_SOL_REV, PICKUP_INTAKE_CAN);
 	shooter = std::make_unique<Shooter>(SHOOTER_MOTOR, TURRET_MOTOR, FEED_MOTOR, STIR_MOTOR);
 	winch = std::make_unique<Winch>(WINCH_MOTOR);
+
 	//clampMotor = new TalonSRXController(CLAMP);
 
 	//======= Sensor and Camera Initialization =======//

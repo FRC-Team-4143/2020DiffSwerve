@@ -67,8 +67,8 @@ public:
 
 //======= Subsystem Motors and Sensors =======//
 
-	static std::unique_ptr<IPickUp> pickUp;
 	static std::unique_ptr<IClimber> climber;
+	static std::unique_ptr<IPickUp> pickUp;
 	static std::unique_ptr<IShooter> shooter;
 	static std::unique_ptr<IWinch> winch;
 

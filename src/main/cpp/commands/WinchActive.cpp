@@ -16,7 +16,7 @@ void WinchActive::Initialize() {
 // ==========================================================================
 
 void WinchActive::Execute() {
-	Robot::winch->WinchActive(-Robot::oi->GetRightTrigger() + Robot::oi->GetLeftTrigger());
+	Robot::winch->WinchDrive(-Robot::oi->GetRightTrigger() + Robot::oi->GetLeftTrigger());
 }
 
 // ==========================================================================
@@ -28,7 +28,7 @@ bool WinchActive::IsFinished() {
 // ==========================================================================
 
 void WinchActive::End() {
-	//Robot::winch->WinchActiveStop();
+	Robot::winch->WinchStop();
 }
 
 // ==========================================================================

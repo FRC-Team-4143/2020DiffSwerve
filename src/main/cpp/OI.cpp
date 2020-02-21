@@ -45,7 +45,7 @@ OI::OI() {
 	//(new frc::JoystickButton(_driverJoystick, ))->WhenPressed(new ExtendPickUp());
 	(new frc::JoystickButton(_driverJoystick, JOYSTICK_BUTTON_LB))->WhenPressed(new ExtendPickUp());
 	(new frc::JoystickButton(_driverJoystick, JOYSTICK_BUTTON_RB))->WhenPressed(new RetractPickUp());
-	//(new frc::JoystickButton(_driverJoystick, JOYSTICK_BUTTON_B))->ToggleWhenPressed(new Shoot());
+	//(new frc::JoystickButton(_driverJoystick, JOYSTICK_BUTTON_B))->WhenPressed(new Shoot());
 	(new frc::JoystickButton(_driverJoystick, JOYSTICK_BUTTON_BACK))->WhenPressed(new EngageBrake());
 	//JOYSTICK TRIGGERS used for PickUpIntake.cpp; R is Intake. L is Reverse. 
 
