@@ -15,6 +15,7 @@ public:
 	virtual void Feed() = 0;
 	virtual void FeedStop() = 0;
 	virtual void Stir() = 0;
+	virtual void StirReverse() = 0;
 	virtual void StirStop() = 0;
 	virtual void ShootStart() = 0;
 	virtual void ShootStop() = 0;

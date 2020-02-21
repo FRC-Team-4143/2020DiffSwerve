@@ -4,6 +4,8 @@
 #include "controllers/SparkMaxController.h"
 #include "controllers/VelocityTalonFXController.h"
 #include "commands/Shoot.h"
+#include <frc/smartdashboard/SmartDashboard.h>
+
 
 // ==========================================================================
 
@@ -48,7 +50,10 @@ void Shooter::TurretRight() {
 // ==========================================================================
 
 void Shooter::Feed() {
-	_feeder->SetPercentPower(0.1);
+	//frc::SmartDashboard::PutNumber("shooter speed", _shooter->GetEncoderPosition());
+	//if(_shooter->GetEncoderPosition() > 3000) {
+		_feeder->SetPercentPower(1.0);
+	//}
 }
 
 // ==========================================================================
@@ -60,25 +65,31 @@ void Shooter::FeedStop() {
 // ==========================================================================
 
 void Shooter::Stir() {
-	_stir->SetPercentPower(0.10);
+	_stir->SetPercentPower(1.00);
+}
+
+// ==========================================================================
+
+void Shooter::StirReverse() {
+	_stir->SetPercentPower(-1.00);
 }
 
 // ==========================================================================
 
 void Shooter::StirStop() {
-	_stir->SetPercentPower(0.1);
+	_stir->SetPercentPower(0);
 }
 
 // ==========================================================================
 
 void Shooter::ShootStart() {
-	_shooter-> SetPercentPower(0.1);
+	_shooter->SetPercentPower(0.8);
 }
 
 // ==========================================================================
 
 void Shooter::ShootStop() {
-	_shooter-> SetPercentPower(0);
+	_shooter->SetPercentPower(0);
 }
 
 // ==========================================================================

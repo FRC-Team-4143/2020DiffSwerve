@@ -11,6 +11,7 @@ public:
 	// IMultiController methods
 	virtual void SetPercentPower(double value) override;
 	virtual double GetEncoderPosition() override;
+	//virtual double GetSpeed() override;
 
 private:
 

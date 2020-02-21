@@ -23,6 +23,7 @@ public:
 	virtual void Feed() override;
 	virtual void FeedStop() override;
 	virtual void Stir() override;
+	virtual void StirReverse() override;
 	virtual void StirStop() override;
 	virtual void ShootStart() override;
 	virtual void ShootStop() override;

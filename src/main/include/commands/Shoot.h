@@ -5,7 +5,7 @@
 
 class Shoot : public frc::Command {
 public:
-
+    int counter;
 	Shoot();
 
 	// Command methods

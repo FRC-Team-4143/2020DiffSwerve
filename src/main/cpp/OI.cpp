@@ -49,9 +49,10 @@ OI::OI() {
 	(new frc::JoystickButton(_driverJoystick, JOYSTICK_BUTTON_BACK))->WhenPressed(new EngageBrake());
 
 
-	//Right Joystick moves Turret
-	//Shooter 
-	//Stir
+	//Turret mapped to Right Joystick (X)
+	//Shooter mapped to Right Trigger 
+	//Winch mapped to Left Joystick
+	//Stir mapped to A and B
 	//(new frc::JoystickButton(_driverJoystick2, JOYSTICK_BUTTON_RB))->WhenPressed(new ExtendPickUp());//stir backward
 	//(new frc::JoystickButton(_driverJoystick2, JOYSTICK_BUTTON_LB))->WhenPressed(new RetractPickUp());
 	//(new frc::JoystickButton(_driverJoystick2, ))->ToggleWhenPressed(new Shoot());
@@ -69,6 +70,20 @@ float OI::GetJoystickX() {
 
 float OI::GetJoystick2X() {
 	auto value = _driverJoystick2->GetRawAxis(JOYSTICK_LX_AXIS);
+	return (fabs(value) <= Constants::DEAD_ZONE) ? 0 : value;
+}
+
+// ==========================================================================
+
+float OI::GetJoystick2Y() {
+	auto value = _driverJoystick2->GetRawAxis(JOYSTICK_LY_AXIS);
+	return (fabs(value) <= Constants::DEAD_ZONE) ? 0 : value;
+}
+
+// ==========================================================================
+
+float OI::GetJoystick2Z() {
+	auto value = _driverJoystick2->GetRawAxis(JOYSTICK_RX_AXIS);
 	return (fabs(value) <= Constants::DEAD_ZONE) ? 0 : value;
 }
 
@@ -109,6 +124,20 @@ float OI::GetRightTrigger() {
 
 // ==========================================================================
 
+float OI::GetLeftTrigger2() {
+	float value = fabs(_driverJoystick2->GetRawAxis(JOYSTICK_LTRIG_AXIS));
+	return (value <= Constants::DEAD_ZONE) ? 0 : value;
+}
+
+// ==========================================================================
+
+float OI::GetRightTrigger2() {
+	float value = fabs(_driverJoystick2->GetRawAxis(JOYSTICK_RTRIG_AXIS));
+	return (value <= Constants::DEAD_ZONE) ? 0 : value;
+}
+
+// ==========================================================================
+
 bool OI::GetButtonLeft() {
 	return _driverJoystick->GetRawButton(JOYSTICK_BUTTON_LEFT);
 }
@@ -129,6 +158,18 @@ bool OI::GetButtonA() {
 
 bool OI::GetButtonB() {
 	return _driverJoystick->GetRawButton(JOYSTICK_BUTTON_B);
+}
+
+// ==========================================================================
+
+bool OI::GetButtonA2() {
+	return _driverJoystick2->GetRawButton(JOYSTICK_BUTTON_A);
+}
+
+// ==========================================================================
+
+bool OI::GetButtonB2() {
+	return _driverJoystick2->GetRawButton(JOYSTICK_BUTTON_B);
 }
 
 // ==========================================================================

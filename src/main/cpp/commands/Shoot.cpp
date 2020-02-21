@@ -12,16 +12,35 @@ Shoot::Shoot()
 // ==========================================================================
 
 void Shoot::Initialize() {
+	counter = 0;
 }
 
 // ==========================================================================
 
 void Shoot::Execute() {
 
-	float joyx = Robot::oi->GetJoystick2X();
-	Robot::shooter->TurretMove(joyx);
-	//Robot::shooter->ShootStart();
-	//Robot::shooter->Feed();
+	float joyz = Robot::oi->GetJoystick2Z();
+	Robot::shooter->TurretMove(joyz * 0.2);
+
+	if(Robot::oi->GetRightTrigger2() > 0.5) {
+		counter++;	
+		if(counter > 100) Robot::shooter->Feed();
+		Robot::shooter->ShootStart();
+	
+	} else {
+		counter = 0;
+		Robot::shooter->ShootStop();
+		Robot::shooter->FeedStop();
+	}
+
+	if(Robot::oi->GetButtonA2()) {
+		Robot::shooter->Stir();
+	} 
+	else if (Robot::oi->GetButtonB2()) {
+		Robot::shooter->StirReverse();
+	} else {
+		Robot::shooter->StirStop();
+	}
 }
 
 // ==========================================================================

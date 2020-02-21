@@ -10,19 +10,25 @@ public:
 	OI();
 
 	float GetJoystickX();
-	float GetJoystick2X();
 	float GetJoystickY();
 	float GetJoystickZ();
+	float GetJoystick2X();
+	float GetJoystick2Y();
+	float GetJoystick2Z();
 
 	float GetRightJoystickY();
 
 	float GetLeftTrigger();
 	float GetRightTrigger();
+	float GetLeftTrigger2();
+	float GetRightTrigger2();
 
 	bool GetButtonLeft();
 	bool GetButtonRight();
 	bool GetButtonA();
 	bool GetButtonB();
+	bool GetButtonA2();
+	bool GetButtonB2();
 	bool GetButtonX();
 	bool GetButtonY();
 	bool GetButtonBack();

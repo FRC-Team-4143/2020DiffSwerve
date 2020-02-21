@@ -16,7 +16,7 @@ void WinchActive::Initialize() {
 // ==========================================================================
 
 void WinchActive::Execute() {
-	Robot::winch->WinchDrive(-Robot::oi->GetRightTrigger() + Robot::oi->GetLeftTrigger());
+	Robot::winch->WinchDrive(Robot::oi->GetJoystick2Y());
 }
 
 // ==========================================================================
