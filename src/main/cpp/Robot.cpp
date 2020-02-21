@@ -110,87 +110,71 @@ void Robot::RobotInit() {
 // ================================================================
 
 void Robot::RobotPeriodic() {
+
+	//Subsystem Commands
+
+	
+
+	
 	if (navx != nullptr) {
 		auto yawOff = frc::SmartDashboard::GetNumber("Yaw Offset", 0);
 		frc::SmartDashboard::PutNumber("Yaw", navx->GetYaw() + yawOff);
 	}
+	//color stuff
+		frc::Color detectedColor = m_colorSensor.GetColor();
 
-	frc::Color detectedColor = m_colorSensor.GetColor();
+		std::string colorString;
+		double confidence = 0.0;
+		frc::Color matchedColor = m_colorMatcher.MatchClosestColor(detectedColor, confidence);
 
-	std::string colorString;
-	double confidence = 0.0;
-	frc::Color matchedColor = m_colorMatcher.MatchClosestColor(detectedColor, confidence);
+		if (matchedColor == kBlueTarget) {
+			colorString = "Blue";
+		}
+		else if (matchedColor == kRedTarget) {
+			colorString = "Red";
+		}
+		else if (matchedColor == kGreenTarget) {
+			colorString = "Green";
+		}
+		else if (matchedColor == kYellowTarget) {
+			colorString = "Yellow";
+		}
+		else {
+			colorString = "Unknown";
+		}
 
-	if (matchedColor == kBlueTarget) {
-		colorString = "Blue";
-	}
-	else if (matchedColor == kRedTarget) {
-		colorString = "Red";
-	}
-	else if (matchedColor == kGreenTarget) {
-		colorString = "Green";
-	}
-	else if (matchedColor == kYellowTarget) {
-		colorString = "Yellow";
-	}
-	else {
-		colorString = "Unknown";
-	}
+		frc::SmartDashboard::PutNumber("Red", detectedColor.red);
+		frc::SmartDashboard::PutNumber("Green", detectedColor.green);
+		frc::SmartDashboard::PutNumber("Blue", detectedColor.blue);
+		frc::SmartDashboard::PutNumber("Confidence", confidence);
+		frc::SmartDashboard::PutString("ColorDetected", colorString);
 
-	frc::SmartDashboard::PutNumber("Red", detectedColor.red);
-	frc::SmartDashboard::PutNumber("Green", detectedColor.green);
-	frc::SmartDashboard::PutNumber("Blue", detectedColor.blue);
-	frc::SmartDashboard::PutNumber("Confidence", confidence);
-	frc::SmartDashboard::PutString("ColorDetected", colorString);
+	//Wheel Offset Code;
+		if (frc::RobotController::GetUserButton() == 1 && _counter == 0) {
+			driveTrain->SetWheelOffsets();
+			_counter = 100;
+			std::cout << "SetWheelOffsets Complete" << std::endl;
+			std::cout.flush();
+		}
 
-	/*if (oi->GetButtonX() || oi->GetLeftBumper()) {
-		clampMotor->SetPercentPower(-.3);
-	}
-	else if (oi->GetButtonB() || oi->GetRightBumper()) {
-		clampMotor->SetPercentPower(.3);
-	}
-	else {
-		clampMotor->SetPercentPower(0);
-	}*/
-	
-	//Runs shooter, feeder, and vision code
-	if (oi->GetButtonB()) {
-		//run shooter, feeder, and vision
-	}
+		if (_counter > 0) {
+			_counter -= 1;
+		}
 
-	//Controls on Bar
-	if (oi->GetButtonBack()) {
-		//Moves left on Bar
-	}
-	if (oi->GetButtonStart()) {
-		//Moves right on Bar
-	}
+		frc::SmartDashboard::PutNumber("fl position", frontLeftModule->GetSteerPosition());
+		frc::SmartDashboard::PutNumber("fr position", frontRightModule->GetSteerPosition());
+		frc::SmartDashboard::PutNumber("rl position", rearLeftModule->GetSteerPosition());
+		frc::SmartDashboard::PutNumber("rr position", rearRightModule->GetSteerPosition());
 
-	if (frc::RobotController::GetUserButton() == 1 && _counter == 0) {
-		driveTrain->SetWheelOffsets();
-		_counter = 100;
-		std::cout << "SetWheelOffsets Complete" << std::endl;
-		std::cout.flush();
-	}
+		frc::SmartDashboard::PutNumber("fl setpoint", frontLeftModule->GetSetpoint());
+		frc::SmartDashboard::PutNumber("fr setpoint", frontRightModule->GetSetpoint());
+		frc::SmartDashboard::PutNumber("rl setpoint", rearLeftModule->GetSetpoint());
+		frc::SmartDashboard::PutNumber("rr setpoint", rearRightModule->GetSetpoint());
 
-	if (_counter > 0) {
-		_counter -= 1;
-	}
-
-	frc::SmartDashboard::PutNumber("fl position", frontLeftModule->GetSteerPosition());
-	frc::SmartDashboard::PutNumber("fr position", frontRightModule->GetSteerPosition());
-	frc::SmartDashboard::PutNumber("rl position", rearLeftModule->GetSteerPosition());
-	frc::SmartDashboard::PutNumber("rr position", rearRightModule->GetSteerPosition());
-
-	frc::SmartDashboard::PutNumber("fl setpoint", frontLeftModule->GetSetpoint());
-	frc::SmartDashboard::PutNumber("fr setpoint", frontRightModule->GetSetpoint());
-	frc::SmartDashboard::PutNumber("rl setpoint", rearLeftModule->GetSetpoint());
-	frc::SmartDashboard::PutNumber("rr setpoint", rearRightModule->GetSetpoint());
-
-	frc::SmartDashboard::PutNumber("fl power", frontLeftModule->GetPower());
-	frc::SmartDashboard::PutNumber("fr power", frontRightModule->GetPower());
-	frc::SmartDashboard::PutNumber("rl power", rearLeftModule->GetPower());
-	frc::SmartDashboard::PutNumber("rr power", rearRightModule->GetPower());
+		frc::SmartDashboard::PutNumber("fl power", frontLeftModule->GetPower());
+		frc::SmartDashboard::PutNumber("fr power", frontRightModule->GetPower());
+		frc::SmartDashboard::PutNumber("rl power", rearLeftModule->GetPower());
+		frc::SmartDashboard::PutNumber("rr power", rearRightModule->GetPower());
 }
 
 // ================================================================

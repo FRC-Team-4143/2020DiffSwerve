@@ -34,25 +34,40 @@ const uint32_t JOYSTICK_BUTTON_RIGHT = 10;
 
 OI::OI() {
 	_driverJoystick = new frc::Joystick(0);
+	_driverJoystick2 = new frc::Joystick(1);
 	_crabDrive = new CrabDrive();
 
 	frc::SmartDashboard::PutData("Set WheelOffsets", new SetWheelOffsets());
 	frc::SmartDashboard::PutData("Zero Yaw", new ZeroYaw());
 
 	(new frc::JoystickButton(_driverJoystick, JOYSTICK_BUTTON_LEFT))->ToggleWhenPressed(_crabDrive);
-	(new frc::JoystickButton(_driverJoystick, JOYSTICK_BUTTON_RB))->WhenPressed(new ExtendPickUp());
-	(new frc::JoystickButton(_driverJoystick, JOYSTICK_BUTTON_LB))->WhenPressed(new RetractPickUp());
-	(new frc::JoystickButton(_driverJoystick, JOYSTICK_BUTTON_B))->ToggleWhenPressed(new Shoot());
-	//(new frc::JoystickButton(_driverJoystick, JOYSTICK_BUTTON_X))->WhenPressed(new ExtendClimber()); //Retracts - Switched for now
+	//Right Bumper mapped to Turbo Mode
+	//(new frc::JoystickButton(_driverJoystick, ))->WhenPressed(new ExtendPickUp());
+	(new frc::JoystickButton(_driverJoystick, JOYSTICK_BUTTON_LB))->WhenPressed(new ExtendPickUp());
+	(new frc::JoystickButton(_driverJoystick, JOYSTICK_BUTTON_RB))->WhenPressed(new RetractPickUp());
+	//(new frc::JoystickButton(_driverJoystick, JOYSTICK_BUTTON_B))->ToggleWhenPressed(new Shoot());
 	(new frc::JoystickButton(_driverJoystick, JOYSTICK_BUTTON_BACK))->WhenPressed(new EngageBrake());
-	//(new frc::JoystickButton(_driverJoystick, JOYSTICK_BUTTON_Y))->WhenPressed(new RetractClimber()); // Extends - Switched for now
 	//JOYSTICK TRIGGERS used for PickUpIntake.cpp; R is Intake. L is Reverse. 
+
+
+	//(new frc::JoystickButton(_driverJoystick2, JOYSTICK_BUTTON_LEFT))->ToggleWhenPressed(_crabDrive));//stir forward
+	//(new frc::JoystickButton(_driverJoystick2, JOYSTICK_BUTTON_RB))->WhenPressed(new ExtendPickUp());//stir backward
+	//(new frc::JoystickButton(_driverJoystick2, JOYSTICK_BUTTON_LB))->WhenPressed(new RetractPickUp());
+	//(new frc::JoystickButton(_driverJoystick2, ))->ToggleWhenPressed(new Shoot());
+	//(new frc::JoystickButton(_driverJoystick, JOYSTICK_BUTTON_BACK))->WhenPressed(new EngageBrake());
 }
 
 // ==========================================================================
 
 float OI::GetJoystickX() {
 	auto value = _driverJoystick->GetRawAxis(JOYSTICK_LX_AXIS);
+	return (fabs(value) <= Constants::DEAD_ZONE) ? 0 : value;
+}
+
+// ==========================================================================
+
+float OI::GetJoystick2X() {
+	auto value = _driverJoystick2->GetRawAxis(JOYSTICK_LX_AXIS);
 	return (fabs(value) <= Constants::DEAD_ZONE) ? 0 : value;
 }
 

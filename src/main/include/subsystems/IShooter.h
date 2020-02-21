@@ -8,7 +8,7 @@ class IShooter : public frc::Subsystem {
 public:
 
 	IShooter(const wpi::Twine& name);
-
+	virtual void TurretMove(float velocity) = 0; 
 	virtual void TurretLeft() = 0;
 	virtual void TurretRight() = 0;
 	virtual void TurretStop() = 0;
@@ -16,7 +16,7 @@ public:
 	virtual void FeedStop() = 0;
 	virtual void Stir() = 0;
 	virtual void StirStop() = 0;
-	virtual void Shoot() = 0;
+	virtual void ShootStart() = 0;
 	virtual void ShootStop() = 0;
 
 };

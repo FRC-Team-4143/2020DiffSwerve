@@ -1,4 +1,5 @@
 #include "commands/Shoot.h"
+#include "OI.h"
 #include "Robot.h"
 
 // ==========================================================================
@@ -16,9 +17,11 @@ void Shoot::Initialize() {
 // ==========================================================================
 
 void Shoot::Execute() {
-	Robot::shooter->Shoot();
-	Robot::shooter->Feed();
-	Robot::shooter->Stir();
+
+	float joyx = Robot::oi->GetJoystick2X();
+	Robot::shooter->TurretMove(joyx);
+	//Robot::shooter->Shoot();
+	//Robot::shooter->Feed();
 }
 
 // ==========================================================================
@@ -32,6 +35,7 @@ bool Shoot::IsFinished() {
 void Shoot::End() {
 	Robot::shooter->ShootStop();
 	Robot::shooter->FeedStop();
+	Robot::shooter->TurretMove(0.);
 }
 
 // ==========================================================================

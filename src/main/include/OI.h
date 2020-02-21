@@ -10,6 +10,7 @@ public:
 	OI();
 
 	float GetJoystickX();
+	float GetJoystick2X();
 	float GetJoystickY();
 	float GetJoystickZ();
 
@@ -32,6 +33,7 @@ public:
 private:
 
 	frc::Joystick* _driverJoystick;
+	frc::Joystick* _driverJoystick2;
 	CrabDrive* _crabDrive;
 };
 

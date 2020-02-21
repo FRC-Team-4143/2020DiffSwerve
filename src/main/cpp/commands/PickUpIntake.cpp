@@ -16,7 +16,7 @@ void PickUpIntake::Initialize() {
 // ==========================================================================
 
 void PickUpIntake::Execute() {
-	//Robot::pickUp->Intake(-Robot::oi->GetRightTrigger() + Robot::oi->GetLeftTrigger());
+	Robot::pickUp->Intake(1.00);
 }
 
 // ==========================================================================

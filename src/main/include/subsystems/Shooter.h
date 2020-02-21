@@ -16,6 +16,7 @@ public:
 	virtual void InitDefaultCommand() override;
 
 	// IShooter methods
+	virtual void TurretMove(float velocity) override;
 	virtual void TurretLeft() override;
 	virtual void TurretStop() override;
 	virtual void TurretRight() override;
@@ -23,7 +24,7 @@ public:
 	virtual void FeedStop() override;
 	virtual void Stir() override;
 	virtual void StirStop() override;
-	virtual void Shoot() override;
+	virtual void ShootStart() override;
 	virtual void ShootStop() override;
 
 private:
