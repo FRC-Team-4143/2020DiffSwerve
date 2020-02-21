@@ -103,11 +103,12 @@ void DriveTrain::Crab(float twist, float y, float x, bool operatorControl) {
 	//	twist *= scale; // TWISTSCALE;
 	//}
 
-	//auto leftTrigger = Robot::oi->GetLeftTrigger();
-	//auto rightTrigger = Robot::oi->GetRightTrigger();
+	auto leftTrigger = Robot::oi->GetLeftTrigger();
+	auto rightTrigger = Robot::oi->GetRightTrigger();
 	auto rightBumper = Robot::oi->GetRightBumper();
+	auto leftBumper = Robot::oi->GetLeftBumper();
 
-	if (rightBumper) { // turbo mode use to be leftTrigger > 0 || rightTrigger > 0
+	if (rightTrigger > 0.2) { // turbo mode use to be leftTrigger > 0 || rightTrigger > 0
 		x *= 2.0;
 		y *= 2.0;
 	}

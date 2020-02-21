@@ -16,7 +16,8 @@ void PickUpIntake::Initialize() {
 // ==========================================================================
 
 void PickUpIntake::Execute() {
-	Robot::pickUp->Intake(1.00);
+	if(Robot::oi->GetLeftTrigger() > 0.2) Robot::pickUp->Intake(1.00);
+
 }
 
 // ==========================================================================

@@ -20,7 +20,7 @@ void Shoot::Execute() {
 
 	float joyx = Robot::oi->GetJoystick2X();
 	Robot::shooter->TurretMove(joyx);
-	//Robot::shooter->Shoot();
+	//Robot::shooter->ShootStart();
 	//Robot::shooter->Feed();
 }
 

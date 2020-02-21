@@ -41,16 +41,17 @@ OI::OI() {
 	frc::SmartDashboard::PutData("Zero Yaw", new ZeroYaw());
 
 	(new frc::JoystickButton(_driverJoystick, JOYSTICK_BUTTON_LEFT))->ToggleWhenPressed(_crabDrive);
-	//Right Bumper mapped to Turbo Mode
-	//(new frc::JoystickButton(_driverJoystick, ))->WhenPressed(new ExtendPickUp());
+	//Right Trigger mapped to Turbo Mode
+	//Left Trigger mapped to Pickup Intake Roller
 	(new frc::JoystickButton(_driverJoystick, JOYSTICK_BUTTON_LB))->WhenPressed(new ExtendPickUp());
 	(new frc::JoystickButton(_driverJoystick, JOYSTICK_BUTTON_RB))->WhenPressed(new RetractPickUp());
 	//(new frc::JoystickButton(_driverJoystick, JOYSTICK_BUTTON_B))->WhenPressed(new Shoot());
 	(new frc::JoystickButton(_driverJoystick, JOYSTICK_BUTTON_BACK))->WhenPressed(new EngageBrake());
-	//JOYSTICK TRIGGERS used for PickUpIntake.cpp; R is Intake. L is Reverse. 
 
 
-	//(new frc::JoystickButton(_driverJoystick2, JOYSTICK_BUTTON_LEFT))->ToggleWhenPressed(_crabDrive));//stir forward
+	//Right Joystick moves Turret
+	//Shooter 
+	//Stir
 	//(new frc::JoystickButton(_driverJoystick2, JOYSTICK_BUTTON_RB))->WhenPressed(new ExtendPickUp());//stir backward
 	//(new frc::JoystickButton(_driverJoystick2, JOYSTICK_BUTTON_LB))->WhenPressed(new RetractPickUp());
 	//(new frc::JoystickButton(_driverJoystick2, ))->ToggleWhenPressed(new Shoot());
