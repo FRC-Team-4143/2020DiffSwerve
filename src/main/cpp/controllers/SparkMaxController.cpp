@@ -15,8 +15,3 @@ void SparkMaxController::SetPercentPower(double value) {
 double SparkMaxController::GetEncoderPosition() {
 	return _motor->GetEncoder().GetPosition();
 }
-/*
-double SparkMaxController::GetSpeed() {
-	return _motor->GetVelocity();
-}
-*/
