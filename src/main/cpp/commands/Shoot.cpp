@@ -24,7 +24,7 @@ void Shoot::Execute() {
 
 	if(Robot::oi->GetRightTrigger2() > 0.5) {
 		counter++;	
-		if(counter > 100) Robot::shooter->Feed();
+		if(counter > 150) Robot::shooter->Feed();
 		Robot::shooter->ShootStart();
 	
 	} else {
