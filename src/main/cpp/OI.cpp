@@ -3,7 +3,6 @@
 #include "commands/RetractPickUp.h"
 #include "commands/ExtendClimber.h"
 #include "commands/RetractClimber.h"
-#include "commands/EngageBrake.h"
 #include "commands/Shoot.h"
 //non-joystick commands
 #include "commands/SetWheelOffsets.h"
@@ -46,8 +45,6 @@ OI::OI() {
 	(new frc::JoystickButton(_driverJoystick, JOYSTICK_BUTTON_LB))->WhenPressed(new ExtendPickUp());
 	(new frc::JoystickButton(_driverJoystick, JOYSTICK_BUTTON_RB))->WhenPressed(new RetractPickUp());
 	//(new frc::JoystickButton(_driverJoystick, JOYSTICK_BUTTON_B))->WhenPressed(new Shoot());
-	(new frc::JoystickButton(_driverJoystick, JOYSTICK_BUTTON_BACK))->WhenPressed(new EngageBrake());
-
 
 	//Turret mapped to Right Joystick (X)
 	//Shooter mapped to Right Trigger 
@@ -56,7 +53,6 @@ OI::OI() {
 	//(new frc::JoystickButton(_driverJoystick2, JOYSTICK_BUTTON_RB))->WhenPressed(new ExtendPickUp());//stir backward
 	//(new frc::JoystickButton(_driverJoystick2, JOYSTICK_BUTTON_LB))->WhenPressed(new RetractPickUp());
 	//(new frc::JoystickButton(_driverJoystick2, ))->ToggleWhenPressed(new Shoot());
-	//(new frc::JoystickButton(_driverJoystick, JOYSTICK_BUTTON_BACK))->WhenPressed(new EngageBrake());
 }
 
 // ==========================================================================

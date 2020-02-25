@@ -41,8 +41,6 @@
 // PCM channels for climber solenoids
 constexpr int CLIMBER_EXTENDER_FWD = 2;
 constexpr int CLIMBER_EXTENDER_REV = 3;
-constexpr int CLIMBER_BRAKE_FWD = 6;
-constexpr int CLIMBER_BRAKE_REV = 7;
 
 //CAN IDs for PickUp Subsystem
 constexpr int PICKUP_INTAKE_CAN = 10;
@@ -50,6 +48,9 @@ constexpr int PICKUP_INTAKE_CAN = 10;
 // PCM channels for pickup solenoids
 constexpr int PICKUP_SOL_FWD = 0;
 constexpr int PICKUP_SOL_REV = 4;
+
+// PCM channel for brake
+constexpr int WINCH_BRAKE = 5;
 
 // Shooter Ids
 constexpr int FEED_MOTOR = 11;
@@ -341,10 +342,10 @@ void Robot::DeviceInitialization() {
 
 	//======= Subsystem Motor Initialization =======//
 
-	climber = std::make_unique<Climber>(CLIMBER_EXTENDER_FWD, CLIMBER_EXTENDER_REV, CLIMBER_BRAKE_FWD, CLIMBER_BRAKE_REV);
+	climber = std::make_unique<Climber>(CLIMBER_EXTENDER_FWD, CLIMBER_EXTENDER_REV);
 	pickUp = std::make_unique<PickUp>(PICKUP_SOL_FWD, PICKUP_SOL_REV, PICKUP_INTAKE_CAN);
 	shooter = std::make_unique<Shooter>(SHOOTER_MOTOR, TURRET_MOTOR, FEED_MOTOR, STIR_MOTOR);
-	winch = std::make_unique<Winch>(WINCH_MOTOR);
+	winch = std::make_unique<Winch>(WINCH_MOTOR, WINCH_BRAKE);
 
 	//clampMotor = new TalonSRXController(CLAMP);
 

@@ -8,6 +8,8 @@ public:
 
 	WinchActive();
 
+	int counter = 0;
+
 	// Command methods
 	virtual void Initialize() override;
 	virtual void Execute() override;
