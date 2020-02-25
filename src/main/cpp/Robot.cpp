@@ -28,6 +28,9 @@
 #include "subsystems/Shooter.h"
 #include "subsystems/Winch.h"
 
+#include <networktables/NetworkTable.h>
+#include <networktables/NetworkTableInstance.h>
+
 // If not using DIFFSWERVE, must set ONE of the following to 1:
 #define USING_SPARKMAX_DRIVE 1
 #define USING_VICTOR_DRIVE 0
@@ -210,6 +213,48 @@ void Robot::TeleopInit() {
 // ================================================================
 
 void Robot::TeleopPeriodic() {
+	float Kp_vel = 0.010f; 
+	bool _lastButton5 = false;
+	float steering_adjust_last; 
+	auto button5 = Robot::oi->GetButtonStart();
+		std::shared_ptr<NetworkTable> table = NetworkTable::GetTable("limelight");
+		float tx = table->GetNumber("tx", 0.0f);
+		frc::SmartDashboard::PutNumber("TX",tx); //MAX: 15 MIN: -15
+	
+		if (button5 == 1){  //Left Bumper
+			float heading_error = tx;
+			float steering_adjust;
+			float adjust_speed; 
+
+		if(!_lastButton5){ //Runs once when button is pressed
+			steering_adjust = 0.0f;
+			steering_adjust_last = 0.0f;
+			}
+			/* (POSITION BASED; DOES NOT WORK!)
+			if (tx > 1.0){
+				steering_adjust = Kp*heading_error;
+			} else if (tx < -1.0){
+				steering_adjust = Kp*heading_error;
+			} else{
+				steering_adjust = steering_adjust_last; 
+			}
+			*/
+
+			//Velocity Based Offset Code
+			if (tx > 0.0){
+				adjust_speed = Kp_vel*heading_error - 0.05;
+			} else if (tx < 0.0){
+				adjust_speed = Kp_vel*heading_error + 0.05;
+			} else{
+				adjust_speed = 0; 
+			}
+		if (++_loops >= 10) {
+			_loops = 0;
+			printf("%s\n", _sb.c_str());
+		}
+		_sb.clear();
+		/* save button state for on press detect */
+		_lastButton5 = button5; 
 	frc::Scheduler::GetInstance()->Run();
 }
 
