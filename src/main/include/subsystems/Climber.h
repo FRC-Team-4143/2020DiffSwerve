@@ -10,7 +10,7 @@
 class Climber : public IClimber {
 public:
 
-	Climber(int extenderForwardChannel, int extenderReverseChannel, int brakeForwardChannel, int brakeReverseChannel);
+	Climber(int extenderForwardChannel, int extenderReverseChannel);
 
 	// Subsystem methods
 	virtual void InitDefaultCommand() override;
@@ -18,13 +18,10 @@ public:
 	// IClimber methods
 	virtual void Extend() override;
 	virtual void Retract() override;
-	virtual void EngageBrake() override;
-	virtual void ReleaseBrake() override;
 
 private:
 
 	std::unique_ptr<frc::DoubleSolenoid> _extender;
-	std::unique_ptr<frc::DoubleSolenoid> _brake;
 };
 
 // ==========================================================================

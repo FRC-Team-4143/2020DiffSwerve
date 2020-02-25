@@ -2,10 +2,9 @@
 
 // ==========================================================================
 
-Climber::Climber(int extenderForwardChannel, int extenderReverseChannel, int brakeForwardChannel, int brakeReverseChannel)
+Climber::Climber(int extenderForwardChannel, int extenderReverseChannel)
 :	IClimber("Climber") {
 	_extender = std::make_unique<frc::DoubleSolenoid>(extenderForwardChannel, extenderReverseChannel);
-	_brake = std::make_unique<frc::DoubleSolenoid>(brakeForwardChannel, brakeReverseChannel);
 }
 
 // ==========================================================================
@@ -24,18 +23,6 @@ void Climber::Extend() {
 
 void Climber::Retract() {
 	_extender->Set(frc::DoubleSolenoid::kForward);
-}
-
-// ==========================================================================
-
-void Climber::EngageBrake() {
-	_brake->Set(frc::DoubleSolenoid::kForward);
-}
-
-// ==========================================================================
-
-void Climber::ReleaseBrake() {
-	_brake->Set(frc::DoubleSolenoid::kReverse);
 }
 
 // ==========================================================================
