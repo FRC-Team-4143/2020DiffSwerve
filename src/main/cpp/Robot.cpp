@@ -116,6 +116,7 @@ void Robot::RobotInit() {
 
 void Robot::RobotPeriodic() {
 
+
 	//Subsystem Commands
 
 	if (navx != nullptr) {
@@ -162,7 +163,7 @@ void Robot::RobotPeriodic() {
 		if (_counter > 0) {
 			_counter -= 1;
 		}
-
+		/*
 		frc::SmartDashboard::PutNumber("fl position", frontLeftModule->GetSteerPosition());
 		frc::SmartDashboard::PutNumber("fr position", frontRightModule->GetSteerPosition());
 		frc::SmartDashboard::PutNumber("rl position", rearLeftModule->GetSteerPosition());
@@ -172,11 +173,27 @@ void Robot::RobotPeriodic() {
 		frc::SmartDashboard::PutNumber("fr setpoint", frontRightModule->GetSetpoint());
 		frc::SmartDashboard::PutNumber("rl setpoint", rearLeftModule->GetSetpoint());
 		frc::SmartDashboard::PutNumber("rr setpoint", rearRightModule->GetSetpoint());
-
+		*/
 		frc::SmartDashboard::PutNumber("fl power", frontLeftModule->GetPower());
 		frc::SmartDashboard::PutNumber("fr power", frontRightModule->GetPower());
 		frc::SmartDashboard::PutNumber("rl power", rearLeftModule->GetPower());
 		frc::SmartDashboard::PutNumber("rr power", rearRightModule->GetPower());
+
+	//RPM Code:
+		frc::SmartDashboard::PutNumber("FLD Rpm", _driveTrainFrontLeftDrive->GetEncoderPosition()); //RPM TEST
+		frc::SmartDashboard::PutNumber("FLS Rpm", _driveTrainFrontLeftSteer->GetEncoderPosition()); //RPM TEST
+		frc::SmartDashboard::PutNumber("FRD Rpm", _driveTrainFrontRightDrive->GetEncoderPosition()); //RPM TEST
+		frc::SmartDashboard::PutNumber("FLS Rpm", _driveTrainFrontRightSteer->GetEncoderPosition()); //RPM TEST
+
+		frc::SmartDashboard::PutNumber("Fuse 0 amps", _pdp->GetCurrent(0));
+		frc::SmartDashboard::PutNumber("Fuse 1 amps", _pdp->GetCurrent(1));
+		frc::SmartDashboard::PutNumber("Fuse 2 amps", _pdp->GetCurrent(2));
+		frc::SmartDashboard::PutNumber("Fuse 3 amps", _pdp->GetCurrent(3));
+
+		frc::SmartDashboard::PutNumber("Fuse 8 amps", _pdp->GetCurrent(8));
+		frc::SmartDashboard::PutNumber("Fuse 9 amps", _pdp->GetCurrent(9));
+		frc::SmartDashboard::PutNumber("Fuse 10 amps", _pdp->GetCurrent(10));
+		frc::SmartDashboard::PutNumber("Fuse 11 amps", _pdp->GetCurrent(11));
 }
 
 // ================================================================
@@ -226,6 +243,8 @@ void Robot::DeviceInitialization() {
 	//CameraServer::GetInstance()->StartAutomaticCapture();
 
 	_compressor = new frc::Compressor(0);
+
+	_pdp = new frc::PowerDistributionPanel(0);
 
 #if DIFFSWERVE
 
@@ -312,7 +331,7 @@ void Robot::DeviceInitialization() {
 #if NAVX_MXP
 	//navx = new AHRS(I2C::Port::kMXP);
 #else
-	//navx = new AHRS(I2C::Port::kOnboard);
+	navx = new AHRS(frc::I2C::Port::kOnboard);
 #endif
 
 	//======= System Initialization =======//

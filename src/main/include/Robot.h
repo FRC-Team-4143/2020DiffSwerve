@@ -17,6 +17,7 @@
 #include <frc/commands/Command.h>
 #include <frc/Compressor.h>
 #include <frc/TimedRobot.h>
+#include <frc/PowerDistributionPanel.h>
 
 #include <AHRS.h>
 #include <ctre/Phoenix.h>
@@ -111,7 +112,7 @@ private:
 #endif
 
 	frc::Compressor* _compressor;
-
+	frc::PowerDistributionPanel* _pdp;
 	int _counter = 0;
 
 	void DeviceInitialization();

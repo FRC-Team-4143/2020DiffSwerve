@@ -49,7 +49,7 @@ void VelocityTalonFXController::SetPercentPower(double value) {
 // ================================================================
 
 double VelocityTalonFXController::GetEncoderPosition() {
-	return _motor->GetSelectedSensorVelocity();
+	return (_motor->GetSelectedSensorVelocity()/2048) * 10 *60;
 }
 
 // ================================================================
@@ -63,18 +63,18 @@ void VelocityTalonFXController::SetVelocity(double value) {
 void VelocityTalonFXController::ConfigPID() {
 	_motor->ConfigFactoryDefault();
 
-	constexpr double MAX_CURRENT = 40.0;
+	constexpr double MAX_CURRENT = 30.0;
 
 	SupplyCurrentLimitConfiguration supply(true, MAX_CURRENT, MAX_CURRENT, kTimeoutMs);
 	_motor->ConfigSupplyCurrentLimit(supply);
 
-	StatorCurrentLimitConfiguration stator(true, MAX_CURRENT, MAX_CURRENT, kTimeoutMs);
-	_motor->ConfigStatorCurrentLimit(stator);
+	//StatorCurrentLimitConfiguration stator(true, MAX_CURRENT, MAX_CURRENT, kTimeoutMs);
+	//_motor->ConfigStatorCurrentLimit(stator);
 
 	_motor->SetInverted(false);
 	_motor->SetSensorPhase(true);
 
-	_motor->ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder, PID_PRIMARY, kTimeoutMs);
+	_motor->ConfigSelectedFeedbackSensor(FeedbackDevice::IntegratedSensor, PID_PRIMARY, kTimeoutMs);
 
 	_motor->ConfigNeutralDeadband(kNeutralDeadband, kTimeoutMs);
 

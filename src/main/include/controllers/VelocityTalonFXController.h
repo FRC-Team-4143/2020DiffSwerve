@@ -15,10 +15,11 @@ public:
 	virtual double GetEncoderPosition() override;
 	virtual void SetVelocity(double value) override;
 	virtual void ConfigPID() override;
+	
+	std::unique_ptr<WPI_TalonFX> _motor;
 
 private:
 
-	std::unique_ptr<WPI_TalonFX> _motor;
 };
 
 // ================================================================
