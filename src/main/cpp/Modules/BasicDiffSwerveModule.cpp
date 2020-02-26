@@ -50,7 +50,7 @@ void BasicDiffSwerveModule::SetDriveSpeed(float speed) {
 		turn = 0;
 	}
 	else {
-	    turn *= 1000.0 / 180; // simple gain on steering error
+	    turn *= 2000.0 / 180; // simple gain on steering error
 	}
 
 	_master->SetVelocity((speed * _inverse * 6000) - turn);

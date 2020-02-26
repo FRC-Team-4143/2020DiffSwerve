@@ -30,7 +30,9 @@ public:
 	bool GetButtonA2();
 	bool GetButtonB2();
 	bool GetButtonX();
+	bool GetButtonX2();
 	bool GetButtonY();
+	bool GetButtonY2();
 	bool GetButtonBack();
 	bool GetButtonStart();
 	bool GetLeftBumper();

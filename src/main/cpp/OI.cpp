@@ -66,21 +66,21 @@ float OI::GetJoystickX() {
 
 float OI::GetJoystick2X() {
 	auto value = _driverJoystick2->GetRawAxis(JOYSTICK_LX_AXIS);
-	return (fabs(value) <= Constants::DEAD_ZONE) ? 0 : value;
+	return (fabs(value) <= Constants::DEAD_ZONE*2) ? 0 : value;
 }
 
 // ==========================================================================
 
 float OI::GetJoystick2Y() {
 	auto value = _driverJoystick2->GetRawAxis(JOYSTICK_LY_AXIS);
-	return (fabs(value) <= Constants::DEAD_ZONE) ? 0 : value;
+	return (fabs(value) <= Constants::DEAD_ZONE*2) ? 0 : value;
 }
 
 // ==========================================================================
 
 float OI::GetJoystick2Z() {
 	auto value = _driverJoystick2->GetRawAxis(JOYSTICK_RX_AXIS);
-	return (fabs(value) <= Constants::DEAD_ZONE) ? 0 : value;
+	return (fabs(value) <= Constants::DEAD_ZONE*2) ? 0 : value;
 }
 
 // ==========================================================================
@@ -176,8 +176,20 @@ bool OI::GetButtonX() {
 
 // ==========================================================================
 
+bool OI::GetButtonX2() {
+	return _driverJoystick2->GetRawButton(JOYSTICK_BUTTON_X);
+}
+
+// ==========================================================================
+
 bool OI::GetButtonY() {
 	return _driverJoystick->GetRawButton(JOYSTICK_BUTTON_Y);
+}
+
+// ==========================================================================
+
+bool OI::GetButtonY2() {
+	return _driverJoystick2->GetRawButton(JOYSTICK_BUTTON_Y);
 }
 
 // ==========================================================================
