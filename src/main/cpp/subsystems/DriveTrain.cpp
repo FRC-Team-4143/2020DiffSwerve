@@ -89,8 +89,8 @@ void DriveTrain::Crab(float twist, float y, float x, bool operatorControl) {
 		lasttwist = twist;
 	}
 
-	x *= 0.25;
-	y *= 0.25;
+	x *= 0.5;
+	y *= 0.5;
 	twist *= 0.25;
 
 	//if (operatorControl && !Robot::oi->GetLeftBumper()) { // Increase spin speed
