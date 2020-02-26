@@ -50,8 +50,8 @@ OI::OI() {
 	//Shooter mapped to Right Trigger 
 	//Winch mapped to Left Joystick
 	//Stir mapped to A and B
-	//(new frc::JoystickButton(_driverJoystick2, JOYSTICK_BUTTON_RB))->WhenPressed(new ExtendPickUp());//stir backward
-	//(new frc::JoystickButton(_driverJoystick2, JOYSTICK_BUTTON_LB))->WhenPressed(new RetractPickUp());
+	(new frc::JoystickButton(_driverJoystick2, JOYSTICK_BUTTON_START))->WhenPressed(new ExtendClimber());
+	(new frc::JoystickButton(_driverJoystick2, JOYSTICK_BUTTON_BACK))->WhenPressed(new RetractClimber());
 	//(new frc::JoystickButton(_driverJoystick2, ))->ToggleWhenPressed(new Shoot());
 }
 

@@ -39,8 +39,8 @@
 #define NAVX_MXP 0 // 0 for Comp Bot
 
 // PCM channels for climber solenoids
-constexpr int CLIMBER_EXTENDER_FWD = 2;
-constexpr int CLIMBER_EXTENDER_REV = 3;
+constexpr int CLIMBER_EXTENDER_FWD = 3;
+constexpr int CLIMBER_EXTENDER_REV = 2;
 
 //CAN IDs for PickUp Subsystem
 constexpr int PICKUP_INTAKE_CAN = 10;
