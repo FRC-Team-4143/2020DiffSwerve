@@ -20,10 +20,9 @@ public:
 	void EnableDebug(bool debug);
 
 	// Get the latest vision data.
-	double GetGearPosition();
-	double GetGearDistance();
-	double GetBoilerPosition();
-	double GetBoilerDistance();
+	double GetPositionX();
+	double GetPositionY();
+	double GetYaw();
 
 private:
 
@@ -31,19 +30,12 @@ private:
 	uint16_t _listeningPort;
 
 	// Vision Values
-	double _gearRightX1;
-	double _gearRightY1;
-	double _gearRightX2;
-	double _gearRightY2;
-
-	double _gearLeftX1;
-	double _gearLeftY1;
-	double _gearLeftX2;
-	double _gearLeftY2;
-
-	double _boilerX1;
-	double _boilerX2;
-	double _boilerX3;
+	double _pitch;
+	double _roll;
+	double _yaw;
+	double _x;
+	double _y;
+	double _z;
 
 	bool _debug;
 	std::thread _listeningThread;
@@ -51,10 +43,7 @@ private:
 	void DebugOutput(std::string packet);
 	void Listen();
 	void ParsePacket(char packet[]);
-	void SetValues(int cam, double x1, double y1, double x2, double y2);
-	void SetGearRight(double x1, double y1, double x2, double y2);
-	void SetGearLeft(double x1, double y1, double x2, double y2);
-	void SetBoiler(double x1, double x2, double x3);
+	void SetValues(double pitch, double roll, double yaw, double x, double y, double z);
 };
 
 // ==========================================================================
