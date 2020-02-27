@@ -36,7 +36,7 @@
 #define USING_VICTOR_DRIVE 0
 #define USING_TALON_DRIVE 0
 
-#define NAVX_MXP 0 // 0 for Comp Bot
+#define NAVX_MXP 1
 
 // PCM channels for climber solenoids
 constexpr int CLIMBER_EXTENDER_FWD = 3;
@@ -329,7 +329,7 @@ void Robot::DeviceInitialization() {
 	LOG("DeviceInit NavX");
 
 #if NAVX_MXP
-	//navx = new AHRS(I2C::Port::kMXP);
+	navx = new AHRS(frc::I2C::Port::kMXP);
 #else
 	navx = new AHRS(frc::I2C::Port::kOnboard);
 #endif
