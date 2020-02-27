@@ -28,8 +28,8 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain") {
 // ================================================================
 
 void DriveTrain::InitDefaultCommand() {
-	//SetDefaultCommand(new FieldCentric());
-	SetDefaultCommand(new CrabDrive());
+	SetDefaultCommand(new FieldCentric());
+	//SetDefaultCommand(new CrabDrive());
 }
 
 // ================================================================
@@ -91,7 +91,7 @@ void DriveTrain::Crab(float twist, float y, float x, bool operatorControl) {
 
 	x *= 0.5;
 	y *= 0.5;
-	twist *= 0.25;
+	twist *= 0.5;
 
 	//if (operatorControl && !Robot::oi->GetLeftBumper()) { // Increase spin speed
 	//	twist *= 0.65;

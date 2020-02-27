@@ -30,14 +30,14 @@ void FieldCentric::Execute() {
 	if (z > 0) z = z* z + 0.1;
 	else if (z < 0) z = -(z* z + 0.1);
 
-	if (Robot::oi->GetButtonLeft() == false) {
+	//if (Robot::oi->GetButtonLeft() == false) {
 		Robot::driveTrain->FieldCentricCrab(z, -y, x, true);
 		frc::SmartDashboard::PutString("Driving Speed", "Full");	
-	}
-	else {
-		frc::SmartDashboard::PutString("Driving Speed", "Half");
-		Robot::driveTrain->FieldCentricCrab(z/2, -y/2, x/2, true);
-	}
+	//}
+	//else {
+	//	frc::SmartDashboard::PutString("Driving Speed", "Half");
+	//	Robot::driveTrain->FieldCentricCrab(z/2, -y/2, x/2, true);
+	//}
 }
 
 // ==========================================================================
