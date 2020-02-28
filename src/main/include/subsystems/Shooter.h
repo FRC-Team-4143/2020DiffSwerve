@@ -5,6 +5,7 @@
 #pragma once
 #include "subsystems/IShooter.h"
 #include "controllers/IMultiController.h"
+#include "controllers/IVelocityMultiController.h"
 #include <memory>
 
 class Shooter : public IShooter {
@@ -30,7 +31,7 @@ public:
 
 private:
 
-	std::unique_ptr<IMultiController> _shooter;
+	std::unique_ptr<IVelocityMultiController> _shooter;
 	std::unique_ptr<IMultiController> _turret;
 	std::unique_ptr<IMultiController> _feeder;
 	std::unique_ptr<IMultiController> _stir;

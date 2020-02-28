@@ -1,4 +1,4 @@
-#include "controllers/VelocityTalonFXController.h"
+#include "controllers/ShooterTalonFXController.h"
 #include "Modules/Logger.h"
 
 // ================================================================
@@ -30,44 +30,43 @@ constexpr static double kNeutralDeadband = 0.001;
 
 // PID constants                           kP   kI   kD    kF   Iz  PeakOut
 constexpr static Gains kGains_Velocit = { 0.2, 0.0, 0.0, 0.05, 300, 1.0 /*0.70*/ };
-//constexpr static Gains kGains_Velocit = { 0.0, 0.0, 0.0, 0.05, 300, 1.0 /*0.70*/ };
 
 const static int kSlot_Velocit = SLOT_2;
 
 // ================================================================
 
-VelocityTalonFXController::VelocityTalonFXController(int canId)
+ShooterTalonFXController::ShooterTalonFXController(int canId)
 :	_motor{std::make_unique<WPI_TalonFX>(canId)} {
 	ConfigPID();
 }
 
 // ================================================================
 
-void VelocityTalonFXController::SetPercentPower(double value) {
+void ShooterTalonFXController::SetPercentPower(double value) {
 	_motor->Set(ControlMode::PercentOutput, value);
 }
 
 // ================================================================
 
-double VelocityTalonFXController::GetEncoderPosition() {
+double ShooterTalonFXController::GetEncoderPosition() {
 	return (_motor->GetSelectedSensorVelocity()/2048) * 10 *60;
 }
 
 // ================================================================
 
-void VelocityTalonFXController::SetVelocity(double value) {
+void ShooterTalonFXController::SetVelocity(double value) {
 	_motor->Set(ControlMode::Velocity, value);
 }
 
 // ================================================================
 
-void VelocityTalonFXController::ConfigPID() {
+void ShooterTalonFXController::ConfigPID() {
 	_motor->ConfigFactoryDefault();
 
-	constexpr double MAX_CURRENT = 30.0;
+	constexpr double MAX_CURRENT = 40.0;
 
-	SupplyCurrentLimitConfiguration supply(true, MAX_CURRENT, MAX_CURRENT, kTimeoutMs);
-	_motor->ConfigSupplyCurrentLimit(supply);
+	//SupplyCurrentLimitConfiguration supply(true, MAX_CURRENT, MAX_CURRENT, kTimeoutMs);
+	//_motor->ConfigSupplyCurrentLimit(supply);
 
 	//StatorCurrentLimitConfiguration stator(true, MAX_CURRENT, MAX_CURRENT, kTimeoutMs);
 	//_motor->ConfigStatorCurrentLimit(stator);

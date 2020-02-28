@@ -2,7 +2,7 @@
 #include <ctre/Phoenix.h>
 #include "controllers/VictorController.h"
 #include "controllers/SparkMaxController.h"
-#include "controllers/VelocityTalonFXController.h"
+#include "controllers/ShooterTalonFXController.h"
 #include "commands/Shoot.h"
 #include <frc/smartdashboard/SmartDashboard.h>
 
@@ -11,7 +11,7 @@
 
 Shooter::Shooter(int shooterCANId, int turretCANId, int feederCANId, int stirCANId)
 :	IShooter("Shooter") {
-	_shooter = std::make_unique<VelocityTalonFXController>(shooterCANId);
+	_shooter = std::make_unique<ShooterTalonFXController>(shooterCANId);
 	_turret = std::make_unique<SparkMaxController>(turretCANId);
 	_feeder = std::make_unique<VictorController>(feederCANId);
 	_stir = std::make_unique<VictorController>(stirCANId);
@@ -83,7 +83,8 @@ void Shooter::StirStop() {
 // ==========================================================================
 
 void Shooter::ShootStart() {
-	_shooter->SetPercentPower(.65);
+	//_shooter->SetPercentPower(.65);
+	_shooter->SetVelocity(16000);
 }
 
 // ==========================================================================

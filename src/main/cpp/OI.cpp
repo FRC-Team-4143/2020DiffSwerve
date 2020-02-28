@@ -73,14 +73,21 @@ float OI::GetJoystick2X() {
 
 float OI::GetJoystick2Y() {
 	auto value = _driverJoystick2->GetRawAxis(JOYSTICK_LY_AXIS);
-	return (fabs(value) <= Constants::DEAD_ZONE*2) ? 0 : value;
+	if(value > Constants::DEAD_ZONE*2) return value - Constants::DEAD_ZONE*2;
+	if(value < -Constants::DEAD_ZONE*2) return value + Constants::DEAD_ZONE*2;
+	return 0;
+	//return (fabs(value) <= Constants::DEAD_ZONE*2) ? 0 : value;
 }
 
 // ==========================================================================
 
 float OI::GetJoystick2Z() {
 	auto value = _driverJoystick2->GetRawAxis(JOYSTICK_RX_AXIS);
-	return (fabs(value) <= Constants::DEAD_ZONE*2) ? 0 : value;
+	if(value > Constants::DEAD_ZONE*2) return value - Constants::DEAD_ZONE*2;
+	if(value < -Constants::DEAD_ZONE*2) return value + Constants::DEAD_ZONE*2;
+	return 0;
+
+	//return (fabs(value) <= Constants::DEAD_ZONE*2) ? 0 : value;
 }
 
 // ==========================================================================
