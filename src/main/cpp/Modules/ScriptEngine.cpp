@@ -3,8 +3,11 @@
 #include "Modules/CommandListParser.h"
 #include "Modules/Logger.h"
 
+#include "commands/ExtendPickUp.h"
+#include "commands/RetractPickUp.h"
 #include "commands/ScriptDriveCrab.h"
 #include "commands/ScriptDriveFieldCentric.h"
+#include "commands/ScriptPickUpIntake.h"
 #include "commands/ScriptSleep.h"
 
 #include <frc/smartdashboard/SmartDashboard.h>
@@ -89,6 +92,38 @@ void ScriptEngine::_InitializeParser() {
 
 	parser.AddCommand(
 		CommandParseInfo(
+			"PickupExtend", {"PE", "pe"},
+			[](std::vector<float> parameters, std::function<void(frc::Command*, float)> fCreateCommand) {
+				frc::Command* command = new ExtendPickUp();
+				fCreateCommand(command, 0);
+			}
+		)
+	);
+
+	parser.AddCommand(
+		CommandParseInfo(
+			"PickupIntake", {"PI", "pi"},
+			[](std::vector<float> parameters, std::function<void(frc::Command*, float)> fCreateCommand) {
+				parameters.resize(1);
+				auto seconds = parameters[0];
+				frc::Command* command = new ScriptPickUpIntake(seconds);
+				fCreateCommand(command, 0);
+			}
+		)
+	);
+
+	parser.AddCommand(
+		CommandParseInfo(
+			"PickupRetract", {"PR", "pr"},
+			[](std::vector<float> parameters, std::function<void(frc::Command*, float)> fCreateCommand) {
+				frc::Command* command = new RetractPickUp();
+				fCreateCommand(command, 0);
+			}
+		)
+	);
+
+	parser.AddCommand(
+		CommandParseInfo(
 			"Sleep", {"S", "s"},
 			[](std::vector<float> parameters, std::function<void(frc::Command*, float)> fCreateCommand) {
 				parameters.resize(1);
@@ -99,8 +134,10 @@ void ScriptEngine::_InitializeParser() {
 		)
 	);
 
+	// ------------------------------------------------
 	// Call IsValid to ensure that regular expressions
 	// get built before the start of autonomous.
+	// ------------------------------------------------
 	parser.IsValid("S(0)");
 }
 
