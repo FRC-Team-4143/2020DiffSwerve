@@ -1,12 +1,15 @@
 #include "OI.h"
-#include "commands/ExtendPickUp.h"
-#include "commands/RetractPickUp.h"
 #include "commands/ExtendClimber.h"
+#include "commands/ExtendPickUp.h"
 #include "commands/RetractClimber.h"
+#include "commands/RetractPickUp.h"
+#include "commands/ScriptValidate.h"
 #include "commands/Shoot.h"
+
 //non-joystick commands
 #include "commands/SetWheelOffsets.h"
 #include "commands/ZeroYaw.h"
+
 #include "Modules/Constants.h"
 #include <frc/buttons/JoystickButton.h>
 #include <frc/smartdashboard/SmartDashboard.h>
@@ -53,6 +56,8 @@ OI::OI() {
 	(new frc::JoystickButton(_driverJoystick2, JOYSTICK_BUTTON_START))->WhenPressed(new ExtendClimber());
 	(new frc::JoystickButton(_driverJoystick2, JOYSTICK_BUTTON_BACK))->WhenPressed(new RetractClimber());
 	//(new frc::JoystickButton(_driverJoystick2, ))->ToggleWhenPressed(new Shoot());
+
+	frc::SmartDashboard::PutData("Validate Script", new ScriptValidate());
 }
 
 // ==========================================================================

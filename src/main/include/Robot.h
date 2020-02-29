@@ -9,15 +9,15 @@
 #include "subsystems/IPickUp.h"
 #include "subsystems/IClimber.h"
 #include "subsystems/IShooter.h"
-#include "subsystems/VisionBridgeSub.h"
 #include "subsystems/IWinch.h"
+#include "subsystems/VisionBridgeSub.h"
 #include "OI.h"
 
 #include <frc/AnalogInput.h>
 #include <frc/commands/Command.h>
 #include <frc/Compressor.h>
-#include <frc/TimedRobot.h>
 #include <frc/PowerDistributionPanel.h>
+#include <frc/TimedRobot.h>
 
 #include <AHRS.h>
 #include <ctre/Phoenix.h>
@@ -115,5 +115,8 @@ private:
 	frc::PowerDistributionPanel* _pdp;
 	int _counter = 0;
 
+	frc::Command* _autonomousCommand;
+
 	void DeviceInitialization();
+	void ScriptInit();
 };

@@ -7,6 +7,9 @@
 #include <rev/ColorMatch.h>
 #include <iostream>
 
+#include "commands/ScriptCommand.h"
+#include "commands/ScriptSleep.h"
+
 #include "controllers/SparkMaxController.h"
 #include "controllers/SteerTalonController.h"
 #include "controllers/TalonSRXController.h"
@@ -16,10 +19,12 @@
 
 #include "encoders/CANCoderPositionEncoder.h"
 
-#include "Modules/Logger.h"
-#include "Modules/Constants.h"
 #include "Modules/BasicDiffSwerveModule.h"
+#include "Modules/CommandListParser.h"
+#include "Modules/Constants.h"
 #include "Modules/DiffSwerveModule.h"
+#include "Modules/Logger.h"
+#include "Modules/ScriptCommandFactory.h"
 #include "Modules/SwerveModule.h"
 #include "Modules/TalonFXDiffSwerveModule.h"
 
@@ -101,6 +106,11 @@ void Robot::RobotInit() {
 
 	frc::SmartDashboard::PutNumber("Yaw Offset", 0);
 
+	ScriptInit();
+	frc::SmartDashboard::PutString("ScriptCommand", "S(1)");
+	frc::SmartDashboard::PutString("ScriptValid", "");
+	_autonomousCommand = nullptr;
+
 	driveTrain->LoadWheelOffsets();
 	driveTrain->SetWheelbase(30.25 ,20.5);
 
@@ -115,7 +125,6 @@ void Robot::RobotInit() {
 // ================================================================
 
 void Robot::RobotPeriodic() {
-
 
 	//Subsystem Commands
 
@@ -211,6 +220,11 @@ void Robot::DisabledPeriodic() {
 
 void Robot::AutonomousInit() {
 	_compressor->SetClosedLoopControl(true);
+
+	_autonomousCommand = ScriptCommandFactory::GetInstance().GetCommand().release();
+	if (_autonomousCommand != nullptr) {
+		_autonomousCommand->Start();
+	}
 }
 
 // ================================================================
@@ -224,6 +238,12 @@ void Robot::AutonomousPeriodic() {
 void Robot::TeleopInit() {
 	_compressor->SetClosedLoopControl(true);
 
+	// The Cancel call ensures that the autonomous command stops running when
+	// teleop starts running. To let the autonomous command continue until
+	// finished or interrupted by another command, remove the Cancel call.
+	if (_autonomousCommand != nullptr) {
+		_autonomousCommand->Cancel();
+	}
 }
 
 // ================================================================
@@ -398,6 +418,30 @@ void Robot::DeviceInitialization() {
 	driveTrain = new DriveTrain();
 
 	LOG("DeviceInit end");
+}
+
+// ================================================================
+
+void Robot::ScriptInit() {
+	LOG("Robot::ScriptInit");
+
+	CommandListParser &parser(CommandListParser::GetInstance());
+
+	parser.AddCommand(
+		CommandParseInfo(
+			"Sleep", {"S", "s"},
+			[](std::vector<float> parameters, std::function<void(frc::Command *, float)> fCreateCommand) {
+				parameters.resize(1);
+				auto timeout = parameters[0];
+				frc::Command *command = new ScriptSleep("Sleep", timeout);
+				fCreateCommand(command, 0);
+			}
+		)
+	);
+
+	// Call IsValid to ensure that regular expressions
+	// get built before the start of autonomous.
+	parser.IsValid("S(0)");
 }
 
 // ================================================================
