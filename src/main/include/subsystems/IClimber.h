@@ -15,6 +15,10 @@ public:
 	virtual void BalanceRight()=0; 
 	virtual void BalanceLeft()=0; 
 	virtual void BalanceStop()=0;
+	virtual void EngageRollerBrake()=0;
+	virtual void DisEngageRollerBrake()=0;
+	
+
 	
 };
 

@@ -5,7 +5,7 @@
 #include "commands/RetractPickUp.h"
 #include "commands/ScriptValidate.h"
 #include "commands/Shoot.h"
-
+#include "commands/TogglePanel.h"
 //non-joystick commands
 #include "commands/SetWheelOffsets.h"
 #include "commands/ZeroYaw.h"
@@ -45,6 +45,7 @@ OI::OI() {
 	(new frc::JoystickButton(_driverJoystick, JOYSTICK_BUTTON_LEFT))->ToggleWhenPressed(_crabDrive);
 	//Right Trigger mapped to Turbo Mode
 	//Left Trigger mapped to Pickup Intake Roller
+	(new frc::JoystickButton(_driverJoystick, JOYSTICK_BUTTON_RIGHT))->WhenPressed( new TogglePanel());
 	(new frc::JoystickButton(_driverJoystick, JOYSTICK_BUTTON_LB))->WhenPressed(new ExtendPickUp());
 	(new frc::JoystickButton(_driverJoystick, JOYSTICK_BUTTON_RB))->WhenPressed(new RetractPickUp());
 	//(new frc::JoystickButton(_driverJoystick, JOYSTICK_BUTTON_B))->WhenPressed(new Shoot());

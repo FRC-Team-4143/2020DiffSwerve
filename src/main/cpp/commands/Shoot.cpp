@@ -35,7 +35,7 @@ void Shoot::Execute() {
 	if( Robot::oi->GetButtonX2()/*counter > 150*/) Robot::shooter->Feed(1);
 	else if (Robot::oi->GetButtonY2()) Robot::shooter->Feed(-0.5);
 	else Robot::shooter->FeedStop();
-	
+
 	if(Robot::oi->GetButtonA2()) {
 		Robot::shooter->Stir();
 	}
@@ -68,6 +68,8 @@ void Shoot::Execute() {
 			adjust_speed = 0; 
 		}
 	}
+
+
 
 	//actual motor control
 	//Robot::shooter->TurretMove(adjust_speed);

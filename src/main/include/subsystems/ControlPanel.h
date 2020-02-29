@@ -11,18 +11,20 @@
 class ControlPanel : public IControlPanel {
 public:
 
-	ControlPanel(int channelfwd, int channelrev);
+	ControlPanel(int channel);
 
 	// Subsystem methods
 	virtual void InitDefaultCommand() override;
 
 	// IControlPanel methods
-	virtual void nothing() override;
+	virtual void ColorUp() override;
+	virtual void ColorDown() override; 
+	virtual void TogglePanel() override;
 
 private:
 
-	std::unique_ptr<frc::DoubleSolenoid> _solenoid1;
-
+	std::unique_ptr<frc::Solenoid> _solenoid1;
+	bool _panelIsUp;
 };
 
 // ==========================================================================

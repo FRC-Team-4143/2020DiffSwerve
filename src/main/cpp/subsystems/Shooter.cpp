@@ -84,7 +84,7 @@ void Shooter::StirStop() {
 
 void Shooter::ShootStart() {
 	//_shooter->SetPercentPower(.65);
-	_shooter->SetVelocity(16000);
+	_shooter->SetVelocity(16000-1600); //10% less
 }
 
 // ==========================================================================

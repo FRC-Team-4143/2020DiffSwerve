@@ -3,10 +3,11 @@
 
 // ==========================================================================
 
-Climber::Climber(int extenderForwardChannel, int extenderReverseChannel, int boatCanId)
+Climber::Climber(int extenderForwardChannel, int extenderReverseChannel, int boatCanId, int rollerbrakeForwarcChannel, int rollerbrakeReverseChannel)
 :	IClimber("Climber") {
 	_extender = std::make_unique<frc::DoubleSolenoid>(extenderForwardChannel, extenderReverseChannel);
 	_boatroller= std::make_unique<VictorController>(boatCanId);
+	_rollerbrake= std::make_unique<frc::DoubleSolenoid>(rollerbrakeForwarcChannel, rollerbrakeReverseChannel);
 }
 
 // ==========================================================================
@@ -30,19 +31,34 @@ void Climber::Retract() {
 // ==========================================================================
 
 void Climber::BalanceLeft() {
+	DisEngageRollerBrake();
 	_boatroller->SetPercentPower(-0.50);
 }
 
 // ==========================================================================
 
 void Climber::BalanceRight() {
+	DisEngageRollerBrake();
 	_boatroller->SetPercentPower(0.50);
 }
 
 // ==========================================================================
 
 void Climber::BalanceStop() {
+	EngageRollerBrake();
 	_boatroller->SetPercentPower(0);
+}
+
+// ==========================================================================
+
+void Climber::EngageRollerBrake() {
+	_rollerbrake->Set(frc::DoubleSolenoid::kReverse);
+}
+
+// ==========================================================================
+
+void Climber::DisEngageRollerBrake() {
+	_rollerbrake->Set(frc::DoubleSolenoid::kForward);
 }
 
 // ==========================================================================

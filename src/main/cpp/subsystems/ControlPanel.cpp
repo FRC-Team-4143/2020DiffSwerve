@@ -2,9 +2,11 @@
 
 // ==========================================================================
 
-ControlPanel::ControlPanel(int channelfwd, int channelrev)
+ControlPanel::ControlPanel(int channel)
 :	IControlPanel("ControlPanel") {
-	_solenoid1 = std::make_unique<frc::DoubleSolenoid>(channelfwd, channelrev);
+	_solenoid1 = std::make_unique<frc::Solenoid>(channel);
+	_panelIsUp= false;
+
 }
 
 // ==========================================================================
@@ -15,7 +17,24 @@ void ControlPanel::InitDefaultCommand() {
 
 // ==========================================================================
 
-void ControlPanel::nothing() {
-	_solenoid1->Set(frc::DoubleSolenoid::kForward);
+void ControlPanel::ColorUp() {
+	_solenoid1->Set(true);
 }
 
+// ==========================================================================
+
+void ControlPanel::ColorDown() {
+	_solenoid1->Set(false);
+}
+
+// ==========================================================================
+
+void ControlPanel::TogglePanel() {
+	if(_panelIsUp){
+		ColorDown();
+		_panelIsUp=false;
+	} else {
+		ColorUp();
+		_panelIsUp=true;
+	}
+}

@@ -32,6 +32,7 @@
 #include "subsystems/PickUp.h"
 #include "subsystems/Shooter.h"
 #include "subsystems/Winch.h"
+#include "subsystems/ControlPanel.h"
 
 #include <networktables/NetworkTable.h>
 #include <networktables/NetworkTableInstance.h>
@@ -56,8 +57,11 @@ constexpr int PICKUP_INTAKE_CAN = 10;
 constexpr int PICKUP_SOL_FWD = 0;
 constexpr int PICKUP_SOL_REV = 4;
 
-// PCM channel for brake
+// PCM channel for brakes
 constexpr int WINCH_BRAKE = 5;
+constexpr int CONTROLPANEL_SOL= 2;
+constexpr int ROLLERBRAKE_SOL_FWD = 6;
+constexpr int ROLLERBRAKE_SOL_REV = 7;
 
 // Shooter Ids
 constexpr int FEED_MOTOR = 11;
@@ -88,6 +92,7 @@ std::unique_ptr<IClimber> Robot::climber;
 std::unique_ptr<IPickUp> Robot::pickUp;
 std::unique_ptr<IShooter> Robot::shooter;
 std::unique_ptr<IWinch> Robot::winch;
+std::unique_ptr<IControlPanel> Robot::controlPanel;
 
 //IMultiController* Robot::clampMotor = nullptr;
 
@@ -339,10 +344,11 @@ void Robot::DeviceInitialization() {
 
 	//======= Subsystem Motor Initialization =======//
 
-	climber = std::make_unique<Climber>(CLIMBER_EXTENDER_FWD, CLIMBER_EXTENDER_REV, CLIMBER_BOATROLLER);
+	climber = std::make_unique<Climber>(CLIMBER_EXTENDER_FWD, CLIMBER_EXTENDER_REV, CLIMBER_BOATROLLER, ROLLERBRAKE_SOL_FWD, ROLLERBRAKE_SOL_REV);
 	pickUp = std::make_unique<PickUp>(PICKUP_SOL_FWD, PICKUP_SOL_REV, PICKUP_INTAKE_CAN);
 	shooter = std::make_unique<Shooter>(SHOOTER_MOTOR, TURRET_MOTOR, FEED_MOTOR, STIR_MOTOR);
 	winch = std::make_unique<Winch>(WINCH_MOTOR, WINCH_BRAKE);
+	controlPanel= std::make_unique<ControlPanel>(CONTROLPANEL_SOL);
 
 	//clampMotor = new TalonSRXController(CLAMP);
 
