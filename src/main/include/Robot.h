@@ -2,16 +2,20 @@
 #include "controllers/IMultiController.h"
 #include "controllers/IPositionMultiController.h"
 #include "controllers/IVelocityMultiController.h"
+
 #include "encoders/IPositionEncoder.h"
+
 #include "Modules/ISwerveModule.h"
+
 #include "subsystems/DriveTrain.h"
 #include "subsystems/GyroSub.h"
-#include "subsystems/IPickUp.h"
 #include "subsystems/IClimber.h"
+#include "subsystems/IControlPanel.h"
+#include "subsystems/IPickUp.h"
 #include "subsystems/IShooter.h"
 #include "subsystems/IWinch.h"
-#include "subsystems/IControlPanel.h"
 #include "subsystems/VisionBridgeSub.h"
+
 #include "OI.h"
 
 #include <frc/AnalogInput.h>

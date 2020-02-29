@@ -4,9 +4,10 @@
 // ==========================================================================
 #pragma once
 #include "subsystems/IControlPanel.h"
-#include <frc/DoubleSolenoid.h>
 #include <frc/Solenoid.h>
 #include <memory>
+
+// ==========================================================================
 
 class ControlPanel : public IControlPanel {
 public:

@@ -7,9 +7,6 @@
 #include <rev/ColorMatch.h>
 #include <iostream>
 
-#include "commands/ScriptCommand.h"
-#include "commands/ScriptSleep.h"
-
 #include "controllers/SparkMaxController.h"
 #include "controllers/SteerTalonController.h"
 #include "controllers/TalonSRXController.h"
@@ -24,15 +21,15 @@
 #include "Modules/Constants.h"
 #include "Modules/DiffSwerveModule.h"
 #include "Modules/Logger.h"
-#include "Modules/ScriptCommandFactory.h"
+#include "Modules/ScriptEngine.h"
 #include "Modules/SwerveModule.h"
 #include "Modules/TalonFXDiffSwerveModule.h"
 
 #include "subsystems/Climber.h"
+#include "subsystems/ControlPanel.h"
 #include "subsystems/PickUp.h"
 #include "subsystems/Shooter.h"
 #include "subsystems/Winch.h"
-#include "subsystems/ControlPanel.h"
 
 #include <networktables/NetworkTable.h>
 #include <networktables/NetworkTableInstance.h>
@@ -113,9 +110,7 @@ void Robot::RobotInit() {
 
 	frc::SmartDashboard::PutNumber("Yaw Offset", 0);
 
-	ScriptInit();
-	frc::SmartDashboard::PutString("ScriptCommand", "S(1)");
-	frc::SmartDashboard::PutString("ScriptValid", "");
+	ScriptEngine::GetInstance().Initialize();
 	_autonomousCommand = nullptr;
 
 	driveTrain->LoadWheelOffsets();
@@ -228,7 +223,7 @@ void Robot::DisabledPeriodic() {
 void Robot::AutonomousInit() {
 	_compressor->SetClosedLoopControl(true);
 	climber->Retract();
-	_autonomousCommand = ScriptCommandFactory::GetInstance().GetCommand().release();
+	_autonomousCommand = ScriptEngine::GetInstance().GetCommand();
 	if (_autonomousCommand != nullptr) {
 		_autonomousCommand->Start();
 	}
@@ -426,30 +421,6 @@ void Robot::DeviceInitialization() {
 	driveTrain = new DriveTrain();
 
 	LOG("DeviceInit end");
-}
-
-// ================================================================
-
-void Robot::ScriptInit() {
-	LOG("Robot::ScriptInit");
-
-	CommandListParser &parser(CommandListParser::GetInstance());
-
-	parser.AddCommand(
-		CommandParseInfo(
-			"Sleep", {"S", "s"},
-			[](std::vector<float> parameters, std::function<void(frc::Command *, float)> fCreateCommand) {
-				parameters.resize(1);
-				auto timeout = parameters[0];
-				frc::Command *command = new ScriptSleep("Sleep", timeout);
-				fCreateCommand(command, 0);
-			}
-		)
-	);
-
-	// Call IsValid to ensure that regular expressions
-	// get built before the start of autonomous.
-	parser.IsValid("S(0)");
 }
 
 // ================================================================

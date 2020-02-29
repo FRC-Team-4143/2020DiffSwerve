@@ -45,8 +45,8 @@ void Climber::BalanceRight() {
 // ==========================================================================
 
 void Climber::BalanceStop() {
-	EngageRollerBrake();
 	_boatroller->SetPercentPower(0);
+	EngageRollerBrake();
 }
 
 // ==========================================================================

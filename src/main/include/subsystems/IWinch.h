@@ -14,7 +14,6 @@ public:
 	virtual void WinchDrive(float speed) = 0;
 	virtual void WinchStop() = 0;
 	virtual void WinchBrake(bool engageBrake) = 0;
-
 };
 
 // ==========================================================================

@@ -18,13 +18,9 @@ void CrabDrive::Initialize() {
 // ==========================================================================
 
 void CrabDrive::Execute() {
-	float x = 0;
-	float y = 0;
-	float z = 0;
-
-	x = Robot::oi->GetJoystickX();
-	y = Robot::oi->GetJoystickY();
-	z = Robot::oi->GetJoystickZ();
+	auto x = Robot::oi->GetJoystickX();
+	auto y = Robot::oi->GetJoystickY();
+	auto z = Robot::oi->GetJoystickZ();
 
 	x *= fabs(x);
 	y *= fabs(y);
@@ -38,7 +34,6 @@ void CrabDrive::Execute() {
 	//y *= (y < 0 ? -y: y);
 
 	Robot::driveTrain->Crab(-z, -y, x, true);
-	//Robot::driveTrain->Crab(z, x, y, true);
 }
 
 // ==========================================================================

@@ -25,25 +25,35 @@ void Shoot::Execute() {
 	float joyz = Robot::oi->GetJoystick2Z();
 	Robot::shooter->TurretMove(joyz * 0.2);
 
-	if(Robot::oi->GetRightTrigger2() > 0.5) {
+	if (Robot::oi->GetRightTrigger2() > 0.5) {
 		//counter++;
 		Robot::shooter->ShootStart();	
-	} else {
+	}
+	else {
 		//counter = 0;
 		Robot::shooter->ShootStop();
 	}
-	if( Robot::oi->GetButtonX2()/*counter > 150*/) Robot::shooter->Feed(1);
-	else if (Robot::oi->GetButtonY2()) Robot::shooter->Feed(-0.5);
-	else Robot::shooter->FeedStop();
 
-	if(Robot::oi->GetButtonA2()) {
+	if (Robot::oi->GetButtonX2()) {
+		Robot::shooter->Feed(1);
+	}
+	else if (Robot::oi->GetButtonY2()) {
+		Robot::shooter->Feed(-0.5);
+	}
+	else {
+		Robot::shooter->FeedStop();
+	}
+
+	if (Robot::oi->GetButtonA2()) {
 		Robot::shooter->Stir();
 	}
 	else if (Robot::oi->GetButtonB2()) {
 		Robot::shooter->StirReverse();
-	} else {
+	}
+	else {
 		Robot::shooter->StirStop();
 	}
+
 	//turret stuff
 	float Kp_vel = 0.0010f; 
 	auto button = Robot::oi->GetButtonStart();
@@ -60,16 +70,16 @@ void Shoot::Execute() {
 		}
 
 		//Velocity Based Offset Code
-		if (tx > 0.0){
+		if (tx > 0.0) {
 			adjust_speed = Kp_vel*heading_error - 0.05;
-		} else if (tx < 0.0){
+		}
+		else if (tx < 0.0) {
 			adjust_speed = Kp_vel*heading_error + 0.05;
-		} else{
+		}
+		else {
 			adjust_speed = 0; 
 		}
 	}
-
-
 
 	//actual motor control
 	//Robot::shooter->TurretMove(adjust_speed);

@@ -1,12 +1,13 @@
 #pragma once
 #include <frc/commands/Command.h>
+#include <string>
 
 // ==========================================================================
 
-class WinchActive : public frc::Command {
+class ScriptDriveCrab : public frc::Command {
 public:
 
-	WinchActive();
+	ScriptDriveCrab(std::string name, float x, float y, float z, float seconds);
 
 	// Command methods
 	virtual void Initialize() override;
@@ -17,7 +18,12 @@ public:
 
 private:
 
-	int _counter = 0;
+	float _x;
+	float _y;
+	float _z;
+	float _seconds;
+
+	void _Cleanup();
 };
 
 // ==========================================================================

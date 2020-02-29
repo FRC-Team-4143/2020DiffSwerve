@@ -10,6 +10,8 @@
 #include <frc/PIDSource.h>
 #include <AHRS.h>
 
+// ==========================================================================
+
 class GyroSub : public frc::Subsystem, public frc::PIDSource {
 public:
 	GyroSub();
@@ -28,6 +30,7 @@ public:
 	float GetDisplacementY();
 
 private:
+
 	AHRS* theGyro();
 };
 

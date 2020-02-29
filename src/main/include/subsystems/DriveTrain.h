@@ -9,7 +9,9 @@ public:
 
 	DriveTrain();
 
-	void InitDefaultCommand() override;
+	// Subsystem methods
+	virtual void InitDefaultCommand() override;
+
 	void SetWheelbase(double width, double length, double xOffset = 0, double yOffset = 0);
 	void SetWheelOffsets();
 	void LoadWheelOffsets();

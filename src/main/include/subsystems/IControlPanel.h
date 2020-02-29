@@ -10,9 +10,9 @@ public:
 
 	IControlPanel(const wpi::Twine& name);
 
-	virtual void ColorUp() =0;
-	virtual void ColorDown() =0; 
-	virtual void TogglePanel() =0;
+	virtual void ColorUp() = 0;
+	virtual void ColorDown() = 0; 
+	virtual void TogglePanel() = 0;
 };
 
 // ==========================================================================

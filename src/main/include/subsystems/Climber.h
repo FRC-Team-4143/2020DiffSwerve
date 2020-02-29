@@ -24,7 +24,6 @@ public:
 	virtual void BalanceStop() override;
 	virtual void EngageRollerBrake() override;
 	virtual void DisEngageRollerBrake() override;
-	
 
 private:
 
