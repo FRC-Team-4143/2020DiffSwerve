@@ -63,7 +63,7 @@ void ShooterTalonFXController::SetVelocity(double value) {
 void ShooterTalonFXController::ConfigPID() {
 	_motor->ConfigFactoryDefault();
 
-	constexpr double MAX_CURRENT = 40.0;
+	//constexpr double MAX_CURRENT = 40.0;
 
 	//SupplyCurrentLimitConfiguration supply(true, MAX_CURRENT, MAX_CURRENT, kTimeoutMs);
 	//_motor->ConfigSupplyCurrentLimit(supply);

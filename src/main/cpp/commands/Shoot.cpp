@@ -1,7 +1,8 @@
 #include "commands/Shoot.h"
 #include "OI.h"
 #include "Robot.h"
-#include "frc/smartdashboard/SmartDashboard.h"
+#include <frc/smartdashboard/SmartDashboard.h>
+#include <networktables/NetworkTableInstance.h>
 
 // ==========================================================================
 
@@ -47,7 +48,7 @@ void Shoot::Execute() {
 	//turret stuff
 	float Kp_vel = 0.0010f; 
 	auto button = Robot::oi->GetButtonStart();
-	std::shared_ptr<NetworkTable> table = NetworkTable::GetTable("limelight");
+	std::shared_ptr<NetworkTable> table = nt::NetworkTableInstance::GetDefault().GetTable("limelight");
 	float tx = table->GetNumber("tx", 0.0f);
 	frc::SmartDashboard::PutNumber("TX",tx); //MAX: 15 MIN: -15
 
