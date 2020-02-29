@@ -43,9 +43,11 @@
 
 #define NAVX_MXP 1
 
-// PCM channels for climber solenoids
+// Channels and CAN IDS for climber Subsystem
 constexpr int CLIMBER_EXTENDER_FWD = 3;
 constexpr int CLIMBER_EXTENDER_REV = 2;
+constexpr int CLIMBER_BOATROLLER= 16;
+
 
 //CAN IDs for PickUp Subsystem
 constexpr int PICKUP_INTAKE_CAN = 10;
@@ -220,7 +222,7 @@ void Robot::DisabledPeriodic() {
 
 void Robot::AutonomousInit() {
 	_compressor->SetClosedLoopControl(true);
-
+	climber->Retract();
 	_autonomousCommand = ScriptCommandFactory::GetInstance().GetCommand().release();
 	if (_autonomousCommand != nullptr) {
 		_autonomousCommand->Start();
@@ -237,7 +239,7 @@ void Robot::AutonomousPeriodic() {
 
 void Robot::TeleopInit() {
 	_compressor->SetClosedLoopControl(true);
-
+	climber->Retract();
 	// The Cancel call ensures that the autonomous command stops running when
 	// teleop starts running. To let the autonomous command continue until
 	// finished or interrupted by another command, remove the Cancel call.
@@ -337,7 +339,7 @@ void Robot::DeviceInitialization() {
 
 	//======= Subsystem Motor Initialization =======//
 
-	climber = std::make_unique<Climber>(CLIMBER_EXTENDER_FWD, CLIMBER_EXTENDER_REV);
+	climber = std::make_unique<Climber>(CLIMBER_EXTENDER_FWD, CLIMBER_EXTENDER_REV, CLIMBER_BOATROLLER);
 	pickUp = std::make_unique<PickUp>(PICKUP_SOL_FWD, PICKUP_SOL_REV, PICKUP_INTAKE_CAN);
 	shooter = std::make_unique<Shooter>(SHOOTER_MOTOR, TURRET_MOTOR, FEED_MOTOR, STIR_MOTOR);
 	winch = std::make_unique<Winch>(WINCH_MOTOR, WINCH_BRAKE);

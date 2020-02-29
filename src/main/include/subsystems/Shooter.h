@@ -21,7 +21,7 @@ public:
 	virtual void TurretLeft() override;
 	virtual void TurretStop() override;
 	virtual void TurretRight() override;
-	virtual void Feed() override;
+	virtual void Feed(float feedspeed) override;
 	virtual void FeedStop() override;
 	virtual void Stir() override;
 	virtual void StirReverse() override;

@@ -12,6 +12,9 @@ public:
 
 	virtual void Extend() = 0;
 	virtual void Retract() = 0;
+	virtual void BalanceRight()=0; 
+	virtual void BalanceLeft()=0; 
+	virtual void BalanceStop()=0;
 	
 };
 

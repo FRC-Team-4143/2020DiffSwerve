@@ -26,16 +26,16 @@ void Shoot::Execute() {
 	Robot::shooter->TurretMove(joyz * 0.2);
 
 	if(Robot::oi->GetRightTrigger2() > 0.5) {
-		//counter++;	
-		if( Robot::oi->GetButtonX2()/*counter > 150*/) Robot::shooter->Feed();
-		else Robot::shooter->FeedStop();
-		Robot::shooter->ShootStart();
+		//counter++;
+		Robot::shooter->ShootStart();	
 	} else {
 		//counter = 0;
 		Robot::shooter->ShootStop();
-		Robot::shooter->FeedStop();
 	}
-
+	if( Robot::oi->GetButtonX2()/*counter > 150*/) Robot::shooter->Feed(1);
+	else if (Robot::oi->GetButtonY2()) Robot::shooter->Feed(-0.5);
+	else Robot::shooter->FeedStop();
+	
 	if(Robot::oi->GetButtonA2()) {
 		Robot::shooter->Stir();
 	}

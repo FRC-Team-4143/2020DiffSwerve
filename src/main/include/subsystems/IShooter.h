@@ -12,7 +12,7 @@ public:
 	virtual void TurretLeft() = 0;
 	virtual void TurretRight() = 0;
 	virtual void TurretStop() = 0;
-	virtual void Feed() = 0;
+	virtual void Feed( float feedspeed) = 0;
 	virtual void FeedStop() = 0;
 	virtual void Stir() = 0;
 	virtual void StirReverse() = 0;

@@ -49,10 +49,10 @@ void Shooter::TurretRight() {
 
 // ==========================================================================
 
-void Shooter::Feed() {
+void Shooter::Feed( float feedspeed) {
 	//frc::SmartDashboard::PutNumber("shooter speed", _shooter->GetEncoderPosition());
 	//if(_shooter->GetEncoderPosition() > 3000) {
-		_feeder->SetPercentPower(1.0);
+		_feeder->SetPercentPower(feedspeed);
 	//}
 }
 

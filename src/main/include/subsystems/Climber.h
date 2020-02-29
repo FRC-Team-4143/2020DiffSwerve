@@ -6,11 +6,12 @@
 #include "subsystems/IClimber.h"
 #include <frc/DoubleSolenoid.h>
 #include <memory>
+#include "controllers/IMultiController.h"
 
 class Climber : public IClimber {
 public:
 
-	Climber(int extenderForwardChannel, int extenderReverseChannel);
+	Climber(int extenderForwardChannel, int extenderReverseChannel, int boatCanId);
 
 	// Subsystem methods
 	virtual void InitDefaultCommand() override;
@@ -18,10 +19,15 @@ public:
 	// IClimber methods
 	virtual void Extend() override;
 	virtual void Retract() override;
+	virtual void BalanceRight() override; 
+	virtual void BalanceLeft() override; 
+	virtual void BalanceStop() override;
+	
 
 private:
 
 	std::unique_ptr<frc::DoubleSolenoid> _extender;
+	std::unique_ptr<IMultiController> _boatroller;
 };
 
 // ==========================================================================
