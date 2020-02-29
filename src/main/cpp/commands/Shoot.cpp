@@ -14,7 +14,7 @@ Shoot::Shoot()
 // ==========================================================================
 
 void Shoot::Initialize() {
-	counter = 0;
+	//counter = 0;
 	//motor->SetPercentPower(0.0);
 	_lastButton = false; 
 }
@@ -22,24 +22,23 @@ void Shoot::Initialize() {
 // ==========================================================================
 
 void Shoot::Execute() {
-
 	float joyz = Robot::oi->GetJoystick2Z();
 	Robot::shooter->TurretMove(joyz * 0.2);
 
 	if(Robot::oi->GetRightTrigger2() > 0.5) {
-		counter++;	
+		//counter++;	
 		if( Robot::oi->GetButtonX2()/*counter > 150*/) Robot::shooter->Feed();
 		else Robot::shooter->FeedStop();
 		Robot::shooter->ShootStart();
 	} else {
-		counter = 0;
+		//counter = 0;
 		Robot::shooter->ShootStop();
 		Robot::shooter->FeedStop();
 	}
 
 	if(Robot::oi->GetButtonA2()) {
 		Robot::shooter->Stir();
-	} 
+	}
 	else if (Robot::oi->GetButtonB2()) {
 		Robot::shooter->StirReverse();
 	} else {
@@ -53,11 +52,11 @@ void Shoot::Execute() {
 	frc::SmartDashboard::PutNumber("TX",tx); //MAX: 15 MIN: -15
 
 	if (button == 1){  //Left Bumper
-		heading_error = tx;
-		
+		auto heading_error = tx;
+
 		if(!_lastButton){ //Runs once when button is pressed
-			steering_adjust = 0.0f;
-			steering_adjust_last = 0.0f;
+			//steering_adjust = 0.0f;
+			//steering_adjust_last = 0.0f;
 		}
 
 		//Velocity Based Offset Code
@@ -76,7 +75,6 @@ void Shoot::Execute() {
 	/* save button state for on press detect */
 	_lastButton = button; 
 	frc::SmartDashboard::PutNumber("Adjust Speed", adjust_speed); 
-
 }
 
 // ==========================================================================

@@ -5,14 +5,6 @@
 
 class Shoot : public frc::Command {
 public:
-    int counter;
-	bool _lastButton;
-	double targetPositionRotations;	/** save the target position to servo to */
-	float steering_adjust_last; //Steering adjust will stay at last value if target goes out of frame
-
-	float heading_error;
-	float steering_adjust;
-	float adjust_speed; 
 
 	Shoot();
 
@@ -22,6 +14,16 @@ public:
 	virtual bool IsFinished() override;
 	virtual void End() override;
 	virtual void Interrupted() override;
+
+private:
+
+	//int counter;
+	bool _lastButton;
+	//double targetPositionRotations;	/** save the target position to servo to */
+	//float steering_adjust_last; //Steering adjust will stay at last value if target goes out of frame
+	//float heading_error;
+	//float steering_adjust;
+	float adjust_speed; 
 };
 
 // ==========================================================================
