@@ -32,14 +32,16 @@ void Climber::Retract() {
 
 void Climber::BalanceLeft() {
 	DisEngageRollerBrake();
-	_boatroller->SetPercentPower(-0.50);
+	if(counter++>20) _boatroller->SetPercentPower(-0.50);
 }
 
 // ==========================================================================
 
 void Climber::BalanceRight() {
+
 	DisEngageRollerBrake();
-	_boatroller->SetPercentPower(0.50);
+	if(counter++>20) _boatroller->SetPercentPower(0.50);
+
 }
 
 // ==========================================================================
@@ -47,6 +49,7 @@ void Climber::BalanceRight() {
 void Climber::BalanceStop() {
 	_boatroller->SetPercentPower(0);
 	EngageRollerBrake();
+	counter=0;
 }
 
 // ==========================================================================

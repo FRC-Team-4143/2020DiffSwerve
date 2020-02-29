@@ -46,7 +46,6 @@ constexpr int CLIMBER_EXTENDER_FWD = 3;
 constexpr int CLIMBER_EXTENDER_REV = 2;
 constexpr int CLIMBER_BOATROLLER= 16;
 
-
 //CAN IDs for PickUp Subsystem
 constexpr int PICKUP_INTAKE_CAN = 10;
 
@@ -56,7 +55,7 @@ constexpr int PICKUP_SOL_REV = 4;
 
 // PCM channel for brakes
 constexpr int WINCH_BRAKE = 5;
-constexpr int CONTROLPANEL_SOL= 2;
+constexpr int CONTROLPANEL_SOL= 1;
 constexpr int ROLLERBRAKE_SOL_FWD = 6;
 constexpr int ROLLERBRAKE_SOL_REV = 7;
 

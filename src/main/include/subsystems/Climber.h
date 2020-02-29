@@ -30,6 +30,7 @@ private:
 	std::unique_ptr<frc::DoubleSolenoid> _extender;
 	std::unique_ptr<frc::DoubleSolenoid> _rollerbrake;
 	std::unique_ptr<IMultiController> _boatroller;
+	int counter;
 };
 
 // ==========================================================================

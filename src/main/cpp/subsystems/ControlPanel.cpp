@@ -5,8 +5,7 @@
 ControlPanel::ControlPanel(int channel)
 :	IControlPanel("ControlPanel") {
 	_solenoid1 = std::make_unique<frc::Solenoid>(channel);
-	_panelIsUp= false;
-
+	_panelIsUp = false;
 }
 
 // ==========================================================================
@@ -30,11 +29,14 @@ void ControlPanel::ColorDown() {
 // ==========================================================================
 
 void ControlPanel::TogglePanel() {
-	if(_panelIsUp){
+	if (_panelIsUp) {
 		ColorDown();
-		_panelIsUp=false;
-	} else {
+		_panelIsUp = false;
+	}
+	else {
 		ColorUp();
-		_panelIsUp=true;
+		_panelIsUp = true;
 	}
 }
+
+// ==========================================================================
