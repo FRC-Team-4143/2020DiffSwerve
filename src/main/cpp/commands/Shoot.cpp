@@ -23,7 +23,14 @@ void Shoot::Initialize() {
 
 void Shoot::Execute() {
 	float joyz = Robot::oi->GetJoystick2Z();
-	Robot::shooter->TurretMove(joyz * 0.2);
+	//Robot::shooter->TurretMove(joyz * 0.2);
+
+	if (joyz > 0) degrees += joyz;
+	if (joyz < 0) degrees -= -joyz;
+	if (degrees < 0) degrees = 0.;
+	if (degrees > 270.) degrees = 270.;
+
+	Robot::shooter->TurretMove(degrees);
 
 	if (Robot::oi->GetRightTrigger2() > 0.5) {
 		//counter++;
@@ -56,7 +63,7 @@ void Shoot::Execute() {
 
 	//turret stuff
 	float Kp_vel = 0.0010f; 
-	auto button = Robot::oi->GetButtonStart();
+	auto button = 0; //Robot::oi->GetButtonStart();
 	std::shared_ptr<NetworkTable> table = nt::NetworkTableInstance::GetDefault().GetTable("limelight");
 	float tx = table->GetNumber("tx", 0.0f);
 	frc::SmartDashboard::PutNumber("TX",tx); //MAX: 15 MIN: -15
@@ -100,7 +107,7 @@ bool Shoot::IsFinished() {
 void Shoot::End() {
 	Robot::shooter->ShootStop();
 	Robot::shooter->FeedStop();
-	Robot::shooter->TurretMove(0.);
+	//Robot::shooter->TurretMove(0.);
 }
 
 // ==========================================================================

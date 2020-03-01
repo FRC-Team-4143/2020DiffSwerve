@@ -5,6 +5,7 @@
 #pragma once
 #include "subsystems/IShooter.h"
 #include "controllers/IMultiController.h"
+#include "controllers/IPositionMultiController.h"
 #include "controllers/IVelocityMultiController.h"
 #include <memory>
 
@@ -17,7 +18,7 @@ public:
 	virtual void InitDefaultCommand() override;
 
 	// IShooter methods
-	virtual void TurretMove(float velocity) override;
+	virtual void TurretMove(float degrees) override;
 	virtual void TurretLeft() override;
 	virtual void TurretStop() override;
 	virtual void TurretRight() override;
@@ -32,7 +33,7 @@ public:
 private:
 
 	std::unique_ptr<IVelocityMultiController> _shooter;
-	std::unique_ptr<IMultiController> _turret;
+	std::unique_ptr<IPositionMultiController> _turret;
 	std::unique_ptr<IMultiController> _feeder;
 	std::unique_ptr<IMultiController> _stir;
 };

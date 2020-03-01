@@ -1,7 +1,7 @@
 #include "subsystems/Shooter.h"
 #include <ctre/Phoenix.h>
 #include "controllers/VictorController.h"
-#include "controllers/SparkMaxController.h"
+#include "controllers/TurretSparkController.h"
 #include "controllers/ShooterTalonFXController.h"
 #include "commands/Shoot.h"
 #include <frc/smartdashboard/SmartDashboard.h>
@@ -12,7 +12,7 @@
 Shooter::Shooter(int shooterCANId, int turretCANId, int feederCANId, int stirCANId)
 :	IShooter("Shooter") {
 	_shooter = std::make_unique<ShooterTalonFXController>(shooterCANId);
-	_turret = std::make_unique<SparkMaxController>(turretCANId);
+	_turret = std::make_unique<TurretSparkController>(turretCANId);
 	_feeder = std::make_unique<VictorController>(feederCANId);
 	_stir = std::make_unique<VictorController>(stirCANId);
 }
@@ -26,8 +26,9 @@ void Shooter::InitDefaultCommand() {
 
 // ==========================================================================
 
-void Shooter::TurretMove(float velocity){
-	_turret->SetPercentPower(velocity);
+void Shooter::TurretMove(float degrees){
+	_turret->SetPosition(degrees / 360. * (220/22) * (10/1)); // big gear 220, driving gear 22, VP 1/10 
+                                                              // need to verify
 }
 
 // ==========================================================================

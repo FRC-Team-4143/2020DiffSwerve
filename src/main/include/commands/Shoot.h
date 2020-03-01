@@ -24,6 +24,7 @@ private:
 	//float heading_error;
 	//float steering_adjust;
 	float adjust_speed; 
+	float degrees = 0.;
 };
 
 // ==========================================================================

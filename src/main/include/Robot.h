@@ -79,7 +79,7 @@ public:
 	static std::unique_ptr<IWinch> winch;
 	static std::unique_ptr<IControlPanel> controlPanel;
 
-	static IMultiController* clampMotor;
+	//static IMultiController* clampMotor;
 
 	static AHRS* navx;
 

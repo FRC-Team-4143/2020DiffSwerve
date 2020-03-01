@@ -360,7 +360,7 @@ void Robot::DeviceInitialization() {
 
 	gyroSub = new GyroSub();
 	visionBridge = new VisionBridgeSub();
-	oi = new OI();
+
 
 	//======== Swerve Module Initialization =========//
 
@@ -418,6 +418,8 @@ void Robot::DeviceInitialization() {
 
 	LOG("DeviceInit DriveTrain");
 	driveTrain = new DriveTrain();
+
+	oi = new OI();
 
 	LOG("DeviceInit end");
 }
