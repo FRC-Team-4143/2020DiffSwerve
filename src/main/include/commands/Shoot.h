@@ -25,6 +25,7 @@ private:
 	//float steering_adjust;
 	float adjust_speed; 
 	float degrees = 0.;
+	int countNav = 0;
 };
 
 // ==========================================================================

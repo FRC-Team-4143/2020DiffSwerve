@@ -25,16 +25,34 @@ void Shoot::Execute() {
 	float joyz = Robot::oi->GetJoystick2Z();
 	//Robot::shooter->TurretMove(joyz * 0.2);
 
-	if (joyz > 0) degrees += joyz;
-	if (joyz < 0) degrees -= -joyz;
+	
+
+	if (joyz > 0) {
+		degrees += joyz;
+		countNav=0;
+	}
+
+	else if (joyz < 0){
+		degrees -= -joyz;
+		countNav=0;
+	} 
+
+	if(joyz==0 && countNav==350) 
+	{
+		degrees = Robot::gyroSub->PIDGet();
+		if(degrees <0) degrees += 360;
+	}
+
 	if (degrees < 0) degrees = 0.;
-	if (degrees > 270.) degrees = 270.;
+	else if (degrees > 270.) degrees = 270.;
+	countNav++;
 
 	Robot::shooter->TurretMove(degrees);
 
 	if (Robot::oi->GetRightTrigger2() > 0.5) {
 		//counter++;
 		Robot::shooter->ShootStart();	
+
 	}
 	else {
 		//counter = 0;
