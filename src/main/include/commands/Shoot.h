@@ -24,8 +24,8 @@ private:
 	//float heading_error;
 	//float steering_adjust;
 	float adjust_speed; 
-	float degrees = 0.;
-	int countNav = 0;
+	float _targetDegrees = 0;
+	int _gyroCounter = 0;
 };
 
 // ==========================================================================

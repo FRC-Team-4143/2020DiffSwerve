@@ -109,8 +109,8 @@ void DriveTrain::Crab(float twist, float y, float x, bool operatorControl) {
 	//auto rightBumper = Robot::oi->GetRightBumper();
 
 	if (rightTrigger > 0.2) { // turbo mode use to be leftTrigger > 0 || rightTrigger > 0
-		x *= 2.0;
-		y *= 2.0;
+		x *= 1.5;
+		y *= 1.5;
 	}
 
 /*
