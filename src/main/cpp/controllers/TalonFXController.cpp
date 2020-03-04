@@ -16,7 +16,7 @@ TalonFXController::TalonFXController(int canId, std::function<void(WPI_TalonFX*)
 
 // ==========================================================================
 
-TalonFXController::TalonFXController(WPI_TalonFX* motor, std::function<void(WPI_TalonFX*)> fnInitialize = nullptr)
+TalonFXController::TalonFXController(WPI_TalonFX* motor, std::function<void(WPI_TalonFX*)> fnInitialize)
 :	_motor(motor) {
 	if (fnInitialize != nullptr) {
 		fnInitialize(_motor.get());
