@@ -5,6 +5,8 @@
 #include "controllers/ShooterTalonFXController.h"
 #include "commands/Shoot.h"
 #include <frc/smartdashboard/SmartDashboard.h>
+#include <networktables/NetworkTable.h>
+#include <networktables/NetworkTableInstance.h>
 
 
 // ==========================================================================
@@ -15,6 +17,8 @@ Shooter::Shooter(int shooterCANId, int turretCANId, int feederCANId, int stirCAN
 	_turret = std::make_unique<TurretSparkController>(turretCANId);
 	_feeder = std::make_unique<VictorController>(feederCANId);
 	_stir = std::make_unique<VictorController>(stirCANId);
+	pLimeLightTable= nt::NetworkTableInstance::GetDefault().GetTable("limelight");
+	pLimeLightTable->PutNumber("ledMode",1);
 }
 
 // ==========================================================================
@@ -85,13 +89,16 @@ void Shooter::StirStop() {
 
 void Shooter::ShootStart() {
 	//_shooter->SetPercentPower(.65);
-	_shooter->SetVelocity(16000-1600); //10% less
+	_shooter->SetVelocity(16000-1600); //10% less 
+	pLimeLightTable->PutNumber("ledMode",0);
+
 }
 
 // ==========================================================================
 
 void Shooter::ShootStop() {
 	_shooter->SetPercentPower(0);
+	pLimeLightTable->PutNumber("ledMode",1);
 }
 
 // ==========================================================================
