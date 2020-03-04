@@ -4,13 +4,14 @@
 #define BOTTOMLIMIT 0
 #define TOPLIMIT 10000000
 
-#define kP 0.001
+#define kP 0.0001
 #define kI 0.00000
 #define kD 0
 #define kIZONE 0
 #define kFF 0.000
-#define kMINOUTPUT -.4
-#define kMAXOUTPUT .4
+#define kMINOUTPUT -.3
+#define kMAXOUTPUT .3
+
 
 #define ENCODER_COUNTS_PER_TURN 42
 
