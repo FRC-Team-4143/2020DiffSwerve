@@ -25,8 +25,8 @@ void Shoot::Execute() {
 	float joyz = Robot::oi->GetJoystick2Z();
 	//Robot::shooter->TurretMove(joyz * 0.2);
 
-	if (joyz > 0) degrees += joyz;
-	if (joyz < 0) degrees -= -joyz;
+	if (joyz > .3) degrees += joyz;
+	if (joyz < -.3) degrees -= -joyz;
 	if (degrees < 0) degrees = 0.;
 	if (degrees > 270.) degrees = 270.;
 
@@ -34,7 +34,8 @@ void Shoot::Execute() {
 
 	if (Robot::oi->GetRightTrigger2() > 0.5) {
 		//counter++;
-		Robot::shooter->ShootStart();	
+		Robot::shooter->ShootStart();
+			
 	}
 	else {
 		//counter = 0;
