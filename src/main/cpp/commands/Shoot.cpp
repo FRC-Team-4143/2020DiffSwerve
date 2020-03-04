@@ -22,25 +22,60 @@ void Shoot::Initialize() {
 // ==========================================================================
 
 void Shoot::Execute() {
-	float joyz = Robot::oi->GetJoystick2Z();
+
+	// ---------------
+	// Turret control
+	// ---------------
+
+	auto joyz = Robot::oi->GetJoystick2Z();
 	//Robot::shooter->TurretMove(joyz * 0.2);
 
-	if (joyz > .3) degrees += joyz;
-	if (joyz < -.3) degrees -= -joyz;
-	if (degrees < 0) degrees = 0.;
-	if (degrees > 270.) degrees = 270.;
+	constexpr float MIN_ALLOWED_ANGLE = 0;
+	constexpr float MAX_ALLOWED_ANGLE = 270;
 
-	Robot::shooter->TurretMove(degrees);
+	constexpr int GYRO_DELAY_TICKS = 7 * 50;
+
+	_gyroCounter++;
+
+	if (joyz != 0) {
+		_targetDegrees += joyz;
+		_gyroCounter = 0;
+	}
+
+	if (false && _gyroCounter >= GYRO_DELAY_TICKS) {
+		_targetDegrees = Robot::gyroSub->PIDGet();
+
+		// Gyro returns -180 to +180. Convert to 0 to 360.
+		if (_targetDegrees < 0) {
+			_targetDegrees += 360;
+		}
+	}
+
+	if (_targetDegrees < MIN_ALLOWED_ANGLE) {
+		_targetDegrees = MIN_ALLOWED_ANGLE;
+	}
+	else if (_targetDegrees > MAX_ALLOWED_ANGLE) {
+		_targetDegrees = MAX_ALLOWED_ANGLE;
+	}
+
+	Robot::shooter->TurretMove(_targetDegrees);
+
+	// ----------------
+	// Shooter control
+	// ----------------
 
 	if (Robot::oi->GetRightTrigger2() > 0.5) {
 		//counter++;
 		Robot::shooter->ShootStart();
-			
 	}
 	else {
 		//counter = 0;
 		Robot::shooter->ShootStop();
 	}
+
+	// ---------------
+	// Feeder control
+	// ---------------
 
 	if (Robot::oi->GetButtonX2()) {
 		Robot::shooter->Feed(1);
@@ -52,6 +87,10 @@ void Shoot::Execute() {
 		Robot::shooter->FeedStop();
 	}
 
+	// ----------------
+	// Stirrer control
+	// ----------------
+
 	if (Robot::oi->GetButtonA2()) {
 		Robot::shooter->Stir();
 	}
@@ -62,17 +101,20 @@ void Shoot::Execute() {
 		Robot::shooter->StirStop();
 	}
 
-	//turret stuff
+	// -----------------
+	// Old turret stuff
+	// -----------------
+
 	float Kp_vel = 0.0010f; 
 	auto button = 0; //Robot::oi->GetButtonStart();
 	std::shared_ptr<NetworkTable> table = nt::NetworkTableInstance::GetDefault().GetTable("limelight");
 	float tx = table->GetNumber("tx", 0.0f);
 	frc::SmartDashboard::PutNumber("TX",tx); //MAX: 15 MIN: -15
 
-	if (button == 1){  //Left Bumper
+	if (button == 1) { //Left Bumper
 		auto heading_error = tx;
 
-		if(!_lastButton){ //Runs once when button is pressed
+		if (!_lastButton) { //Runs once when button is pressed
 			//steering_adjust = 0.0f;
 			//steering_adjust_last = 0.0f;
 		}
@@ -92,7 +134,7 @@ void Shoot::Execute() {
 	//actual motor control
 	//Robot::shooter->TurretMove(adjust_speed);
 
-	/* save button state for on press detect */
+	// Save button state for on press detect
 	_lastButton = button; 
 	frc::SmartDashboard::PutNumber("Adjust Speed", adjust_speed); 
 }
