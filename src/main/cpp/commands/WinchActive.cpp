@@ -17,19 +17,31 @@ void WinchActive::Initialize() {
 // ==========================================================================
 
 void WinchActive::Execute() {
-	float joy2y = Robot::oi->GetJoystick2Y() * 0.5;
-	if (joy2y != 0) {
+
+	// --------------
+	// Winch control
+	// --------------
+
+	float winchSpeed = Robot::oi->GetJoystick2Y() * 0.5;
+	Robot::winch->WinchControl(winchSpeed);
+/*
+	if (winchSpeed != 0) {
 		_counter++;
-		Robot::winch->WinchBrake(true);
-		if(_counter > 25) {
-			Robot::winch->WinchDrive(joy2y);
+		Robot::winch->ReleaseBrake();
+		if (_counter > 25) {
+			Robot::winch->WinchDrive(winchSpeed);
 		}
 	}
 	else {
 		_counter = 0;
-		Robot::winch->WinchBrake(false);
+		Robot::winch->EngageBrake();
 		Robot::winch->WinchDrive(0);
 	}
+*/
+
+	// ---------------
+	// Roller control
+	// ---------------
 
 	if (Robot::oi->GetButtonStart()) {
 		Robot::climber->BalanceRight();
@@ -51,7 +63,8 @@ bool WinchActive::IsFinished() {
 // ==========================================================================
 
 void WinchActive::End() {
-	Robot::winch->WinchStop();
+	Robot::winch->WinchControl(0);
+	//Robot::winch->WinchStop();
 }
 
 // ==========================================================================
