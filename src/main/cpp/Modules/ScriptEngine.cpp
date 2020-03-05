@@ -7,7 +7,12 @@
 #include "commands/RetractPickUp.h"
 #include "commands/ScriptDriveCrab.h"
 #include "commands/ScriptDriveFieldCentric.h"
+#include "commands/ScriptFeedForward.h"
+#include "commands/ScriptFeedReverse.h"
 #include "commands/ScriptPickUpIntake.h"
+#include "commands/ScriptShoot.h"
+#include "commands/ScriptStirForward.h"
+#include "commands/ScriptStirReverse.h"
 #include "commands/ScriptSleep.h"
 
 #include <frc/smartdashboard/SmartDashboard.h>
@@ -92,6 +97,30 @@ void ScriptEngine::_InitializeParser() {
 
 	parser.AddCommand(
 		CommandParseInfo(
+			"FeedForward", {"FF", "ff"},
+			[](std::vector<float> parameters, std::function<void(frc::Command*, float)> fCreateCommand) {
+				parameters.resize(1);
+				auto seconds = parameters[0];
+				frc::Command* command = new ScriptFeedForward(seconds);
+				fCreateCommand(command, 0);
+			}
+		)
+	);
+
+	parser.AddCommand(
+		CommandParseInfo(
+			"FeedReverse", {"FR", "fr"},
+			[](std::vector<float> parameters, std::function<void(frc::Command*, float)> fCreateCommand) {
+				parameters.resize(1);
+				auto seconds = parameters[0];
+				frc::Command* command = new ScriptFeedReverse(seconds);
+				fCreateCommand(command, 0);
+			}
+		)
+	);
+
+	parser.AddCommand(
+		CommandParseInfo(
 			"PickupExtend", {"PE", "pe"},
 			[](std::vector<float> parameters, std::function<void(frc::Command*, float)> fCreateCommand) {
 				frc::Command* command = new ExtendPickUp();
@@ -124,11 +153,47 @@ void ScriptEngine::_InitializeParser() {
 
 	parser.AddCommand(
 		CommandParseInfo(
+			"Shoot", {"SH", "sh"},
+			[](std::vector<float> parameters, std::function<void(frc::Command*, float)> fCreateCommand) {
+				parameters.resize(1);
+				auto seconds = parameters[0];
+				frc::Command* command = new ScriptShoot(seconds);
+				fCreateCommand(command, 0);
+			}
+		)
+	);
+
+	parser.AddCommand(
+		CommandParseInfo(
 			"Sleep", {"S", "s"},
 			[](std::vector<float> parameters, std::function<void(frc::Command*, float)> fCreateCommand) {
 				parameters.resize(1);
 				auto seconds = parameters[0];
 				frc::Command* command = new ScriptSleep("Sleep", seconds);
+				fCreateCommand(command, 0);
+			}
+		)
+	);
+
+	parser.AddCommand(
+		CommandParseInfo(
+			"StirForward", {"SF", "sf"},
+			[](std::vector<float> parameters, std::function<void(frc::Command*, float)> fCreateCommand) {
+				parameters.resize(1);
+				auto seconds = parameters[0];
+				frc::Command* command = new ScriptStirForward(seconds);
+				fCreateCommand(command, 0);
+			}
+		)
+	);
+
+	parser.AddCommand(
+		CommandParseInfo(
+			"StirReverse", {"SR", "sr"},
+			[](std::vector<float> parameters, std::function<void(frc::Command*, float)> fCreateCommand) {
+				parameters.resize(1);
+				auto seconds = parameters[0];
+				frc::Command* command = new ScriptStirReverse(seconds);
 				fCreateCommand(command, 0);
 			}
 		)
