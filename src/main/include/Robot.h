@@ -124,5 +124,4 @@ private:
 	frc::Command* _autonomousCommand;
 
 	void DeviceInitialization();
-	void ScriptInit();
 };

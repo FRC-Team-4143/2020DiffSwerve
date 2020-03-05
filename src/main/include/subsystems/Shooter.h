@@ -8,7 +8,6 @@
 #include "controllers/IPositionMultiController.h"
 #include "controllers/IVelocityMultiController.h"
 #include <networktables/NetworkTable.h>
-#include <networktables/NetworkTableInstance.h>
 #include <memory>
 
 class Shooter : public IShooter {
@@ -38,7 +37,7 @@ private:
 	std::unique_ptr<IPositionMultiController> _turret;
 	std::unique_ptr<IMultiController> _feeder;
 	std::unique_ptr<IMultiController> _stir;
-	std::shared_ptr<NetworkTable> pLimeLightTable;
+	std::shared_ptr<NetworkTable> _limelightTable;
 };
 
 // ==========================================================================

@@ -6,20 +6,6 @@
 #include <rev/ColorSensorV3.h>
 #include <rev/ColorMatch.h>
 #include <iostream>
-//#include "Commands/DriveDistance.h"
-//#include "Commands/ScriptCamDrive.h"
-#include "Commands/ScriptCommand.h"
-//#include "Commands/ScriptCommand2.h"
-//#include "Commands/ScriptCommand3.h"
-//#include "Commands/ScriptCommandCenter.h"
-//#include "Commands/ScriptDrive.h"
-//#include "Commands/ScriptFieldCentricCrab.h"
-//#include "Commands/ScriptGyroDrive.h"
-#include "Commands/ScriptSleep.h"
-#include "Commands/ZeroYaw.h"
-//#include "Commands/ScriptGyroRotate.h"
-
-#include "Modules/CommandListParser.h"
 
 #include "controllers/SparkMaxController.h"
 #include "controllers/SteerTalonController.h"
@@ -122,7 +108,6 @@ static constexpr frc::Color kYellowTarget = frc::Color(0.317, 0.558, 0.124);
 
 void Robot::RobotInit() {
 	DeviceInitialization();
-	ScriptInit();
 
 	frc::SmartDashboard::PutNumber("Yaw Offset", 0);
 
@@ -443,97 +428,6 @@ void Robot::DeviceInitialization() {
 	oi = new OI();
 
 	LOG("DeviceInit end");
-}
-
-void Robot::ScriptInit() {
-	LOG("Robot::ScriptInit");
-
-	CommandListParser &parser(CommandListParser::GetInstance());
-
-	/*parser.AddCommand(CommandParseInfo(
-			"Drive", {"D", "d"},
-			[](std::vector<float> parameters, std::function<void(Command *, float)> fCreateCommand) {
-		parameters.resize(4);
-		auto y = parameters[0];
-		auto x = parameters[1];
-		auto z = parameters[2];
-		auto timeout = parameters[3];
-		Command *command = new ScriptDrive("Drive", y, x, z, timeout);
-		// if (0 == timeout) timeout = 4;
-		fCreateCommand(command, 0);
-	}));*/
-
-	/*parser.AddCommand(CommandParseInfo(
-			"DriveDistace", {"DD", "dd"},
-			[](std::vector<float> parameters, std::function<void(Command *, float)> fCreateCommand) {
-		parameters.resize(3);
-		auto twistAngle = parameters[0];
-		auto distance = parameters[1];
-		auto timeout = parameters[2];
-		 //if (0 == timeout) timeout = 4;
-		Command *command = new DriveDistance(twistAngle, distance, timeout);
-
-		fCreateCommand(command, 0);
-	}));*/
-
-	/*parser.AddCommand(CommandParseInfo(
-			"WaitForVision", {"WAIT", "wait"},
-			[](std::vector<float> parameters, std::function<void(Command *, float)> fCreateCommand) {
-		parameters.resize(0);
-		Command *command = new WaitForVision();
-		// if (0 == timeout) timeout = 4;
-		fCreateCommand(command, 0);
-	}));*/
-
-	parser.AddCommand(CommandParseInfo(
-			"Sleep", {"S", "s"},
-			[](std::vector<float> parameters, std::function<void(frc::Command *, float)> fCreateCommand) {
-		parameters.resize(1);
-		auto timeout = parameters[0];
-		frc::Command *command = new ScriptSleep("Sleep", timeout);
-		fCreateCommand(command, 0);
-	}));
-
-	/*parser.AddCommand(CommandParseInfo(
-			"DriveGyro", {"DG", "dg"},
-			[](std::vector<float> parameters, std::function<void(Command *, float)> fCreateCommand) {
-		parameters.resize(4);
-		auto y = parameters[0];
-		auto x = parameters[1];
-		auto desiredangle = parameters[2];
-		auto timeout = parameters[3];
-		Command *command = new ScriptGyroDrive("DriveGyro", y, x, desiredangle, timeout);
-		fCreateCommand(command, 0);
-	}));*/
-
-	/*parser.AddCommand(CommandParseInfo(
-			"GyroRotate", {"GR", "gr"},
-			[](std::vector<float> parameters, std::function<void(Command *, float)> fCreateCommand) {
-		parameters.resize(3);
-		auto power = parameters[0];
-		auto desiredAngle = parameters[1];
-		auto timeout = parameters[2];
-		Command *command = new ScriptGyroRotate("GyroRotate", desiredAngle, power, timeout);
-		fCreateCommand(command, 0);
-	}));*/
-
-	/*parser.AddCommand(CommandParseInfo(
-			"FieldCentricDrive", {"FC", "fc"},
-			[](std::vector<float> parameters, std::function<void(Command *, float)> fCreateCommand) {
-		parameters.resize(4);
-		auto y = parameters[0];
-		auto x = parameters[1];
-		auto z = parameters[2];
-		auto timeout = parameters[3];
-		Command *command = new ScriptFieldCentricCrab(z, y, x, timeout);
-		// if (0 == timeout) timeout = 4;
-		fCreateCommand(command, 0);
-	}));*/
-
-
-	// Call IsValid to ensure that regular expressions
-	// get built before the start of autonomous.
-	parser.IsValid("S(0)");
 }
 
 // ================================================================
