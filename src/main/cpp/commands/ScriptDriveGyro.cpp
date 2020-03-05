@@ -1,53 +1,55 @@
-#include "commands/ScriptShoot.h"
+#include "commands/ScriptDriveGyro.h"
 #include "Modules/Logger.h"
 #include "Robot.h"
 
 // ==========================================================================
 
-ScriptShoot::ScriptShoot(float seconds)
-:	frc::Command("ScriptShoot"), _seconds(seconds) {
+ScriptDriveGyro::ScriptDriveGyro(std::string name, float x, float y, float desiredAngle, float seconds)
+:	frc::Command(name), _x(x), _y(y), _desiredAngle(desiredAngle), _seconds(seconds) {
 	char szParams[64];
-	sprintf(szParams, "(%f)", seconds);
+	sprintf(szParams, "(%f, %f, %f, %f)", x, y, desiredAngle, seconds);
 	LOG(GetName() + "::ctor" + szParams);
 
-	// ----------------------------------------------------
-	// Do NOT require the Shooter subsystem. Otherwise, we
-	// cannot do parallel Shooter-related script commands.
-	// ----------------------------------------------------
-	//Requires(Robot::shooter.get());
+	Requires(Robot::driveTrain);
 }
 
 // ==========================================================================
 
-void ScriptShoot::Initialize() {
+void ScriptDriveGyro::Initialize() {
 	LOG(GetName() + "::Initialize");
-
 	SetTimeout(_seconds);
 }
 
 // ==========================================================================
 
-void ScriptShoot::Execute() {
-	Robot::shooter->ShootStart();
+void ScriptDriveGyro::Execute() {
+	Robot::driveTrain->GyroCrab(_x, _y, _desiredAngle, false);
 }
 
 // ==========================================================================
 
-bool ScriptShoot::IsFinished() {
+bool ScriptDriveGyro::IsFinished() {
 	return IsTimedOut();
 }
 
 // ==========================================================================
 
-void ScriptShoot::End() {
+void ScriptDriveGyro::End() {
 	LOG(GetName() + "::End");
-	//Robot::shooter->ShootStop();
+	_Cleanup();
 }
 
 // ==========================================================================
 
-void ScriptShoot::Interrupted() {
+void ScriptDriveGyro::Interrupted() {
 	LOG(GetName() + "::Interrupted");
+	_Cleanup();
+}
+
+// ==========================================================================
+
+void ScriptDriveGyro::_Cleanup() {
+	Robot::driveTrain->Crab(0, 0, 0, false);
 }
 
 // ==========================================================================

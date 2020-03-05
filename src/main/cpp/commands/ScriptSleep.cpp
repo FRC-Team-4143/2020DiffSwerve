@@ -3,8 +3,8 @@
 
 // ==========================================================================
 
-ScriptSleep::ScriptSleep(std::string name, float seconds)
-:	frc::Command(name), _seconds(seconds) {
+ScriptSleep::ScriptSleep(float seconds)
+:	frc::Command("Sleep"), _seconds(seconds) {
 	char szParams[64];
 	sprintf(szParams, "(%f)", seconds);
 	LOG(GetName() + "::ctor" + szParams);

@@ -7,6 +7,7 @@
 #include "commands/RetractPickUp.h"
 #include "commands/ScriptDriveCrab.h"
 #include "commands/ScriptDriveFieldCentric.h"
+#include "commands/ScriptDriveGyro.h"
 #include "commands/ScriptFeedForward.h"
 #include "commands/ScriptFeedReverse.h"
 #include "commands/ScriptPickUpIntake.h"
@@ -67,7 +68,7 @@ void ScriptEngine::_InitializeParser() {
 
 	parser.AddCommand(
 		CommandParseInfo(
-			"Drive", {"DC", "dc"},
+			"DriveCrab", {"DC", "dc"},
 			[](std::vector<float> parameters, std::function<void(frc::Command*, float)> fCreateCommand) {
 				parameters.resize(4);
 				auto x = parameters[0];
@@ -90,6 +91,21 @@ void ScriptEngine::_InitializeParser() {
 				auto z = parameters[2];
 				auto seconds = parameters[3];
 				frc::Command* command = new ScriptDriveFieldCentric("DriveFieldCentric", x, y, z, seconds);
+				fCreateCommand(command, 0);
+			}
+		)
+	);
+
+	parser.AddCommand(
+		CommandParseInfo(
+			"DriveGyro", {"DG", "dg"},
+			[](std::vector<float> parameters, std::function<void(frc::Command*, float)> fCreateCommand) {
+				parameters.resize(4);
+				auto x = parameters[0];
+				auto y = parameters[1];
+				auto desiredAngle = parameters[2];
+				auto seconds = parameters[3];
+				frc::Command* command = new ScriptDriveCrab("DriveGyro", x, y, desiredAngle, seconds);
 				fCreateCommand(command, 0);
 			}
 		)
@@ -169,7 +185,7 @@ void ScriptEngine::_InitializeParser() {
 			[](std::vector<float> parameters, std::function<void(frc::Command*, float)> fCreateCommand) {
 				parameters.resize(1);
 				auto seconds = parameters[0];
-				frc::Command* command = new ScriptSleep("Sleep", seconds);
+				frc::Command* command = new ScriptSleep(seconds);
 				fCreateCommand(command, 0);
 			}
 		)

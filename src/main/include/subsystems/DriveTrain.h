@@ -17,6 +17,7 @@ public:
 	void LoadWheelOffsets();
 	void Crab(float twist, float y, float x, bool operatorControl);
 	void FieldCentricCrab(float twist, float y, float x, bool operatorControl);
+	void GyroCrab(float x, float y, float desiredAngle, bool operatorControl);
 	double GyroRotate();
 	double GetNearestHeading();
 	void RotateAboutPoint(double currentheading);
