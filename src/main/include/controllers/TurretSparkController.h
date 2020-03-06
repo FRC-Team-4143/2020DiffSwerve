@@ -13,6 +13,7 @@ public:
 	virtual double GetEncoderPosition() override;
 	virtual void SetPosition(double value) override;
 	virtual void ConfigPID() override;
+	virtual void ZeroPosition() override;
 
 private:
 

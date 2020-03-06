@@ -9,6 +9,7 @@
 //non-joystick commands
 #include "commands/SetWheelOffsets.h"
 #include "commands/ZeroYaw.h"
+#include "commands/ZeroTurret.h"
 
 #include "Modules/Constants.h"
 #include <frc/buttons/JoystickButton.h>
@@ -41,7 +42,7 @@ OI::OI() {
 
 	frc::SmartDashboard::PutData("Set WheelOffsets", new SetWheelOffsets());
 	frc::SmartDashboard::PutData("Zero Yaw", new ZeroYaw());
-
+	frc::SmartDashboard::PutData("Zero Turret", new ZeroTurret());
 	(new frc::JoystickButton(_driverJoystick, JOYSTICK_BUTTON_LEFT))->ToggleWhenPressed(_crabDrive);
 	//Right Trigger mapped to Turbo Mode
 	//Left Trigger mapped to Pickup Intake Roller
@@ -72,15 +73,15 @@ float OI::GetJoystickX() {
 
 float OI::GetJoystick2X() {
 	auto value = _driverJoystick2->GetRawAxis(JOYSTICK_LX_AXIS);
-	return (fabs(value) <= Constants::DEAD_ZONE*2) ? 0 : value;
+	return (fabs(value) <= Constants::DEAD_ZONE*3) ? 0 : value;
 }
 
 // ==========================================================================
 
 float OI::GetJoystick2Y() {
 	auto value = _driverJoystick2->GetRawAxis(JOYSTICK_LY_AXIS);
-	if(value > Constants::DEAD_ZONE*2) return value - Constants::DEAD_ZONE*2;
-	if(value < -Constants::DEAD_ZONE*2) return value + Constants::DEAD_ZONE*2;
+	if(value > Constants::DEAD_ZONE*3) return value - Constants::DEAD_ZONE*3;
+	if(value < -Constants::DEAD_ZONE*3) return value + Constants::DEAD_ZONE*3;
 	return 0;
 	//return (fabs(value) <= Constants::DEAD_ZONE*2) ? 0 : value;
 }
@@ -89,8 +90,8 @@ float OI::GetJoystick2Y() {
 
 float OI::GetJoystick2Z() {
 	auto value = _driverJoystick2->GetRawAxis(JOYSTICK_RX_AXIS);
-	if(value > Constants::DEAD_ZONE*2) return value - Constants::DEAD_ZONE*2;
-	if(value < -Constants::DEAD_ZONE*2) return value + Constants::DEAD_ZONE*2;
+	if(value > Constants::DEAD_ZONE*3) return value - Constants::DEAD_ZONE*3;
+	if(value < -Constants::DEAD_ZONE*3) return value + Constants::DEAD_ZONE*3;
 	return 0;
 
 	//return (fabs(value) <= Constants::DEAD_ZONE*2) ? 0 : value;

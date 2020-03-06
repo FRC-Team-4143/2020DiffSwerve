@@ -29,7 +29,7 @@ void Shooter::InitDefaultCommand() {
 // ==========================================================================
 
 void Shooter::TurretMove(float degrees){
-	_turret->SetPosition(degrees / 360 * (220/22) * (10/1)); // big gear 220, driving gear 22, VP 1/10 
+	_turret->SetPosition(degrees / 360 * (204/22) * (9/1)); // big gear 220, driving gear 22, VP 1/10 
                                                               // need to verify
 }
 
@@ -101,3 +101,7 @@ void Shooter::ShootStop() {
 }
 
 // ==========================================================================
+
+void Shooter::TurretZero() {
+	_turret->ZeroPosition();
+}

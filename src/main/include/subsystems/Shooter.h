@@ -30,6 +30,7 @@ public:
 	virtual void StirStop() override;
 	virtual void ShootStart() override;
 	virtual void ShootStop() override;
+	virtual void TurretZero() override;
 
 private:
 

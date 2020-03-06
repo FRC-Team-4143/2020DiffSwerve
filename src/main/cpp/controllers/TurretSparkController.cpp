@@ -68,3 +68,7 @@ void TurretSparkController::ConfigPID() {
 	pidController.SetSmartMotionAllowedClosedLoopError(kAllErr);
 	_motor->SetSmartCurrentLimit(5);
 }
+
+void TurretSparkController::ZeroPosition() {
+	_motor->GetEncoder().SetPosition(0);
+}

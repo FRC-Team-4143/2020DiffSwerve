@@ -19,6 +19,7 @@ public:
 	virtual void StirStop() = 0;
 	virtual void ShootStart() = 0;
 	virtual void ShootStop() = 0;
+	virtual void TurretZero() = 0;
 };
 
 // ==========================================================================
