@@ -75,7 +75,7 @@ void Shoot::Execute() {
 
 	if (Robot::oi->GetRightTrigger2() > 0.25) {
 		//counter++;
-		Robot::shooter->ShootStart();
+		Robot::shooter->ShootStart(speedPercent);
 	}
 	else {
 		//counter = 0;
