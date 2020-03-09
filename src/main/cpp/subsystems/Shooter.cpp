@@ -23,7 +23,7 @@ Shooter::Shooter(int shooterCANId, int turretCANId, int feederCANId, int stirCAN
 
 void Shooter::InitDefaultCommand() {
 	// No default command needed for this subsystem.
-	SetDefaultCommand(new Shoot());
+	//SetDefaultCommand(new Shoot());
 }
 
 // ==========================================================================

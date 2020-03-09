@@ -23,12 +23,15 @@ void ScriptStirForward::Initialize() {
 	LOG(GetName() + "::Initialize");
 
 	SetTimeout(_seconds);
+
 }
 
 // ==========================================================================
 
 void ScriptStirForward::Execute() {
 	Robot::shooter->Stir();
+	Robot::shooter->Feed(1);
+	Robot::shooter->ShootStart();
 }
 
 // ==========================================================================
@@ -42,6 +45,7 @@ bool ScriptStirForward::IsFinished() {
 void ScriptStirForward::End() {
 	LOG(GetName() + "::End");
 	Robot::shooter->StirStop();
+	Robot::shooter->FeedStop();
 }
 
 // ==========================================================================

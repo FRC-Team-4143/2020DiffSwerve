@@ -33,6 +33,7 @@
 
 #include <networktables/NetworkTable.h>
 #include <networktables/NetworkTableInstance.h>
+#include "commands/Shoot.h"
 
 // If not using DIFFSWERVE, must set ONE of the following to 1:
 #define USING_SPARKMAX_DRIVE 1
@@ -245,6 +246,7 @@ void Robot::AutonomousPeriodic() {
 void Robot::TeleopInit() {
 	_compressor->SetClosedLoopControl(true);
 	climber->Retract();
+	_shootCommand->Start();
 	// The Cancel call ensures that the autonomous command stops running when
 	// teleop starts running. To let the autonomous command continue until
 	// finished or interrupted by another command, remove the Cancel call.
@@ -426,6 +428,8 @@ void Robot::DeviceInitialization() {
 	driveTrain = new DriveTrain();
 
 	oi = new OI();
+
+	_shootCommand = new Shoot();
 
 	LOG("DeviceInit end");
 }

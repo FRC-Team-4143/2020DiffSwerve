@@ -14,7 +14,7 @@ ScriptFeedForward::ScriptFeedForward(float seconds)
 	// Do NOT require the Shooter subsystem. Otherwise, we
 	// cannot do parallel Shooter-related script commands.
 	// ----------------------------------------------------
-	//Requires(Robot::shooter.get());
+	Requires(Robot::shooter.get());
 }
 
 // ==========================================================================
@@ -23,12 +23,14 @@ void ScriptFeedForward::Initialize() {
 	LOG(GetName() + "::Initialize");
 
 	SetTimeout(_seconds);
+
 }
 
 // ==========================================================================
 
 void ScriptFeedForward::Execute() {
 	Robot::shooter->Feed(1);
+	Robot::shooter->ShootStart();
 }
 
 // ==========================================================================

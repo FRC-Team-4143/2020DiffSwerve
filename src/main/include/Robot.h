@@ -122,6 +122,7 @@ private:
 	int _counter = 0;
 
 	frc::Command* _autonomousCommand;
+	frc::Command* _shootCommand;
 
 	void DeviceInitialization();
 };
