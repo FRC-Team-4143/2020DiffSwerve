@@ -3,6 +3,7 @@
 // ==========================================================================
 #pragma once
 #include <frc/commands/Subsystem.h>
+#include "controllers/IPositionMultiController.h"
 
 class IShooter : public frc::Subsystem {
 public:
@@ -20,6 +21,8 @@ public:
 	virtual void ShootStart(float speedPercent) = 0;
 	virtual void ShootStop() = 0;
 	virtual void TurretZero() = 0;
+
+	std::unique_ptr<IPositionMultiController> _turret = 0;
 };
 
 // ==========================================================================

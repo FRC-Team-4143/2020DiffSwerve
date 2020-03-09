@@ -30,10 +30,12 @@ void TurretSparkController::SetPercentPower(double value) {
 }
 
 double TurretSparkController::GetEncoderPosition() {
-	return _motor->GetEncoder().GetPosition();
+	
+	return _motor->GetEncoder().GetPosition() * 360 / (204/22) / (9);
 }
 
 void TurretSparkController::SetPosition(double value) {
+	value = value / 360 * (204/22) * (9/1);
 	//std::cout << "Set Position" << value << std::endl;
 	//std::cout.flush();
 	auto pidController = _motor->GetPIDController();

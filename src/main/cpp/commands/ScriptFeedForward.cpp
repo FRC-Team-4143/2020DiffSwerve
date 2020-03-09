@@ -30,7 +30,7 @@ void ScriptFeedForward::Initialize() {
 
 void ScriptFeedForward::Execute() {
 	Robot::shooter->Feed(1);
-	Robot::shooter->ShootStart();
+	Robot::shooter->ShootStart(14400);
 }
 
 // ==========================================================================

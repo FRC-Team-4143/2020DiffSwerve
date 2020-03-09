@@ -31,7 +31,7 @@ void ScriptStirForward::Initialize() {
 void ScriptStirForward::Execute() {
 	Robot::shooter->Stir();
 	Robot::shooter->Feed(1);
-	Robot::shooter->ShootStart();
+	Robot::shooter->ShootStart(14400);
 }
 
 // ==========================================================================

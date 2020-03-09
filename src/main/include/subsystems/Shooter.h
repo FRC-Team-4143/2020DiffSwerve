@@ -31,11 +31,12 @@ public:
 	virtual void ShootStart(float speedPercent) override;
 	virtual void ShootStop() override;
 	virtual void TurretZero() override;
+	
+	std::unique_ptr<IPositionMultiController> _turret;
 
 private:
 
 	std::unique_ptr<IVelocityMultiController> _shooter;
-	std::unique_ptr<IPositionMultiController> _turret;
 	std::unique_ptr<IMultiController> _feeder;
 	std::unique_ptr<IMultiController> _stir;
 	std::shared_ptr<NetworkTable> _limelightTable;

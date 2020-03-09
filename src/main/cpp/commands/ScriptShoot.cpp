@@ -29,7 +29,7 @@ void ScriptShoot::Initialize() {
 // ==========================================================================
 
 void ScriptShoot::Execute() {
-	Robot::shooter->ShootStart();
+	Robot::shooter->ShootStart(14400);
 }
 
 // ==========================================================================

@@ -6,6 +6,8 @@
 #include "commands/ScriptValidate.h"
 #include "commands/Shoot.h"
 #include "commands/TogglePanel.h"
+#include "commands/FinalClimbMultiSubAssign.h"
+
 //non-joystick commands
 #include "commands/SetWheelOffsets.h"
 #include "commands/ZeroYaw.h"
@@ -55,7 +57,8 @@ OI::OI() {
 	//Shooter mapped to Right Trigger 
 	//Winch mapped to Left Joystick
 	//Stir mapped to A and B
-	(new frc::JoystickButton(_driverJoystick2, JOYSTICK_BUTTON_START))->WhenPressed(new ExtendClimber());
+	//(new frc::JoystickButton(_driverJoystick2, JOYSTICK_BUTTON_START))->WhenPressed(new ExtendClimber()); // old climber
+	(new frc::JoystickButton(_driverJoystick2, JOYSTICK_BUTTON_START))->WhenPressed(new FinalClimbMultiSubAssign()); // new climber
 	(new frc::JoystickButton(_driverJoystick2, JOYSTICK_BUTTON_BACK))->WhenPressed(new RetractClimber());
 	//(new frc::JoystickButton(_driverJoystick2, ))->ToggleWhenPressed(new Shoot());
 
