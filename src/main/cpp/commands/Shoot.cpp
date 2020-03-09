@@ -83,7 +83,7 @@ void Shoot::Execute() {
 	}
 	if(Robot::oi->GetRightBumper2() && (speedPercent < MaxShootSpeed)) speedPercent-= 800;
 	if(Robot::oi->GetLeftBumper2()) speedPercent -= 800;
-	
+	frc::SmartDashboard::PutNumber("Speed Adjust", (speedPercent/MaxShootSpeed)*100);
 
 	// ---------------
 	// Feeder control
