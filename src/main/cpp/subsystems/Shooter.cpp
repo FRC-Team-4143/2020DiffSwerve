@@ -86,12 +86,11 @@ void Shooter::StirStop() {
 
 // ==========================================================================
 
-void Shooter::ShootStart() {
+void Shooter::ShootStart(float speedPercent) {
 	//_shooter->SetPercentPower(.65);
-	_shooter->SetVelocity(16000-1600); //10% less 
 	_limelightTable->PutNumber("ledMode", 0);
-
-}
+	_shooter->SetVelocity(speedPercent);
+	}
 
 // ==========================================================================
 
@@ -105,3 +104,5 @@ void Shooter::ShootStop() {
 void Shooter::TurretZero() {
 	_turret->ZeroPosition();
 }
+
+// ==========================================================================

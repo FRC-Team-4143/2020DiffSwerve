@@ -26,6 +26,7 @@ private:
 	float adjust_speed; 
 	float _targetDegrees = 0;
 	int _gyroCounter = 0;
+	float speedPercent= 14400; //10% less
 };
 
 // ==========================================================================

@@ -28,7 +28,7 @@ public:
 	virtual void Stir() override;
 	virtual void StirReverse() override;
 	virtual void StirStop() override;
-	virtual void ShootStart() override;
+	virtual void ShootStart(float speedPercent) override;
 	virtual void ShootStop() override;
 	virtual void TurretZero() override;
 

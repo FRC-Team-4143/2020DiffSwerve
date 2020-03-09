@@ -231,3 +231,15 @@ bool OI::GetRightBumper() {
 }
 
 // ==========================================================================
+
+bool OI::GetLeftBumper2() {
+	return _driverJoystick2->GetRawButton(JOYSTICK_BUTTON_LB);
+}
+
+// ==========================================================================
+
+bool OI::GetRightBumper2() {
+	return _driverJoystick2->GetRawButton(JOYSTICK_BUTTON_RB);
+}
+
+// ==========================================================================

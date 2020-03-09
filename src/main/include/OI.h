@@ -37,6 +37,8 @@ public:
 	bool GetButtonStart();
 	bool GetLeftBumper();
 	bool GetRightBumper();
+	bool GetLeftBumper2();
+	bool GetRightBumper2();
 
 private:
 

@@ -17,7 +17,7 @@ public:
 	virtual void Stir() = 0;
 	virtual void StirReverse() = 0;
 	virtual void StirStop() = 0;
-	virtual void ShootStart() = 0;
+	virtual void ShootStart(float speedPercent) = 0;
 	virtual void ShootStop() = 0;
 	virtual void TurretZero() = 0;
 };

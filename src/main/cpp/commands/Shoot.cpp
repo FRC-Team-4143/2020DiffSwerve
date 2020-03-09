@@ -38,6 +38,7 @@ void Shoot::Execute() {
 	constexpr float MAX_ALLOWED_ANGLE = 250;
 
 	constexpr int GYRO_DELAY_TICKS = 7 * 50;
+	constexpr int MaxShootSpeed = 16000;
 
 	_gyroCounter++;
 
@@ -54,9 +55,8 @@ void Shoot::Execute() {
 			} else {
 				_targetDegrees = -Robot::gyroSub->PIDGet();
 				// Gyro returns -180 to +180. Convert to 0 to 360.
-				if (_targetDegrees < 0)
-					_targetDegrees += 360;
-			}
+				if (_targetDegrees < 0) _targetDegrees += 360;
+				}
 	} 
 	
 	if (_targetDegrees < MIN_ALLOWED_ANGLE) {
@@ -81,6 +81,9 @@ void Shoot::Execute() {
 		//counter = 0;
 		Robot::shooter->ShootStop();
 	}
+	if(Robot::oi->GetRightBumper2() && (speedPercent < MaxShootSpeed)) speedPercent-= 800;
+	if(Robot::oi->GetLeftBumper2()) speedPercent -= 800;
+	
 
 	// ---------------
 	// Feeder control
