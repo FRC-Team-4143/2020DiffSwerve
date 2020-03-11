@@ -17,7 +17,6 @@ ScriptShoot::ScriptShoot(float seconds)
 
 void ScriptShoot::Initialize() {
 	LOG(GetName() + "::Initialize");
-
 	SetTimeout(_seconds);
 
 }
@@ -26,6 +25,7 @@ void ScriptShoot::Initialize() {
 
 void ScriptShoot::Execute() {
 	Robot::shooter->ShootStart(14400);
+	Robot::shooter->LimeLightControl(true);
 }
 
 // ==========================================================================
