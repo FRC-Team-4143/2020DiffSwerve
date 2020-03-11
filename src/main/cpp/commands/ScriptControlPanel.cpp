@@ -1,49 +1,56 @@
-#include "commands/ScriptShoot.h"
+#include "commands/ScriptControlPanel.h"
 #include "Modules/Logger.h"
 #include "Robot.h"
 
 // ==========================================================================
 
-ScriptShoot::ScriptShoot(float seconds)
-:	frc::Command("ScriptShoot"), _seconds(seconds) {
+ScriptControlPanel::ScriptControlPanel(float seconds)
+:	frc::Command("ScriptControlPanel"), _seconds(seconds) {
 	char szParams[64];
 	sprintf(szParams, "(%f)", seconds);
 	LOG(GetName() + "::ctor" + szParams);
 
-	Requires(Robot::shooter.get());
+	// ----------------------------------------------------
+	// Do NOT require the Shooter subsystem. Otherwise, we
+	// cannot do parallel Shooter-related script commands.
+	// ----------------------------------------------------
+	Requires(Robot::controlPanel.get());
+    //Requires(Robot::climber.get()); needed to run the control panel motor
 }
 
 // ==========================================================================
 
-void ScriptShoot::Initialize() {
+void ScriptControlPanel::Initialize() {
 	LOG(GetName() + "::Initialize");
 
 	SetTimeout(_seconds);
 
+    Robot::controlPanel->ColorUp();
+
 }
 
 // ==========================================================================
 
-void ScriptShoot::Execute() {
-	Robot::shooter->ShootStart(14400);
+void ScriptControlPanel::Execute() {
+	
 }
 
 // ==========================================================================
 
-bool ScriptShoot::IsFinished() {
+bool ScriptControlPanel::IsFinished() {
 	return IsTimedOut();
 }
 
 // ==========================================================================
 
-void ScriptShoot::End() {
+void ScriptControlPanel::End() {
 	LOG(GetName() + "::End");
-	//Robot::shooter->ShootStop();
+	Robot::controlPanel->ColorDown();
 }
 
 // ==========================================================================
 
-void ScriptShoot::Interrupted() {
+void ScriptControlPanel::Interrupted() {
 	LOG(GetName() + "::Interrupted");
 }
 

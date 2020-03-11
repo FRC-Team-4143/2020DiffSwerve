@@ -31,8 +31,10 @@ public:
 	virtual void ShootStart(float speedPercent) override;
 	virtual void ShootStop() override;
 	virtual void TurretZero() override;
+	virtual void LimeLightControl(bool controlmode) override;
 	
 	std::unique_ptr<IPositionMultiController> _turret;
+	float _targetDegrees = 0;
 
 private:
 
@@ -40,6 +42,10 @@ private:
 	std::unique_ptr<IMultiController> _feeder;
 	std::unique_ptr<IMultiController> _stir;
 	std::shared_ptr<NetworkTable> _limelightTable;
+float MIN_ALLOWED_ANGLE = -20;
+float MAX_ALLOWED_ANGLE = 250;
+int GYRO_DELAY_TICKS = 7 * 50;
+int _gyroCounter = 0;
 };
 
 // ==========================================================================

@@ -6,6 +6,8 @@
 #include "commands/Shoot.h"
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <networktables/NetworkTableInstance.h>
+#include "OI.h"
+#include "Robot.h"
 
 // ==========================================================================
 
@@ -103,6 +105,42 @@ void Shooter::ShootStop() {
 
 void Shooter::TurretZero() {
 	_turret->ZeroPosition();
+}
+
+// ==========================================================================
+
+void Shooter::LimeLightControl(bool controlmode) {
+	auto joyz = Robot::oi->GetJoystick2Z();
+	std::shared_ptr<NetworkTable> table = nt::NetworkTableInstance::GetDefault().GetTable("limelight");
+	float tx = table->GetNumber("tx", 0.0f);
+	frc::SmartDashboard::PutNumber("TX",tx); //MAX: 15 MIN: -15
+	_gyroCounter++;
+	if ((Robot::oi->GetLeftTrigger2() < .5 && _gyroCounter >= GYRO_DELAY_TICKS) || controlmode) {
+		
+			if (Robot::oi->GetRightTrigger2() > 0.75 ){
+			  if (_targetDegrees > 0.001 || _targetDegrees < -0.001)
+				_targetDegrees += tx/4.0;
+			} else {
+				_targetDegrees = -Robot::gyroSub->PIDGet();
+				// Gyro returns -180 to +180. Convert to 0 to 360.
+				if (_targetDegrees < 0) _targetDegrees += 360;
+				}
+	} 
+	if(controlmode) joyz=0;
+
+	if (joyz != 0) {
+		_targetDegrees += joyz;
+		_gyroCounter = 0;
+	}
+	if (_targetDegrees < MIN_ALLOWED_ANGLE) {
+		_targetDegrees = MIN_ALLOWED_ANGLE;
+	}
+	else if (_targetDegrees > MAX_ALLOWED_ANGLE) {
+		_targetDegrees = MIN_ALLOWED_ANGLE;
+	}
+
+	Robot::shooter->TurretMove(_targetDegrees);
+	frc::SmartDashboard::PutNumber("Target Degrees", _targetDegrees);  
 }
 
 // ==========================================================================

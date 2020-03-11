@@ -15,7 +15,7 @@ public:
 	virtual void End() override;
 	virtual void Interrupted() override;
 	
-	float _targetDegrees = 0;
+	//float _targetDegrees = 0;
 
 private:
 
@@ -26,7 +26,7 @@ private:
 	//float heading_error;
 	//float steering_adjust;
 	float adjust_speed; 
-	int _gyroCounter = 0;
+	//int _gyroCounter = 0;
 	float speedPercent= 14400; //10% less
 };
 

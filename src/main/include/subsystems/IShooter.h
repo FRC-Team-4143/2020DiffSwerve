@@ -21,6 +21,8 @@ public:
 	virtual void ShootStart(float speedPercent) = 0;
 	virtual void ShootStop() = 0;
 	virtual void TurretZero() = 0;
+	virtual void LimeLightControl(bool controlmode) = 0;
+	virtual void OperatorControl() = 0;
 
 	std::unique_ptr<IPositionMultiController> _turret = 0;
 };

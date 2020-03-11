@@ -15,6 +15,7 @@
 #include "commands/ScriptStirForward.h"
 #include "commands/ScriptStirReverse.h"
 #include "commands/ScriptSleep.h"
+#include "commands/ScriptControlPanel.h"
 
 #include <frc/smartdashboard/SmartDashboard.h>
 
@@ -210,6 +211,18 @@ void ScriptEngine::_InitializeParser() {
 				parameters.resize(1);
 				auto seconds = parameters[0];
 				frc::Command* command = new ScriptStirReverse(seconds);
+				fCreateCommand(command, 0);
+			}
+		)
+	);
+
+	parser.AddCommand(
+		CommandParseInfo(
+			"TogglePanel", {"TC", "tc"},
+			[](std::vector<float> parameters, std::function<void(frc::Command*, float)> fCreateCommand) {
+				parameters.resize(1);
+				auto seconds = parameters[0];
+				frc::Command* command = new ScriptControlPanel(seconds);
 				fCreateCommand(command, 0);
 			}
 		)
