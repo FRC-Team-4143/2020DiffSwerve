@@ -106,7 +106,7 @@ void ScriptEngine::_InitializeParser() {
 				auto y = parameters[1];
 				auto desiredAngle = parameters[2];
 				auto seconds = parameters[3];
-				frc::Command* command = new ScriptDriveCrab("DriveGyro", x, y, desiredAngle, seconds);
+				frc::Command* command = new ScriptDriveGyro("DriveGyro", x, y, desiredAngle, seconds);
 				fCreateCommand(command, 0);
 			}
 		)

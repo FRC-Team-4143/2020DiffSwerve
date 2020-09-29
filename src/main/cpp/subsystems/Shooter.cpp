@@ -110,6 +110,7 @@ void Shooter::TurretZero() {
 // ==========================================================================
 
 void Shooter::LimeLightControl(bool controlmode) {
+	
 	auto joyz = Robot::oi->GetJoystick2Z();
 	std::shared_ptr<NetworkTable> table = nt::NetworkTableInstance::GetDefault().GetTable("limelight");
 	float tx = table->GetNumber("tx", 0.0f);

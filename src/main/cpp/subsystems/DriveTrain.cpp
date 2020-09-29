@@ -71,6 +71,8 @@ void DriveTrain::LoadWheelOffsets() {
 
 // ================================================================
 
+//This could be broken. Testing required
+
 void DriveTrain::Crab(float twist, float y, float x, bool operatorControl) {
 	if (operatorControl && x == 0.0 && y == 0.0 && twist == 0.0 && false) {
 		if (fabs(lasty) > 0 || fabs(lastx) > 0 || fabs(lasttwist) > 0) {
@@ -92,6 +94,8 @@ void DriveTrain::Crab(float twist, float y, float x, bool operatorControl) {
 	x *= 0.5;
 	y *= 0.5;
 	twist *= 0.5;
+
+	frc::SmartDashboard::PutNumber("Twist", twist);
 
 	//if (operatorControl && !Robot::oi->GetLeftBumper()) { // Increase spin speed
 	//	twist *= 0.65;
@@ -202,7 +206,7 @@ void DriveTrain::Crab(float twist, float y, float x, bool operatorControl) {
 	frc::SmartDashboard::PutNumber("RL Speed", speeds[2]);
 	frc::SmartDashboard::PutNumber("RR Speed", speeds[3]);
 
-	fieldCentricMode = false;
+	fieldCentricMode = false; //noted
 }
 
 // ================================================================
@@ -223,6 +227,10 @@ void DriveTrain::FieldCentricCrab(float twist, float y, float x, bool operatorCo
 
 // ================================================================
 
+//desiredAngle does not work in current state.
+// Wheels turning inwards to robot 
+// FURTHER TESTING / DEBUGGING REQUIRED
+
 void DriveTrain::GyroCrab(float x, float y, float desiredAngle, bool operatorControl) {
 	auto currentAngle = Robot::gyroSub->PIDGet();
 	auto twist = desiredAngle - currentAngle;
@@ -234,11 +242,11 @@ void DriveTrain::GyroCrab(float x, float y, float desiredAngle, bool operatorCon
 		twist += 360.0;
 	}
 
-	constexpr float GYRO_P = 0.001;
-	constexpr float GYRO_MAX = 0.5;
+	constexpr float GYRO_P = 0.005;
+	constexpr float GYRO_MAX = 0.3;
 
-	twist = std::min<float>(GYRO_MAX, std::max<float>(-GYRO_MAX, twist * GYRO_P));
-	Crab(twist, y, x, operatorControl);
+	twist = std::min<float>(GYRO_MAX, std::max<float>(-GYRO_MAX, twist * GYRO_P)); //is this correct?
+	Crab(twist, y, x, true);
 }
 
 // ================================================================
