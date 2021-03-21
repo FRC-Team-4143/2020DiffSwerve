@@ -23,6 +23,8 @@ void Shoot::Initialize() {
 // ==========================================================================
 
 void Shoot::Execute() {
+	
+	speedPercent = frc::SmartDashboard::GetNumber("Pure Speed", 14400);
 
 	// ---------------
 	// Turret control
@@ -32,7 +34,7 @@ void Shoot::Execute() {
 	// ----------------
 	// Shooter control
 	// ----------------
-	constexpr int MaxShootSpeed = 16000;
+	constexpr int MaxShootSpeed = 16000; //may be a problem
 
 	if (Robot::oi->GetRightTrigger2() > 0.25) {
 		//counter++;
@@ -42,9 +44,10 @@ void Shoot::Execute() {
 		//counter = 0;
 		Robot::shooter->ShootStop();
 	}
-	if(Robot::oi->GetRightBumper2() && (speedPercent < MaxShootSpeed)) speedPercent-= 800;
-	if(Robot::oi->GetLeftBumper2()) speedPercent -= 800;
-	frc::SmartDashboard::PutNumber("Speed Adjust", (speedPercent/MaxShootSpeed)*100);
+	if(Robot::oi->GetRightBumper2() && (speedPercent < MaxShootSpeed)) speedPercent += 200; //INCREASES speed
+	if(Robot::oi->GetLeftBumper2() && (speedPercent > 200)) speedPercent -= 200; //DECREASES speed
+	frc::SmartDashboard::PutNumber("Speed Percent", (speedPercent/MaxShootSpeed)*100);
+	frc::SmartDashboard::PutNumber("Pure Speed", speedPercent);
 
 	// ---------------
 	// Feeder control

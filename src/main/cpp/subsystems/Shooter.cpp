@@ -116,18 +116,22 @@ void Shooter::LimeLightControl(bool controlmode) {
 	float tx = table->GetNumber("tx", 0.0f);
 	frc::SmartDashboard::PutNumber("TX",tx); //MAX: 15 MIN: -15
 	_gyroCounter++;
-	if ((Robot::oi->GetLeftTrigger2() < .5 && _gyroCounter >= GYRO_DELAY_TICKS) || controlmode) {
+	
+	//VISION AIM DISABLED
+
+	// if ((Robot::oi->GetLeftTrigger2() < .5 && _gyroCounter >= GYRO_DELAY_TICKS) || controlmode) {
 		
-			if (Robot::oi->GetRightTrigger2() > 0.75 ){
-			  if (_targetDegrees > 0.001 || _targetDegrees < -0.001)
-				_targetDegrees += tx/4.0;
-			} else {
-				_targetDegrees = -Robot::gyroSub->PIDGet();
-				// Gyro returns -180 to +180. Convert to 0 to 360.
-				if (_targetDegrees < 0) _targetDegrees += 360;
-				}
-	} 
-	if(controlmode) joyz=0;
+	// 		if (Robot::oi->GetRightTrigger2() > 0.75 ){
+	// 		  if (_targetDegrees > 0.001 || _targetDegrees < -0.001)
+	// 			_targetDegrees += tx/4.0;
+	// 		} else {
+	// 			_targetDegrees = -Robot::gyroSub->PIDGet() + 180;
+	// 			// Gyro returns -180 to +180. Convert to 0 to 360.
+	// 			if (_targetDegrees < 0) _targetDegrees += 360;
+	// 			}
+	// } 
+
+	//if(controlmode) joyz=0;
 
 	if (joyz != 0) {
 		_targetDegrees += joyz;

@@ -27,7 +27,7 @@ private:
 	//float steering_adjust;
 	float adjust_speed; 
 	//int _gyroCounter = 0;
-	float speedPercent= 14400; //10% less
+	float speedPercent= 14400; //10% less ; CHANGE NAME (It's RPM, not Percentage)
 };
 
 // ==========================================================================
