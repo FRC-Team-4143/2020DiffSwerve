@@ -1,7 +1,7 @@
 plugins {
     id "cpp"
     id "google-test-test-suite"
-    id "edu.wpi.first.GradleRIO" version "2020.3.2"
+    id "edu.wpi.first.GradleRIO" version "2021.3.1"
 }
 
 // Define my targets (RoboRIO) and artifacts (deployable files)
@@ -38,7 +38,7 @@ deploy {
 // to the compiler. Some eclipse project imports depend on this behavior.
 // We recommend leaving this disabled if possible. Note for eclipse project
 // imports this is enabled by default. For new projects, its disabled
-def includeSrcInIncludeRoot = false
+def includeSrcInIncludeRoot = false //PLAY WITH THIS
 
 // Set this to true to enable desktop support.
 def includeDesktopSupport = false
