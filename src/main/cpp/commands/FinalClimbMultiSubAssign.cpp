@@ -26,11 +26,11 @@ void FinalClimbMultiSubAssign::Execute() {
 	
     float speed = 0.25; // To be tested
 
-    Robot::shooter->TurretZero();
+    //Robot::shooter->TurretZero();
     Robot::winch->WinchControl(speed);
-    if (Robot::shooter->_turret->GetEncoderPosition() < -15) {
+    //if (Robot::shooter->_turret->GetEncoderPosition() < -15) {
      Robot::climber->Extend();
-    }
+    //}
 
 }
 

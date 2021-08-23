@@ -24,6 +24,7 @@ void ScriptShoot::Initialize() {
 // ==========================================================================
 
 void ScriptShoot::Execute() {
+	Robot::shooter->Feed(0);
 	Robot::shooter->ShootStart(14400);
 	Robot::shooter->LimeLightControl(true);
 }
