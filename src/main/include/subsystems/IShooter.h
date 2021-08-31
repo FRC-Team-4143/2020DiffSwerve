@@ -23,6 +23,9 @@ public:
 	virtual void TurretZero() = 0;
 	virtual void LimeLightControl(bool controlmode) = 0;
 
+	virtual void SetDegrees(float degrees) = 0;
+	virtual float GetDegrees() = 0;
+
 	std::unique_ptr<IPositionMultiController> _turret = 0;
 };
 

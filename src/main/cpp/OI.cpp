@@ -246,3 +246,7 @@ bool OI::GetRightBumper2() {
 }
 
 // ==========================================================================
+
+int OI::GetPOV2() {
+	return _driverJoystick2->GetPOV();
+}

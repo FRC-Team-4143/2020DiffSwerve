@@ -39,6 +39,7 @@ public:
 	bool GetRightBumper();
 	bool GetLeftBumper2();
 	bool GetRightBumper2();
+	int GetPOV2();
 
 private:
 

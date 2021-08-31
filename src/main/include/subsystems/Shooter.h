@@ -32,6 +32,9 @@ public:
 	virtual void ShootStop() override;
 	virtual void TurretZero() override;
 	virtual void LimeLightControl(bool controlmode) override;
+
+	virtual void SetDegrees(float degrees) override;
+	virtual float GetDegrees() override;
 	
 	std::unique_ptr<IPositionMultiController> _turret;
 	float _targetDegrees = 0;

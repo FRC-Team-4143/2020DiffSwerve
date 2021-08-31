@@ -52,7 +52,7 @@ void TurretSparkController::SetPosition(double value) {
 void TurretSparkController::ConfigPID() {
 	kMaxVel = 10000;
 	kMinVel = 0;
-	kMaxAcc = 10000;
+	kMaxAcc = 5000;
 	kAllErr = 0;
 
 	_motor->RestoreFactoryDefaults();

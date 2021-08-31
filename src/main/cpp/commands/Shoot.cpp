@@ -29,13 +29,22 @@ void Shoot::Execute() {
 	// ---------------
 	// Turret control
 	// ---------------
-	Robot::shooter->LimeLightControl(false);
+	if(Robot::oi->GetPOV2() == -1)
+		Robot::shooter->LimeLightControl(false);
+    else
+		Robot::shooter->LimeLightControl(true);
 
 	// ----------------
 	// Shooter control
 	// ----------------
 	constexpr int MaxShootSpeed = 16000; //may be a problem
 
+	if(Robot::oi->GetLeftTrigger2() > .25) {
+		Robot::shooter->SetDegrees(0);
+	}
+	else if (Robot::shooter->GetDegrees() < 45.) {
+		Robot::shooter->SetDegrees(210.);
+	}
 	if (Robot::oi->GetRightTrigger2() > 0.25) {
 		//counter++;
 		Robot::shooter->ShootStart(speedPercent);
@@ -44,6 +53,7 @@ void Shoot::Execute() {
 		//counter = 0;
 		Robot::shooter->ShootStop();
 	}
+	
 	if(Robot::oi->GetRightBumper2() && (speedPercent < MaxShootSpeed)) speedPercent += 200; //INCREASES speed
 	if(Robot::oi->GetLeftBumper2() && (speedPercent > 200)) speedPercent -= 200; //DECREASES speed
 	frc::SmartDashboard::PutNumber("Speed Percent", (speedPercent/MaxShootSpeed)*100);

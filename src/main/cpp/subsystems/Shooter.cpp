@@ -109,6 +109,14 @@ void Shooter::TurretZero() {
 
 // ==========================================================================
 
+void Shooter::SetDegrees(float degrees) {
+	_targetDegrees = degrees;
+}
+
+float Shooter::GetDegrees() {
+	return _targetDegrees;
+}
+
 void Shooter::LimeLightControl(bool controlmode) {
 	
 	auto joyz = Robot::oi->GetJoystick2Z();
@@ -131,17 +139,21 @@ void Shooter::LimeLightControl(bool controlmode) {
 	// 			}
 	// } 
 
-	//if(controlmode) joyz=0;
+	if(controlmode) {
+		joyz=0;
+		_targetDegrees += tx/6.;
+	}
 
 	if (joyz != 0) {
 		_targetDegrees += joyz;
 		_gyroCounter = 0;
 	}
+
 	if (_targetDegrees < MIN_ALLOWED_ANGLE) {
 		_targetDegrees = MIN_ALLOWED_ANGLE;
 	}
 	else if (_targetDegrees > MAX_ALLOWED_ANGLE) {
-		_targetDegrees = MIN_ALLOWED_ANGLE;
+		_targetDegrees = MAX_ALLOWED_ANGLE;
 	}
 
 	Robot::shooter->TurretMove(_targetDegrees);
