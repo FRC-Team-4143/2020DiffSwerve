@@ -11,4 +11,5 @@ public:
 	virtual double SetSteerDrive(double x, double y, double twist, bool operatorControl) = 0;
 	virtual double GetSetpoint() = 0;
 	virtual double GetPower() = 0;
+	virtual void Stop() = 0;
 };

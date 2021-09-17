@@ -74,6 +74,13 @@ void DriveTrain::LoadWheelOffsets() {
 //This could be broken. Testing required
 
 void DriveTrain::Crab(float twist, float y, float x, bool operatorControl) {
+	if (twist==0.0 && x==0.0 && y==0.0 && !operatorControl){
+		frontLeftModule->Stop();
+		frontRightModule->Stop();
+		rearLeftModule->Stop();
+		rearRightModule->Stop();
+		return;
+	}
 	if (operatorControl && x == 0.0 && y == 0.0 && twist == 0.0 && false) {
 		if (fabs(lasty) > 0 || fabs(lastx) > 0 || fabs(lasttwist) > 0) {
 			y = std::min(std::max(lasty, -Constants::DEAD_ZONE), Constants::DEAD_ZONE);

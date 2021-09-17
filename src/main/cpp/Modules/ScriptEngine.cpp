@@ -172,9 +172,11 @@ void ScriptEngine::_InitializeParser() {
 		CommandParseInfo(
 			"Shoot", {"SH", "sh"},
 			[](std::vector<float> parameters, std::function<void(frc::Command*, float)> fCreateCommand) {
-				parameters.resize(1);
-				auto seconds = parameters[0];
-				frc::Command* command = new ScriptShoot(seconds);
+				parameters.resize(3);
+				auto angle = parameters[0];
+				auto speed = parameters[1];
+				auto seconds = parameters[2];
+				frc::Command* command = new ScriptShoot(angle, speed, seconds);
 				fCreateCommand(command, 0);
 			}
 		)

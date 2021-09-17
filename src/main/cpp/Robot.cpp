@@ -229,6 +229,8 @@ void Robot::DisabledPeriodic() {
 void Robot::AutonomousInit() {
 	_compressor->SetClosedLoopControl(true);
 	climber->Retract();
+	gyroSub->ResetGyro();
+	shooter->TurretZero();
 	_autonomousCommand = ScriptEngine::GetInstance().GetCommand();
 	if (_autonomousCommand != nullptr) {
 		_autonomousCommand->Start();

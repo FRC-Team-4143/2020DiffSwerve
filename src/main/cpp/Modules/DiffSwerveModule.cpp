@@ -30,7 +30,10 @@ void DiffSwerveModule::SetGeometry(double x, double y, double maxradius) {
 	_y = y;
 	_radius = maxradius;
 }
-
+void DiffSwerveModule::Stop() {
+	_master->SetVelocity(0);
+	_slave->SetVelocity(0);
+}
 // ================================================================
 
 void DiffSwerveModule::SetWheelOffset() {

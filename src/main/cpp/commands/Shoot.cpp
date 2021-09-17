@@ -31,8 +31,10 @@ void Shoot::Execute() {
 	// ---------------
 	if(Robot::oi->GetPOV2() == -1)
 		Robot::shooter->LimeLightControl(false);
-    else
+    else if(Robot::oi->GetPOV2() == 180) //down
 		Robot::shooter->LimeLightControl(true);
+	else if(Robot::oi->GetPOV2() == 0) //up
+		Robot::shooter->SetDegrees(210.);
 
 	// ----------------
 	// Shooter control
@@ -42,9 +44,9 @@ void Shoot::Execute() {
 	if(Robot::oi->GetLeftTrigger2() > .25) {
 		Robot::shooter->SetDegrees(0);
 	}
-	else if (Robot::shooter->GetDegrees() < 45.) {
-		Robot::shooter->SetDegrees(210.);
-	}
+	//else if (Robot::shooter->GetDegrees() < 45.) {
+	//	Robot::shooter->SetDegrees(210.);
+	//}
 	if (Robot::oi->GetRightTrigger2() > 0.25) {
 		//counter++;
 		Robot::shooter->ShootStart(speedPercent);

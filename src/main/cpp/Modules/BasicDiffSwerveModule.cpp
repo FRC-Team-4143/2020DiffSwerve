@@ -22,6 +22,11 @@ void BasicDiffSwerveModule::SetGeometry(double x, double y, double maxRadius) {
 	_radius = maxRadius;
 }
 
+void BasicDiffSwerveModule::Stop() {
+	_master->SetVelocity(0);
+	_slave->SetVelocity(0);
+}
+
 // ================================================================
 
 void BasicDiffSwerveModule::SetWheelOffset() {

@@ -26,7 +26,8 @@ void GyroSub::InitDefaultCommand() {
 
 double GyroSub::PIDGet() {
 	if (theGyro() != nullptr) {
-		return theGyro()->GetYaw() + (frc::SmartDashboard::GetNumber("Yaw Offset", 0));
+		double heading = theGyro()->GetYaw() + 180. + (frc::SmartDashboard::GetNumber("Yaw Offset", 0));
+		return heading;
 	}
 	return 0;
 }
@@ -38,7 +39,8 @@ double GyroSub::PIDGet() {
 
 double GyroSub::GetHeading() {
 	if (theGyro() != nullptr) {
-		return theGyro()->GetCompassHeading();
+		double heading = theGyro()->GetCompassHeading();
+		return heading;
 	}
 	return 0;
 }

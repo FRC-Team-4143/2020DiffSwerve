@@ -6,7 +6,7 @@
 class ScriptShoot : public frc::Command {
 public:
 
-	ScriptShoot(float seconds);
+	ScriptShoot(float angle, float speed, float seconds);
 
 	// Command methods
 	virtual void Initialize() override;
@@ -18,6 +18,9 @@ public:
 private:
 
 	float _seconds;
+	float _angle;
+	float _speed;
+	float _counter;
 };
 
 // ==========================================================================

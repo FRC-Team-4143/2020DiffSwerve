@@ -73,6 +73,10 @@ void TalonFXDiffSwerveModule::SetGeometry(double x, double y, double maxradius) 
 	_y = y;
 	_radius = maxradius;
 }
+void TalonFXDiffSwerveModule::Stop() {
+	_master.Set(ControlMode::Velocity,0);
+	_slave.Set(ControlMode::Velocity,0);
+}
 
 // ================================================================
 

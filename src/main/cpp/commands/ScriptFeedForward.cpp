@@ -30,8 +30,7 @@ void ScriptFeedForward::Initialize() {
 
 void ScriptFeedForward::Execute() {
 	Robot::shooter->Feed(1);
-	Robot::shooter->ShootStart(14400);
-	Robot::shooter->LimeLightControl(true);
+	//Robot::shooter->LimeLightControl(true);
 }
 
 // ==========================================================================

@@ -17,6 +17,7 @@ public:
 	virtual double SetSteerDrive(double x, double y, double twist, bool operatorControl) override;
 	virtual double GetSetpoint() override;
 	virtual double GetPower() override;
+	virtual void Stop() override;
 
 private:
 

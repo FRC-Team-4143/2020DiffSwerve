@@ -31,6 +31,7 @@ void Shooter::InitDefaultCommand() {
 // ==========================================================================
 
 void Shooter::TurretMove(float degrees){
+	_targetDegrees = degrees;
 	_turret->SetPosition(degrees); // big gear 220, driving gear 22, VP 1/10 
                                                               // need to verify
 }
@@ -141,7 +142,7 @@ void Shooter::LimeLightControl(bool controlmode) {
 
 	if(controlmode) {
 		joyz=0;
-		_targetDegrees += tx/6.;
+		_targetDegrees += tx*0.1;
 	}
 
 	if (joyz != 0) {
