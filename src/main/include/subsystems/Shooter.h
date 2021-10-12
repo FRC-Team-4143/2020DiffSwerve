@@ -38,10 +38,9 @@ public:
 	
 	std::unique_ptr<IPositionMultiController> _turret;
 	float _targetDegrees = 0;
-
+	std::unique_ptr<IVelocityMultiController> _shooter;
 private:
 
-	std::unique_ptr<IVelocityMultiController> _shooter;
 	std::unique_ptr<IMultiController> _feeder;
 	std::unique_ptr<IMultiController> _stir;
 	std::shared_ptr<NetworkTable> _limelightTable;

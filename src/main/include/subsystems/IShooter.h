@@ -4,6 +4,7 @@
 #pragma once
 #include <frc/commands/Subsystem.h>
 #include "controllers/IPositionMultiController.h"
+#include "controllers/IVelocityMultiController.h"
 
 class IShooter : public frc::Subsystem {
 public:
@@ -27,6 +28,7 @@ public:
 	virtual float GetDegrees() = 0;
 
 	std::unique_ptr<IPositionMultiController> _turret = 0;
+	std::unique_ptr<IVelocityMultiController> _shooter=0;
 };
 
 // ==========================================================================

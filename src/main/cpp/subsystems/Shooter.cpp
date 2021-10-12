@@ -115,7 +115,9 @@ void Shooter::SetDegrees(float degrees) {
 }
 
 float Shooter::GetDegrees() {
-	return _targetDegrees;
+	//untested change
+	//return _targetDegrees;
+	return _turret->GetPosition();
 }
 
 void Shooter::LimeLightControl(bool controlmode) {
@@ -125,6 +127,7 @@ void Shooter::LimeLightControl(bool controlmode) {
 	float tx = table->GetNumber("tx", 0.0f);
 	frc::SmartDashboard::PutNumber("TX",tx); //MAX: 15 MIN: -15
 	_gyroCounter++;
+	float newtarget = 0;
 	
 	//VISION AIM DISABLED
 
@@ -142,7 +145,13 @@ void Shooter::LimeLightControl(bool controlmode) {
 
 	if(controlmode) {
 		joyz=0;
-		_targetDegrees += tx*0.1;
+		newtarget = _targetDegrees + tx*0.1;
+
+		// untested changes
+		if(_targetDegrees >= 10. && _targetDegrees <= 45. && newtarget < 10.) _targetDegrees = 10.;
+		else if(_targetDegrees <= 45. && newtarget > 45.) _targetDegrees = 45.;
+		else if(_targetDegrees >= 112. && newtarget < 112.) _targetDegrees = 112.;
+		else _targetDegrees = newtarget;
 	}
 
 	if (joyz != 0) {

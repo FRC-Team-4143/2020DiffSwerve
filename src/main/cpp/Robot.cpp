@@ -2,6 +2,7 @@
 #include <frc/commands/Scheduler.h>
 #include <frc/RobotController.h>
 #include <frc/smartdashboard/SmartDashboard.h>
+#include <frc/livewindow/LiveWindow.h>
 
 #include <rev/ColorSensorV3.h>
 #include <rev/ColorMatch.h>
@@ -191,17 +192,25 @@ void Robot::RobotPeriodic() {
 		frc::SmartDashboard::PutNumber("rl setpoint", rearLeftModule->GetSetpoint());
 		frc::SmartDashboard::PutNumber("rr setpoint", rearRightModule->GetSetpoint());
 		*/
+
+		/*
 		frc::SmartDashboard::PutNumber("fl power", frontLeftModule->GetPower());
 		frc::SmartDashboard::PutNumber("fr power", frontRightModule->GetPower());
 		frc::SmartDashboard::PutNumber("rl power", rearLeftModule->GetPower());
 		frc::SmartDashboard::PutNumber("rr power", rearRightModule->GetPower());
+		*/
 
 	//RPM Code:
+	
+	//frc::SmartDashboard::PutNumber("Shooter Actual Rpm", shooter->_shooter->GetEncoderPosition()); //RPM TEST
+		/*
 		frc::SmartDashboard::PutNumber("FLD Rpm", _driveTrainFrontLeftDrive->GetEncoderPosition()); //RPM TEST
 		frc::SmartDashboard::PutNumber("FLS Rpm", _driveTrainFrontLeftSteer->GetEncoderPosition()); //RPM TEST
 		frc::SmartDashboard::PutNumber("FRD Rpm", _driveTrainFrontRightDrive->GetEncoderPosition()); //RPM TEST
 		frc::SmartDashboard::PutNumber("FLS Rpm", _driveTrainFrontRightSteer->GetEncoderPosition()); //RPM TEST
+		*/
 
+		/*
 		frc::SmartDashboard::PutNumber("Fuse 0 amps", _pdp->GetCurrent(0));
 		frc::SmartDashboard::PutNumber("Fuse 1 amps", _pdp->GetCurrent(1));
 		frc::SmartDashboard::PutNumber("Fuse 2 amps", _pdp->GetCurrent(2));
@@ -211,6 +220,7 @@ void Robot::RobotPeriodic() {
 		frc::SmartDashboard::PutNumber("Fuse 9 amps", _pdp->GetCurrent(9));
 		frc::SmartDashboard::PutNumber("Fuse 10 amps", _pdp->GetCurrent(10));
 		frc::SmartDashboard::PutNumber("Fuse 11 amps", _pdp->GetCurrent(11));
+		*/
 }
 
 // ================================================================
@@ -432,6 +442,9 @@ void Robot::DeviceInitialization() {
 	oi = new OI();
 
 	_shootCommand = new Shoot();
+
+	//untested change
+	frc::LiveWindow::GetInstance()->DisableAllTelemetry();
 
 	LOG("DeviceInit end");
 }

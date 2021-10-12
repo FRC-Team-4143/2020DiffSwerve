@@ -97,10 +97,15 @@ void DriveTrain::Crab(float twist, float y, float x, bool operatorControl) {
 		lasty = y;
 		lasttwist = twist;
 	}
-
-	x *= 0.5;
-	y *= 0.5;
-	twist *= 0.5;
+	if (operatorControl){
+		x *= 0.75;
+		y *= 0.75;
+		twist *= 0.5;
+	} else {
+		x *= 0.5;
+		y *= 0.5;
+		twist *= 0.5;
+	}
 
 	frc::SmartDashboard::PutNumber("Twist", twist);
 
@@ -114,49 +119,51 @@ void DriveTrain::Crab(float twist, float y, float x, bool operatorControl) {
 	//	twist *= scale; // TWISTSCALE;
 	//}
 
-	//auto leftTrigger = Robot::oi->GetLeftTrigger();
+	auto leftTrigger = Robot::oi->GetLeftTrigger();
 	auto rightTrigger = Robot::oi->GetRightTrigger();
 	//auto leftBumper = Robot::oi->GetLeftBumper();
 	//auto rightBumper = Robot::oi->GetRightBumper();
 
-	if (rightTrigger > 0.2) { // turbo mode use to be leftTrigger > 0 || rightTrigger > 0
+	/*if (rightTrigger > 0.2) { // turbo mode use to be leftTrigger > 0 || rightTrigger > 0
 		x *= 1.5;
 		y *= 1.5;
-	}
+	}*/
 
-/*
-	if (false && leftTrigger > 0 || rightTrigger > 0) { // Spin from corner
+
+	if ( leftTrigger > 0 || rightTrigger > 0) { // Spin from corner
 
 		 x = 0;
 		 y = 0;
 
 		double pivotAngle = 0;
 		if (yaw == 0) {
-			yaw = Robot::navx->GetYaw();
+			yaw = Robot::navx->GetYaw();  //Robot::gyroSub->PIDGet()
 			joystickAngle = atan2(Robot::oi->GetJoystickX(), -Robot::oi->GetJoystickY()) * 180/pi ;
-			SmartDashboard::PutNumber("JoystickAngle", joystickAngle);
+			frc::SmartDashboard::PutNumber("JoystickAngle", joystickAngle);
 		}
 
 		if (joystickAngle > -90 && joystickAngle < 90) {
 			if (rightTrigger) {
 				pivotAngle = joystickAngle + 45;
-				twist = -1;
+				twist = 1;
 			}
 			else {
 				pivotAngle = joystickAngle - 45;
-				twist = 1;
+				twist = -1;
 			}
 		}
 		else {
 			if (leftTrigger) {
 				pivotAngle = joystickAngle + 45;
-				twist = -1;
+				twist = 1;
 			}
 			else {
 				pivotAngle = joystickAngle - 45;
-				twist = 1;
+				twist = -1;
 			}
 		}
+		twist *= 0.75;
+
 		pivotAngle -= yaw;
 
 		SetWheelbase(0, 0, cos(pivotAngle * pi / 180) * 20, sin(pivotAngle * pi / 180) * 20);
@@ -164,20 +171,9 @@ void DriveTrain::Crab(float twist, float y, float x, bool operatorControl) {
 	else {
 		yaw = 0;
 		joystickAngle = 0;
-
-		//if (Mode::IsHatchMode()) {
-		//	if (fieldCentricMode) {
-		//		SetWheelbase(0, 0, 20, 0); //center of hatch panel
-		//	}
-		//	else {
-		//		SetWheelbase(0, 0, 10, 0); // center of camera
-		//	}
-		//}
-		//else {
-			SetWheelbase(0, 0, 0, 0); // center of robot
-		//}
+		SetWheelbase(0, 0, 0, 0); // center of robot
 	}
-	*/
+
 
 	//if (Robot::oi->GetButtonRight()) {
 	//	y = 0;
@@ -249,7 +245,7 @@ void DriveTrain::GyroCrab(float x, float y, float desiredAngle, bool operatorCon
 		twist += 360.0;
 	}
 
-	constexpr float GYRO_P = 0.007;
+	constexpr float GYRO_P = 0.028; //original is 0.007
 	constexpr float GYRO_MAX = 0.3;
 
 	twist = std::min<float>(GYRO_MAX, std::max<float>(-GYRO_MAX, twist * GYRO_P)); //is this correct?

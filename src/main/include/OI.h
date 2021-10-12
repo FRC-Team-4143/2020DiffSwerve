@@ -40,6 +40,8 @@ public:
 	bool GetLeftBumper2();
 	bool GetRightBumper2();
 	int GetPOV2();
+	int GetPOV1();
+	bool GetButtonLeft2();
 
 private:
 

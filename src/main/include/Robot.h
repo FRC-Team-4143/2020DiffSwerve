@@ -23,6 +23,7 @@
 #include <frc/Compressor.h>
 #include <frc/PowerDistributionPanel.h>
 #include <frc/TimedRobot.h>
+#include <frc/DriverStation.h>
 
 #include <AHRS.h>
 #include <ctre/Phoenix.h>

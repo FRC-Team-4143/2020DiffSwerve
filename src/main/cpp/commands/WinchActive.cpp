@@ -23,6 +23,9 @@ void WinchActive::Execute() {
 	// --------------
 
 	float winchSpeed = Robot::oi->GetJoystick2Y() * 0.5;
+
+	//untested change
+	//if(frc::Timer::GetMatchTime() < .5 /*&& frc::DriverStation::GetInstance().IsFMSAttached() && frc::DriverStation::GetInstance().IsOperatorControl()*/)   winchSpeed = 0;
 	Robot::winch->WinchControl(winchSpeed);
 /*
 	if (winchSpeed != 0) {

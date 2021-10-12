@@ -250,3 +250,10 @@ bool OI::GetRightBumper2() {
 int OI::GetPOV2() {
 	return _driverJoystick2->GetPOV();
 }
+
+int OI::GetPOV1() {
+	return _driverJoystick->GetPOV();
+}
+bool OI::GetButtonLeft2() {
+	return _driverJoystick2->GetRawButton(JOYSTICK_BUTTON_LEFT);
+}

@@ -16,7 +16,9 @@ void ExtendClimber::Initialize() {
 // ==========================================================================
 
 void ExtendClimber::Execute() {
-	Robot::climber->Extend();
+	// untested change
+	if(Robot::shooter->GetDegrees() < 20) 
+		Robot::climber->Extend();
 }
 
 // ==========================================================================
